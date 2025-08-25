@@ -2,14 +2,18 @@ package com.mycompany.creepyatlas;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        AudioPlayer3D audio = new AudioPlayer3D();
-        audio.init();
+        AudioListener3D.initOpenAL();
 
-        audio.playSoundAt("/plankton_mono.wav", -10.0f, 0.0f, 0.0f);
+        AudioSource3D sound = new AudioSource3D("/plankton_mono.wav");
+        sound.setPosition(5, 0, 0);
+        sound.play();
 
-        audio.playSoundAt("/plankton_mono.wav", 10.0f, 0.0f, 0.0f);
+        for (int i = 0; i < 50 && sound.isPlaying(); i++) {
+            AudioListener3D.setPosition(i * 0.1f, 0, 0);
+            Thread.sleep(100);
+        }
 
-        audio.cleanup();
-        System.out.println("Finished.");
+        sound.cleanup();
+        AudioListener3D.cleanupOpenAL();
     }
 }
