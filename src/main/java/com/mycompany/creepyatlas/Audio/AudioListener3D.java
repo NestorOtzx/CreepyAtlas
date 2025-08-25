@@ -1,4 +1,4 @@
-package com.mycompany.creepyatlas;
+package com.mycompany.creepyatlas.Audio;
 
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.ALC;
@@ -52,7 +52,6 @@ public class AudioListener3D {
         alListenerfv(AL_ORIENTATION, ori);
     }
 
-    // Getters
     public static float getX() { return x; }
     public static float getY() { return y; }
     public static float getZ() { return z; }

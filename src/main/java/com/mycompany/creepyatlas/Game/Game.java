@@ -1,14 +1,13 @@
-package com.mycompany.creepyatlas;
+package com.mycompany.creepyatlas.Game;
 
-import com.mycompany.creepyatlas.Entities.*;
+import com.mycompany.creepyatlas.Game.Entities.*;
+import com.mycompany.creepyatlas.Utils.MapReader;
+
 import java.util.*;
 
 public class Game {
-    private static final int MAP_HEIGHT = 15;
-    private static final int MAP_WIDTH = 30;
-
-    private static final int CAMERA_HALF_WIDTH = 7;
-    private static final int CAMERA_HALF_HEIGHT = 4;
+    private static final int CAMERA_WIDTH = 4;
+    private static final int CAMERA_HEIGHT = 4;
 
     private final char[][] baseMap;
     private final char[][] entityLayer;
@@ -18,27 +17,19 @@ public class Game {
     private final List<Entity> entities;
 
     public Game() {
-        baseMap = createBaseMap(MAP_HEIGHT, MAP_WIDTH);
-        entityLayer = new char[MAP_HEIGHT][MAP_WIDTH];
+        MapReader.MapData mapData = MapReader.loadLevel("levels/level1.txt");
 
-        player = new Player(9, 6);
+        baseMap = mapData.getBaseMap();
+        entityLayer = new char[baseMap.length][baseMap[0].length];
+
+        player = mapData.getPlayer();
         entities = new ArrayList<>();
         entities.add(player);
-        entities.add(new Enemy(10, 5));
-        entities.add(new Enemy(12, 7));
-        entities.add(new Enemy(8, 6));
+        entities.addAll(mapData.getEnemies());
 
         renderLayers = new ArrayList<>();
         renderLayers.add(baseMap);
         renderLayers.add(entityLayer);
-    }
-
-    private char[][] createBaseMap(int rows, int cols) {
-        char[][] map = new char[rows][cols];
-        for (int y = 0; y < rows; y++) {
-            Arrays.fill(map[y], '.');
-        }
-        return map;
     }
 
     private void refreshEntityLayer() {
@@ -65,8 +56,8 @@ public class Game {
         CameraConsole.draw(
                 player.getX(),
                 player.getY(),
-                CAMERA_HALF_WIDTH,
-                CAMERA_HALF_HEIGHT,
+                CAMERA_WIDTH,
+                CAMERA_HEIGHT,
                 renderLayers
         );
     }

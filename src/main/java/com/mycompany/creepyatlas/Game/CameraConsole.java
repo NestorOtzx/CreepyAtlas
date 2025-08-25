@@ -1,4 +1,4 @@
-package com.mycompany.creepyatlas;
+package com.mycompany.creepyatlas.Game;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.mycompany.creepyatlas.Entities;
+package com.mycompany.creepyatlas.Game.Entities;
 
 public class Player extends Entity {
     public Player(int x, int y) {

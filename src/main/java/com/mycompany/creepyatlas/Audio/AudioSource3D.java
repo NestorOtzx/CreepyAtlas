@@ -1,4 +1,4 @@
-package com.mycompany.creepyatlas;
+package com.mycompany.creepyatlas.Audio;
 
 import javax.sound.sampled.*;
 import java.io.IOException;

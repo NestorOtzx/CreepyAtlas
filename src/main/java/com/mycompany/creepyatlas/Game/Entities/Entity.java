@@ -1,4 +1,4 @@
-package com.mycompany.creepyatlas.Entities;
+package com.mycompany.creepyatlas.Game.Entities;
 
 public abstract class Entity {
     protected int x;
