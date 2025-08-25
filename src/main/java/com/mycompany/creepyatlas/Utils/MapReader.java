@@ -36,7 +36,7 @@ public class MapReader {
         }
 
         if (player == null) {
-            throw new IllegalStateException("El nivel no tiene un jugador (P).");
+            throw new IllegalStateException("The level has no player (P).");
         }
 
         return new MapData(baseMap, player, enemies);
@@ -58,7 +58,7 @@ public class MapReader {
             );
             return Files.readAllLines(path);
         } catch (Exception e) {
-            throw new RuntimeException("Error leyendo el nivel: " + levelFile, e);
+            throw new RuntimeException("Error reading the level: " + levelFile, e);
         }
     }
 

@@ -12,7 +12,7 @@ public class CameraConsole {
             List<char[][]> layers
     ) {
         if (layers == null || layers.isEmpty()) {
-            System.out.println("No hay capas para dibujar.");
+            System.out.println("No layers to draw.");
             return;
         }
 
@@ -20,12 +20,12 @@ public class CameraConsole {
         int totalCols = layers.get(0)[0].length;
 
         if (halfWidth < 0 || halfHeight < 0) {
-            System.out.println("Error: las dimensiones deben ser positivas.");
+            System.out.println("Error: dimensions have to be positive.");
             return;
         }
 
         if (centerX < 0 || centerY < 0 || centerX >= totalCols || centerY >= totalRows) {
-            System.out.println("Error: el centro está fuera de los límites.");
+            System.out.println("Error: center is out of the bounds of the map.");
             return;
         }
 

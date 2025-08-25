@@ -1,6 +1,8 @@
 package com.mycompany.creepyatlas.Game;
 
 import com.mycompany.creepyatlas.Game.Entities.*;
+import com.mycompany.creepyatlas.Utils.ConsoleCommand;
+import com.mycompany.creepyatlas.Utils.CommandReader;
 import com.mycompany.creepyatlas.Utils.MapReader;
 
 import java.util.*;
@@ -51,7 +53,7 @@ public class Game {
         player.move(deltaX, deltaY);
     }
 
-    public void draw() {
+    public void update() {
         refreshEntityLayer();
         CameraConsole.draw(
                 player.getX(),
@@ -60,9 +62,11 @@ public class Game {
                 CAMERA_HEIGHT,
                 renderLayers
         );
+        ConsoleCommand command = CommandReader.readCommand();
+        System.out.println(command);
     }
 
     public void start() {
-        draw();
+        update();
     }
 }
