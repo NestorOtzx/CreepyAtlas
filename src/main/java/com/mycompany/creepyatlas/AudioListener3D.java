@@ -24,7 +24,6 @@ public class AudioListener3D {
         alcMakeContextCurrent(context);
         AL.createCapabilities(caps);
 
-        // Posición inicial y orientación default
         setPosition(0, 0, 0);
         setVelocity(0, 0, 0);
         setOrientation(0, 0, -1, 0, 1, 0);
