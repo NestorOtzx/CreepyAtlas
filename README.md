@@ -27,12 +27,7 @@
 
 ## Running the Project
 
-1. Place your `.wav` file inside:
-   ```
-   src/main/resources/plankton.wav
-   ```
-
-2. Compile and run the project with Maven:
+1. Compile and run the project with Maven:
    ```bash
    mvn clean compile exec:java
    ```
