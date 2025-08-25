@@ -3,12 +3,13 @@ package com.mycompany.creepyatlas.Game;
 import java.util.List;
 
 public class CameraConsole {
+    private static final int CAMERA_HALF_HEIGHT = 4;
+    private static final int CAMERA_HALF_WIDTH = 4;
+
 
     public static void draw(
             int centerX,
             int centerY,
-            int halfWidth,
-            int halfHeight,
             List<char[][]> layers
     ) {
         if (layers == null || layers.isEmpty()) {
@@ -19,20 +20,15 @@ public class CameraConsole {
         int totalRows = layers.get(0).length;
         int totalCols = layers.get(0)[0].length;
 
-        if (halfWidth < 0 || halfHeight < 0) {
-            System.out.println("Error: dimensions have to be positive.");
-            return;
-        }
-
         if (centerX < 0 || centerY < 0 || centerX >= totalCols || centerY >= totalRows) {
             System.out.println("Error: center is out of the bounds of the map.");
             return;
         }
 
-        int xStart = centerX - halfWidth;
-        int xEnd   = centerX + halfWidth;
-        int yStart = centerY - halfHeight;
-        int yEnd   = centerY + halfHeight;
+        int xStart = centerX - CAMERA_HALF_WIDTH;
+        int xEnd   = centerX + CAMERA_HALF_WIDTH;
+        int yStart = centerY - CAMERA_HALF_HEIGHT;
+        int yEnd   = centerY + CAMERA_HALF_HEIGHT;
 
         for (int y = yStart; y <= yEnd; y++) {
             StringBuilder row = new StringBuilder();
@@ -49,10 +45,8 @@ public class CameraConsole {
                         pixel = layer[y][x];
                     }
                 }
-
                 row.append(pixel);
             }
-
             System.out.println(row);
         }
     }

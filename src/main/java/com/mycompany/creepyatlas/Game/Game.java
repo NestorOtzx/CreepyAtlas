@@ -8,9 +8,6 @@ import com.mycompany.creepyatlas.Utils.MapReader;
 import java.util.*;
 
 public class Game {
-    private static final int CAMERA_WIDTH = 4;
-    private static final int CAMERA_HEIGHT = 4;
-
     private final char[][] baseMap;
     private final char[][] entityLayer;
     private final List<char[][]> renderLayers;
@@ -58,8 +55,6 @@ public class Game {
         CameraConsole.draw(
                 player.getX(),
                 player.getY(),
-                CAMERA_WIDTH,
-                CAMERA_HEIGHT,
                 renderLayers
         );
         ConsoleCommand command = CommandReader.readCommand();
