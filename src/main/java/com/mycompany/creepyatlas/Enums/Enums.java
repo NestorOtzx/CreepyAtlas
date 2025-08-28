@@ -15,4 +15,10 @@ public class Enums {
     public enum NoiseType {
         BURP, SCREAM, UNKNOWN
     }
+
+    public enum ScreenState {
+        GAME,
+        INVENTORY
+    }
+
 }

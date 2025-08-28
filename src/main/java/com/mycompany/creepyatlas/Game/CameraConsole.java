@@ -3,9 +3,10 @@ package com.mycompany.creepyatlas.Game;
 import java.util.List;
 
 public class CameraConsole {
-    private static final int CAMERA_HALF_HEIGHT = 4;
-    private static final int CAMERA_HALF_WIDTH = 4;
+    private static final int CAMERA_HALF_HEIGHT = 5;
+    private static final int CAMERA_HALF_WIDTH = 30;
 
+    private static char[][] lastFrame;
 
     public static void draw(
             int centerX,
@@ -14,6 +15,7 @@ public class CameraConsole {
     ) {
         if (layers == null || layers.isEmpty()) {
             System.out.println("No layers to draw.");
+            lastFrame = null;
             return;
         }
 
@@ -22,6 +24,7 @@ public class CameraConsole {
 
         if (centerX < 0 || centerY < 0 || centerX >= totalCols || centerY >= totalRows) {
             System.out.println("Error: center is out of the bounds of the map.");
+            lastFrame = null;
             return;
         }
 
@@ -30,14 +33,16 @@ public class CameraConsole {
         int yStart = centerY - CAMERA_HALF_HEIGHT;
         int yEnd   = centerY + CAMERA_HALF_HEIGHT;
 
-        for (int y = yStart; y <= yEnd; y++) {
-            StringBuilder row = new StringBuilder();
+        int height = yEnd - yStart + 1;
+        int width = xEnd - xStart + 1;
+        lastFrame = new char[height][width];
 
-            for (int x = xStart; x <= xEnd; x++) {
+        for (int y = yStart, yy = 0; y <= yEnd; y++, yy++) {
+            for (int x = xStart, xx = 0; x <= xEnd; x++, xx++) {
                 char pixel = ' ';
 
                 for (char[][] layer : layers) {
-                    boolean insideBounds = 
+                    boolean insideBounds =
                             y >= 0 && y < layer.length &&
                             x >= 0 && x < layer[0].length;
 
@@ -45,9 +50,15 @@ public class CameraConsole {
                         pixel = layer[y][x];
                     }
                 }
-                row.append(pixel);
+                lastFrame[yy][xx] = pixel;
             }
-            System.out.println(row);
         }
+
+        Screen.render();
+    }
+
+    // Getter to access the last captured frame
+    public static char[][] getLastFrame() {
+        return lastFrame;
     }
 }
