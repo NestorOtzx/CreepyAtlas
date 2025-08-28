@@ -9,11 +9,11 @@ import com.mycompany.creepyatlas.Utils.MapReader;
 import java.util.*;
 
 public class Game {
-    private final char[][] baseMap;
-    private final char[][] entityLayer;
+    private static char[][] baseMap;
+    private static char[][] entityLayer;
     private final List<char[][]> renderLayers;
 
-    private final Player player;
+    private static Player player;
     private final List<Entity> entities;
 
     private boolean inGame = true;
@@ -55,34 +55,6 @@ public class Game {
         entityLayer[playery][playerx] = player.getSymbol();
     }
 
-    public void movePlayer(Direction direction) {
-        int dx = 0;
-        int dy = 0;
-
-        switch (direction) {
-            case LEFT:  dx = -1; break;
-            case RIGHT: dx =  1; break;
-            case UP:    dy = -1; break;
-            case DOWN:  dy =  1; break;
-            default:    break;
-        }
-
-        int newX = player.getX() + dx;
-        int newY = player.getY() + dy;
-
-        if (newY < 0 || newY >= baseMap.length || newX < 0 || newX >= baseMap[0].length) {
-            System.out.println("You cannot move outside the map!");
-            return;
-        }
-
-        char target = baseMap[newY][newX];
-        if (target == '|' || target == '-' || target == '#') {
-            System.out.println("There is a wall in that direction!");
-            return;
-        }
-
-        player.move(dx, dy);
-    }
 
     public void update() {
         while (inGame)
@@ -112,7 +84,7 @@ public class Game {
                     Screen.setState(ScreenState.MOVE_COMMANDS);
                 }else{
                     Screen.setState(ScreenState.BASE);
-                    movePlayer(command.getDirection());
+                    player.move(command.getDirection());
                 }
                 break;
             case NOISE:
@@ -129,5 +101,10 @@ public class Game {
 
     public void start() {
         update();
+    }
+
+    public static char[][] getBaseMap()
+    {
+        return baseMap;
     }
 }
