@@ -26,40 +26,39 @@ public class CommandReader {
                 Direction dir = Direction.NONE;
                 if (parts.length > 1) {
                     dir = parseDirection(parts[1]);
-                    if (dir == Direction.NONE) {
-                        System.out.println("Unknown direction. Use: up, down, left, right.");
-                        continue;
-                    }
                 }
                 return new ConsoleCommand(CommandType.MOVE, dir, NoiseType.UNKNOWN);
-
             } else if (main.equals("noise")) {
                 if (parts.length < 2) {
-                    System.out.println("You must specify a noise (example: noise burp).");
+                    System.out.println("Use: burp, scream.");
                     continue;
                 }
                 NoiseType noise = parseNoise(parts[1]);
-                if (noise == NoiseType.UNKNOWN) {
-                    System.out.println("Unknown noise. Use: burp, scream, etc.");
-                    continue;
-                }
                 return new ConsoleCommand(CommandType.NOISE, Direction.NONE, noise);
 
-            } else {
+            } else if (main.equals("quit")){
+                return new ConsoleCommand(CommandType.QUIT, Direction.NONE, NoiseType.UNKNOWN);
+            }
+            else{
                 System.out.println("Unknown command. Try again.");
             }
         }
     }
 
     private static Direction parseDirection(String word) {
-        switch (word) {
-            case "up": return Direction.UP;
-            case "down": return Direction.DOWN;
-            case "left": return Direction.LEFT;
-            case "right": return Direction.RIGHT;
-            default: return Direction.NONE;
+        if (word == null || word.isEmpty()) {
+            return Direction.NONE;
+        }
+
+        switch (Character.toLowerCase(word.charAt(0))) {
+            case 'u': return Direction.UP;
+            case 'd': return Direction.DOWN;
+            case 'l': return Direction.LEFT;
+            case 'r': return Direction.RIGHT;
+            default:  return Direction.NONE;
         }
     }
+
 
     private static NoiseType parseNoise(String word) {
         switch (word) {

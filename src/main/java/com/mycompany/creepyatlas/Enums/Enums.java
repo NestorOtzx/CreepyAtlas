@@ -5,6 +5,7 @@ public class Enums {
     public enum CommandType {
         MOVE,
         NOISE,
+        QUIT,
         UNKNOWN
     }
 
@@ -17,8 +18,10 @@ public class Enums {
     }
 
     public enum ScreenState {
-        GAME,
-        INVENTORY
+        BASE,
+        STATS,
+        MOVE_COMMANDS,
+        NOISE_COMMANDS,
     }
 
 }
