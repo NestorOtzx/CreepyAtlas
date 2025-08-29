@@ -1,16 +1,26 @@
 package com.mycompany.creepyatlas.Game.Entities;
 
 import com.mycompany.creepyatlas.Game.*;
-
+import com.mycompany.creepyatlas.Audio.AudioSource3D;
 import com.mycompany.creepyatlas.Enums.Enums.Direction;
 
-public abstract class Entity {
+public abstract class Entity{
     protected int x;
     protected int y;
+    protected AudioSource3D audiosource;
+    
 
     public Entity(int x, int y) {
         this.x = x;
         this.y = y;
+        try {
+            this.audiosource = new AudioSource3D(this.getBaseAudioPath());
+            this.audiosource.setPosition(x, y);
+            this.audiosource.play();
+            System.out.println("playing: "+ getBaseAudioPath() + " in: "+getSymbol());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public int getX() { return x; }
@@ -19,6 +29,10 @@ public abstract class Entity {
     public void move(int dx, int dy) {
         this.x += dx;
         this.y += dy;
+        if (this.audiosource != null)
+        {
+            this.audiosource.setPosition(x, y);
+        }
     }
 
     public void move(Direction direction)
@@ -52,4 +66,8 @@ public abstract class Entity {
     }
 
     public abstract char getSymbol();
+
+    public String getBaseAudioPath(){
+        return "/audios/plankton_mono.wav";
+    }
 }

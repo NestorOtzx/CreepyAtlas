@@ -6,6 +6,7 @@ import com.mycompany.creepyatlas.Enums.Enums.*;
 public class Player extends Entity {
     public Player(int x, int y) {
         super(x, y);
+        AudioListener3D.setPosition(x, y);
     }
 
     @Override
@@ -17,6 +18,12 @@ public class Player extends Entity {
     public void move(Direction direction)
     {
         super.move(direction);
-        AudioListener3D.setPosition(x, 0, y);
+        AudioListener3D.setPosition(x, y);
+    }
+
+    @Override
+    public String getBaseAudioPath()
+    {
+        return "";
     }
 }

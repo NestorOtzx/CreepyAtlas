@@ -16,6 +16,8 @@ public class AudioListener3D {
 
     private static float x, y, z;
 
+    public static final int SPACE_UNITS = 1;
+
     public static void initOpenAL() {
         device = alcOpenDevice((ByteBuffer) null);
         if (device == NULL) throw new IllegalStateException("Failed to open audio device.");
@@ -24,7 +26,7 @@ public class AudioListener3D {
         alcMakeContextCurrent(context);
         AL.createCapabilities(caps);
 
-        setPosition(0, 0, 0);
+        setPosition(0, 0);
         setVelocity(0, 0, 0);
         setOrientation(0, 0, -1, 0, 1, 0);
     }
@@ -34,11 +36,11 @@ public class AudioListener3D {
         alcCloseDevice(device);
     }
 
-    public static void setPosition(float x, float y, float z) {
-        AudioListener3D.x = x;
-        AudioListener3D.y = y;
-        AudioListener3D.z = z;
-        alListener3f(AL_POSITION, x, y, z);
+    public static void setPosition(float x, float y) {
+        AudioListener3D.x = x*SPACE_UNITS;
+        AudioListener3D.y = y*SPACE_UNITS;
+        AudioListener3D.z = 0;
+        alListener3f(AL_POSITION, x*SPACE_UNITS, y*SPACE_UNITS, 0);
     }
 
     public static void setVelocity(float vx, float vy, float vz) {

@@ -53,8 +53,8 @@ public class AudioSource3D {
         }
     }
 
-    public void setPosition(float x, float y, float z) {
-        alSource3f(source, AL_POSITION, x, y, z);
+    public void setPosition(float x, float y) {
+        alSource3f(source, AL_POSITION, x*AudioListener3D.SPACE_UNITS, y*AudioListener3D.SPACE_UNITS, 0);
     }
 
     public void play() {
