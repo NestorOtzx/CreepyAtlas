@@ -5,7 +5,7 @@
 - **Java 17** or higher  
 - **Maven 3.6+**  
 - **Git**
-
+- **Git Large Files**
 ## Installation
 
 1. Clone the repository:
