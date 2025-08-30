@@ -25,7 +25,7 @@ public class Screen {
             case BASE:
                 renderGame(1, 2);
                 drawBoxWithText(13, 2, "                          Commands                         ");
-                drawHorizontalButtons(16, 2, 2, "Move", "Noise", "Stats", "Quit");
+                drawHorizontalButtons(16, 4, 2, "Move", "Noise", "Stats", "Attack", "Eat", "Rest", "Quit");
                 break;
 
             case MOVE_COMMANDS:

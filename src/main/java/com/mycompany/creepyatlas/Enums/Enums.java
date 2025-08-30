@@ -5,6 +5,9 @@ public class Enums {
     public enum CommandType {
         MOVE,
         NOISE,
+        ATTACK,
+        EAT,
+        REST,
         QUIT,
         UNKNOWN
     }

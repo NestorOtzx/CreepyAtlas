@@ -1,9 +1,10 @@
 package com.mycompany.creepyatlas.Utils;
 
+import com.mycompany.creepyatlas.Audio.AudioSource3D;
 import com.mycompany.creepyatlas.Enums.Enums.*;
-
+import java.io.InputStream;
 import java.util.*;
-
+import javax.sound.sampled.*;
 public class CommandReader {
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -38,6 +39,34 @@ public class CommandReader {
 
             } else if (main.equals("quit")){
                 return new ConsoleCommand(CommandType.QUIT, Direction.NONE, NoiseType.UNKNOWN);
+            } else if (main.equals("attack")){
+                try {
+                AudioSource3D attackSound = new AudioSource3D("/audios/attack.wav");
+                attackSound.play();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return new ConsoleCommand(CommandType.ATTACK, Direction.NONE, NoiseType.UNKNOWN);
+
+            } else if (main.equals("eat")){
+                try {
+                AudioSource3D attackSound = new AudioSource3D("/audios/eat.wav");
+                attackSound.play();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return new ConsoleCommand(CommandType.ATTACK, Direction.NONE, NoiseType.UNKNOWN);
+ 
+            } else if (main.equals("rest")){
+                try {
+                AudioSource3D attackSound = new AudioSource3D("/audios/rest.wav");
+                attackSound.play();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return new ConsoleCommand(CommandType.ATTACK, Direction.NONE, NoiseType.UNKNOWN);
+
+
             }
             else{
                 System.out.println("Unknown command. Try again.");
