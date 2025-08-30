@@ -44,7 +44,20 @@ public class MapReader {
 
     private static Enemy createEnemy(char symbol, int x, int y) {
         switch (symbol) {
-            case 'A': return new Atlas(x, y); 
+            case 'A': return new Atlas(x, y);
+            case 'M': return new MaKinDa(x, y);
+            case 'B': return new BigBox(x, y);
+            case 'C': return new Chubby(x, y);
+            case 'H': return new Hydra(x, y);
+            case 'W': return new WaterFlowbar(x, y);
+            case 'N': return new Ana(x, y);
+            case 'T': return new MashiTa(x, y);
+            case 'Y': return new BiYah(x, y);
+            case 'Z': return new Acerco(x, y);
+            case 'O': return new PrayPrey(x, y);
+            case 'K': return new AKa(x, y);
+            case 'G': return new ToraGe(x, y);
+            case 'S': return new Savepoint(x, y);
             default: return new Enemy(x, y);
         }
     }
