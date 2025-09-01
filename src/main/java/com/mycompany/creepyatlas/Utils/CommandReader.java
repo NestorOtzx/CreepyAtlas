@@ -65,7 +65,16 @@ public class CommandReader {
                     e.printStackTrace();
                 }
                 return new ConsoleCommand(CommandType.ATTACK, Direction.NONE, NoiseType.UNKNOWN);
+            } else if (main.equals("bestiary")){
+                try {
+                    AudioSource3D bestiarySound = new AudioSource3D("/audios/a.wav");
+                    bestiarySound.play();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
+                com.mycompany.creepyatlas.Game.Data.Bestiary.printBestiary();
+                return new ConsoleCommand(CommandType.BESTIARY, Direction.NONE, NoiseType.UNKNOWN);
 
             }
             else{

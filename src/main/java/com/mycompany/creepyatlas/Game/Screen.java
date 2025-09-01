@@ -4,7 +4,7 @@ import static com.mycompany.creepyatlas.Enums.Enums.*;
 
 public class Screen {
 
-    private static final int WIDTH = 65;
+    private static final int WIDTH = 77;
     private static final int HEIGHT = 20;
     private static ScreenState currentState = ScreenState.BASE; 
 
@@ -25,7 +25,7 @@ public class Screen {
             case BASE:
                 renderGame(1, 2);
                 drawBoxWithText(13, 2, "                          Commands                         ");
-                drawHorizontalButtons(16, 4, 2, "Move", "Noise", "Stats", "Attack", "Eat", "Rest", "Quit");
+                drawHorizontalButtons(16, 4, 2, "Move", "Noise", "Stats", "Attack", "Eat", "Rest", "Bestiary","Quit");
                 break;
 
             case MOVE_COMMANDS:

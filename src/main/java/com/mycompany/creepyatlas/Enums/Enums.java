@@ -1,5 +1,7 @@
 package com.mycompany.creepyatlas.Enums;
 
+import com.mycompany.creepyatlas.Game.Data.Bestiary;
+
 public class Enums {
 
     public enum CommandType {
@@ -8,6 +10,7 @@ public class Enums {
         ATTACK,
         EAT,
         REST,
+        BESTIARY,
         QUIT,
         UNKNOWN
     }
