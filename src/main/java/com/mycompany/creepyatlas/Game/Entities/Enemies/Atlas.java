@@ -13,6 +13,6 @@ public class Atlas extends Enemy {
 
     @Override
     public String getBaseAudioPath(){
-        return "/audios/plankton_mono.wav";
+        return "/audios/atlas_mono.wav";
     }
 }

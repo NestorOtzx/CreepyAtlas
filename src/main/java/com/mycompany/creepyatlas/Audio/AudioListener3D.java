@@ -5,6 +5,8 @@ import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALCCapabilities;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.openal.ALC10.*;
@@ -16,7 +18,10 @@ public class AudioListener3D {
 
     private static float x, y, z;
 
-    public static final int SPACE_UNITS = 20;
+    public static final int SPACE_UNITS = 10;
+
+    // --- lista de fuentes registradas ---
+    private static final List<AudioSource3D> sources = new ArrayList<>();
 
     public static void initOpenAL() {
         device = alcOpenDevice((ByteBuffer) null);
@@ -26,13 +31,12 @@ public class AudioListener3D {
         alcMakeContextCurrent(context);
         AL.createCapabilities(caps);
 
-        alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED); 
+        alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED);
 
         setPosition(0, 0);
         setVelocity(0, 0, 0);
         setOrientation(0, 0, -1, 0, 1, 0);
     }
-
 
     public static void cleanupOpenAL() {
         alcDestroyContext(context);
@@ -40,10 +44,12 @@ public class AudioListener3D {
     }
 
     public static void setPosition(float x, float y) {
-        AudioListener3D.x = x*SPACE_UNITS;
-        AudioListener3D.y = y*SPACE_UNITS;
+        AudioListener3D.x = x * SPACE_UNITS;
+        AudioListener3D.y = y * SPACE_UNITS;
         AudioListener3D.z = 0;
-        alListener3f(AL_POSITION, x*SPACE_UNITS, y*SPACE_UNITS, 0);
+        alListener3f(AL_POSITION, AudioListener3D.x, AudioListener3D.y, AudioListener3D.z);
+
+        updateSourcesGain();
     }
 
     public static void setVelocity(float vx, float vy, float vz) {
@@ -60,4 +66,25 @@ public class AudioListener3D {
     public static float getX() { return x; }
     public static float getY() { return y; }
     public static float getZ() { return z; }
+
+    // --- registrar fuente ---
+    public static void registerSource(AudioSource3D source) {
+        sources.add(source);
+    }
+
+    // --- recalcular volúmenes ---
+    private static void updateSourcesGain() {
+        for (AudioSource3D source : sources) {
+            float dx = source.getX() - x;
+            float dy = source.getY() - y;
+            float dz = source.getZ() - z;
+            float dist = (float) Math.sqrt(dx*dx + dy*dy + dz*dz);
+
+            if (dist > 1.1f * SPACE_UNITS) {
+                source.setGain(0f); // mutea
+            } else {
+                source.setGain(1f); // volumen normal
+            }
+        }
+    }
 }

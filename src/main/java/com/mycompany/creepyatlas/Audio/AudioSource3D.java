@@ -13,7 +13,9 @@ import static org.lwjgl.system.MemoryUtil.memFree;
 public class AudioSource3D {
     private int source;
     private int buffer;
-    private boolean loop; // <--- este será tu booleano
+    private boolean loop;
+
+    private float x, y, z;
 
     public AudioSource3D(String resourcePath, boolean loop) throws Exception {
         this.loop = loop;
@@ -51,11 +53,12 @@ public class AudioSource3D {
                 source = alGenSources();
                 alSourcei(source, AL_BUFFER, buffer);
                 alSourcef(source, AL_GAIN, 1f);
-
-                // --- Aquí activamos el loop si corresponde ---
                 alSourcei(source, AL_LOOPING, loop ? AL_TRUE : AL_FALSE);
             }
         }
+
+        // registrar fuente en el listener
+        AudioListener3D.registerSource(this);
     }
 
     public void setLoop(boolean loop) {
@@ -68,8 +71,19 @@ public class AudioSource3D {
     }
 
     public void setPosition(float x, float y) {
-        alSource3f(source, AL_POSITION, x*AudioListener3D.SPACE_UNITS, y*AudioListener3D.SPACE_UNITS, 0);
+        this.x = x * AudioListener3D.SPACE_UNITS;
+        this.y = y * AudioListener3D.SPACE_UNITS;
+        this.z = 0;
+        alSource3f(source, AL_POSITION, this.x, this.y, this.z);
     }
+
+    public void setGain(float gain) {
+        alSourcef(source, AL_GAIN, gain);
+    }
+
+    public float getX() { return x; }
+    public float getY() { return y; }
+    public float getZ() { return z; }
 
     public void play() {
         alSourcePlay(source);
