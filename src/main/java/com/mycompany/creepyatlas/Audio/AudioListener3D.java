@@ -16,7 +16,7 @@ public class AudioListener3D {
 
     private static float x, y, z;
 
-    public static final int SPACE_UNITS = 1;
+    public static final int SPACE_UNITS = 20;
 
     public static void initOpenAL() {
         device = alcOpenDevice((ByteBuffer) null);
@@ -26,10 +26,13 @@ public class AudioListener3D {
         alcMakeContextCurrent(context);
         AL.createCapabilities(caps);
 
+        alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED); 
+
         setPosition(0, 0);
         setVelocity(0, 0, 0);
         setOrientation(0, 0, -1, 0, 1, 0);
     }
+
 
     public static void cleanupOpenAL() {
         alcDestroyContext(context);

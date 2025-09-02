@@ -14,7 +14,7 @@ public abstract class Entity{
         this.x = x;
         this.y = y;
         try {
-            this.audiosource = new AudioSource3D(this.getBaseAudioPath());
+            this.audiosource = new AudioSource3D(this.getBaseAudioPath(), true);
             this.audiosource.setPosition(x, y);
             this.audiosource.play();
             System.out.println("playing: "+ getBaseAudioPath() + " in: "+getSymbol());
@@ -68,6 +68,6 @@ public abstract class Entity{
     public abstract char getSymbol();
 
     public String getBaseAudioPath(){
-        return "/audios/plankton_mono.wav";
+        return "";
     }
 }

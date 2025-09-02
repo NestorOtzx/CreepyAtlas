@@ -10,4 +10,9 @@ public class MaKinDa extends Enemy {
     public char getSymbol() {
         return 'M';
     }
+
+    @Override
+    public String getBaseAudioPath(){
+        return "";
+    }
 }

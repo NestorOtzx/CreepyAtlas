@@ -10,4 +10,9 @@ public class Atlas extends Enemy {
     public char getSymbol() {
         return 'A';
     }
+
+    @Override
+    public String getBaseAudioPath(){
+        return "/audios/plankton_mono.wav";
+    }
 }

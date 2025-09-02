@@ -41,9 +41,9 @@ public class CommandReader {
                 return new ConsoleCommand(CommandType.QUIT, Direction.NONE, NoiseType.UNKNOWN);
             } else if (main.equals("attack")){
                 try {
-                AudioSource3D attackSound = new AudioSource3D("/audios/attack.wav");
+                AudioSource3D attackSound = new AudioSource3D("/audios/attack.wav", false);
                 attackSound.play();
-                
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -51,7 +51,7 @@ public class CommandReader {
 
             } else if (main.equals("eat")){
                 try {
-                AudioSource3D eatSound = new AudioSource3D("/audios/eat.wav");
+                AudioSource3D eatSound = new AudioSource3D("/audios/eat.wav", false);
                 eatSound.play();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -60,7 +60,7 @@ public class CommandReader {
  
             } else if (main.equals("rest")){
                 try {
-                AudioSource3D restSound = new AudioSource3D("/audios/rest.wav");
+                AudioSource3D restSound = new AudioSource3D("/audios/rest.wav", false);
                 restSound.play();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -68,7 +68,7 @@ public class CommandReader {
                 return new ConsoleCommand(CommandType.ATTACK, Direction.NONE, NoiseType.UNKNOWN);
             } else if (main.equals("bestiary")){
                 try {
-                    AudioSource3D bestiarySound = new AudioSource3D("/audios/bestiary.wav");
+                    AudioSource3D bestiarySound = new AudioSource3D("/audios/bestiary.wav", false);
                     bestiarySound.play();
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -13,8 +13,10 @@ import static org.lwjgl.system.MemoryUtil.memFree;
 public class AudioSource3D {
     private int source;
     private int buffer;
+    private boolean loop; // <--- este será tu booleano
 
-    public AudioSource3D(String resourcePath) throws Exception {
+    public AudioSource3D(String resourcePath, boolean loop) throws Exception {
+        this.loop = loop;
         URL url = AudioSource3D.class.getResource(resourcePath);
         if (url == null) throw new IOException("File " + resourcePath + " not found in resources");
 
@@ -49,8 +51,20 @@ public class AudioSource3D {
                 source = alGenSources();
                 alSourcei(source, AL_BUFFER, buffer);
                 alSourcef(source, AL_GAIN, 1f);
+
+                // --- Aquí activamos el loop si corresponde ---
+                alSourcei(source, AL_LOOPING, loop ? AL_TRUE : AL_FALSE);
             }
         }
+    }
+
+    public void setLoop(boolean loop) {
+        this.loop = loop;
+        alSourcei(source, AL_LOOPING, loop ? AL_TRUE : AL_FALSE);
+    }
+
+    public boolean isLooping() {
+        return loop;
     }
 
     public void setPosition(float x, float y) {
