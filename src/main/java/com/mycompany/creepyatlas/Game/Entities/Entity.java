@@ -60,13 +60,22 @@ public abstract class Entity{
         if (target == '|' || target == '-' || target == '#') {
             System.out.println("There is a wall in that direction!");
             try {
-                AudioSource3D wallSound = new AudioSource3D("/audios/wall.wav", false);
+                AudioSource3D wallSound = new AudioSource3D("/audios/footsteps_and_wall.wav", false);
                 wallSound.setPosition(this.x, this.y);
                 wallSound.play();
                 } catch (Exception e) {
                     System.out.println("error");
                 }
             return;
+        }
+        else{
+            try {
+                AudioSource3D stepSound = new AudioSource3D("/audios/footsteps.wav", false);
+                stepSound.setPosition(this.x, this.y);
+                stepSound.play();
+                } catch (Exception e) {
+                    System.out.println("error");
+                }            
         }
 
         move(dx, dy);
