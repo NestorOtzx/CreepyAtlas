@@ -25,7 +25,7 @@ public class Screen {
             case BASE:
                 renderGame(1, 2);
                 drawBoxWithText(13, 2, "                          Commands                         ");
-                drawHorizontalButtons(16, 4, 2, "Move", "Noise", "Stats", "Attack", "Eat", "Rest", "Bestiary","Quit");
+                drawHorizontalButtons(16, 4, 2, "Move", "Noise", "Stats", "Eat", "Rest", "Bestiary","Quit");
                 break;
 
             case MOVE_COMMANDS:
@@ -38,6 +38,13 @@ public class Screen {
                 drawBoxWithText(13, 2, "                            Noise + ...                       ");
                 drawHorizontalButtons(16, 2, 2, "Burp", "Scream");
                 break;
+            case COMBAT:
+                renderGame(1, 2);
+                int x = Game.getPlayer().getX();
+                int y = Game.getPlayer().getY();
+
+                drawBoxWithText(13, 2, "                          Combat Mode! with: "+Game.getEnemyLayer()[y][x]+"                         ");
+                drawHorizontalButtons(16, 4, 2, "Move", "Talk", "Attack", "Stats", "Eat", "Bestiary");
             case STATS:
                 break;
 

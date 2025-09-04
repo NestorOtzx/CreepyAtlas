@@ -11,10 +11,11 @@ import java.util.*;
 public class Game {
     private static char[][] baseMap;
     private static char[][] entityLayer;
+    private static char[][] playerLayer;
     private final List<char[][]> renderLayers;
 
     private static Player player;
-    private final List<Entity> entities;
+    private static List<Entity> entities;
 
     private boolean inGame = true;
 
@@ -25,6 +26,7 @@ public class Game {
 
         baseMap = mapData.getBaseMap();
         entityLayer = new char[baseMap.length][baseMap[0].length];
+        playerLayer = new char[baseMap.length][baseMap[0].length];
 
         player = mapData.getPlayer();
         entities = new ArrayList<>();
@@ -34,12 +36,18 @@ public class Game {
         renderLayers = new ArrayList<>();
         renderLayers.add(baseMap);
         renderLayers.add(entityLayer);
+        renderLayers.add(playerLayer);
     }
 
     private void refreshEntityLayer() {
         for (char[] row : entityLayer) {
-            Arrays.fill(row, ' ');
+            Arrays.fill(row, ' ');   
         }
+        for (char[] row : playerLayer) {
+            Arrays.fill(row, ' ');
+            
+        }
+
 
         for (Entity entity : entities) {
             int x = entity.getX();
@@ -52,7 +60,16 @@ public class Game {
 
         int playerx = player.getX();
         int playery = player.getY();
-        entityLayer[playery][playerx] = player.getSymbol();
+        playerLayer[playery][playerx] = player.getSymbol();
+    }
+
+    public static char [][] getEnemyLayer()
+    {
+        return entityLayer;
+    }
+
+    public static Player getPlayer(){
+        return player;
     }
 
 
