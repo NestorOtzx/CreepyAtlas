@@ -56,7 +56,7 @@ public class CommandReader {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                return new ConsoleCommand(CommandType.ATTACK, Direction.NONE, NoiseType.UNKNOWN);
+                return new ConsoleCommand(CommandType.EAT, Direction.NONE, NoiseType.UNKNOWN);
  
             } else if (main.equals("rest")){
                 try {
@@ -65,7 +65,7 @@ public class CommandReader {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                return new ConsoleCommand(CommandType.ATTACK, Direction.NONE, NoiseType.UNKNOWN);
+                return new ConsoleCommand(CommandType.REST, Direction.NONE, NoiseType.UNKNOWN);
             } else if (main.equals("bestiary")){
                 try {
                     AudioSource3D bestiarySound = new AudioSource3D("/audios/bestiary.wav", false);

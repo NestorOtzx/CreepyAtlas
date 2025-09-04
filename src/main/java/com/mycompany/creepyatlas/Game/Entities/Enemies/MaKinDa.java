@@ -13,6 +13,6 @@ public class MaKinDa extends Enemy {
 
     @Override
     public String getBaseAudioPath(){
-        return "";
+        return "/audios/plankton_mono.wav";
     }
 }

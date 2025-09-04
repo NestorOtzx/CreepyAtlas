@@ -59,6 +59,13 @@ public abstract class Entity{
         char target = Game.getBaseMap()[newY][newX];
         if (target == '|' || target == '-' || target == '#') {
             System.out.println("There is a wall in that direction!");
+            try {
+                AudioSource3D wallSound = new AudioSource3D("/audios/wall.wav", false);
+                wallSound.setPosition(this.x, this.y);
+                wallSound.play();
+                } catch (Exception e) {
+                    System.out.println("error");
+                }
             return;
         }
 
