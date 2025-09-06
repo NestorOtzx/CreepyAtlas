@@ -2,6 +2,8 @@ package com.mycompany.creepyatlas.Utils;
 
 import com.mycompany.creepyatlas.Audio.AudioSource3D;
 import com.mycompany.creepyatlas.Enums.Enums.*;
+import com.mycompany.creepyatlas.Game.Game;
+
 import java.io.InputStream;
 import java.util.*;
 import javax.sound.sampled.*;
@@ -41,8 +43,15 @@ public class CommandReader {
                 return new ConsoleCommand(CommandType.QUIT, Direction.NONE, NoiseType.UNKNOWN);
             } else if (main.equals("attack")){
                 try {
-                AudioSource3D attackSound = new AudioSource3D("/audios/attack.wav", false);
-                attackSound.play();
+                    int x = Game.getPlayer().getX();
+                    int y = Game.getPlayer().getY();
+                    AudioSource3D attackSound = new AudioSource3D("/audios/attack.wav", false, x, y);
+                    attackSound.play();
+                    if (parts.length < 2) {
+                        System.out.println("Who do you want to attack? ej: attack A.");
+                        continue;
+                    }
+                    Game.getPlayer().Attack(x, y, parts[1].toUpperCase().toCharArray()[0]);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -51,7 +60,7 @@ public class CommandReader {
 
             } else if (main.equals("eat")){
                 try {
-                AudioSource3D eatSound = new AudioSource3D("/audios/eat.wav", false);
+                AudioSource3D eatSound = new AudioSource3D("/audios/eat.wav", false, Game.getPlayer().getX(), Game.getPlayer().getY());
                 eatSound.play();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -60,7 +69,7 @@ public class CommandReader {
  
             } else if (main.equals("rest")){
                 try {
-                AudioSource3D restSound = new AudioSource3D("/audios/rest.wav", false);
+                AudioSource3D restSound = new AudioSource3D("/audios/rest.wav", false, Game.getPlayer().getX(), Game.getPlayer().getY());
                 restSound.play();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -68,7 +77,7 @@ public class CommandReader {
                 return new ConsoleCommand(CommandType.REST, Direction.NONE, NoiseType.UNKNOWN);
             } else if (main.equals("bestiary")){
                 try {
-                    AudioSource3D bestiarySound = new AudioSource3D("/audios/bestiary.wav", false);
+                    AudioSource3D bestiarySound = new AudioSource3D("/audios/bestiary.wav", false, Game.getPlayer().getX(), Game.getPlayer().getY());
                     bestiarySound.play();
                 } catch (Exception e) {
                     e.printStackTrace();

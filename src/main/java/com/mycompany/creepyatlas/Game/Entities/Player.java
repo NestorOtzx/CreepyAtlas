@@ -6,8 +6,8 @@ import com.mycompany.creepyatlas.Game.Game;
 import com.mycompany.creepyatlas.Game.Screen;
 
 public class Player extends Entity {
-    public Player(int x, int y) {
-        super(x, y);
+    public Player(int x, int y, int baseHealth, int attack_damage) {
+        super(x, y, baseHealth, attack_damage);
         AudioListener3D.setPosition(x, y);
     }
 
@@ -33,4 +33,13 @@ public class Player extends Entity {
     {
         return "";
     }
+
+    @Override
+    public void Attack(int x, int y, char target)
+    {
+        super.Attack(x, y, target);
+        Game.PlayerAttacksPosition(x, y, target, this.attack_damage);
+    }
+
+
 }

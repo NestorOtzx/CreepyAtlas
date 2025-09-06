@@ -2,6 +2,8 @@ package com.mycompany.creepyatlas.Game;
 
 import static com.mycompany.creepyatlas.Enums.Enums.*;
 
+import java.util.List;
+
 public class Screen {
 
     private static final int WIDTH = 77;
@@ -43,7 +45,9 @@ public class Screen {
                 int x = Game.getPlayer().getX();
                 int y = Game.getPlayer().getY();
 
-                drawBoxWithText(13, 2, "                          Combat Mode! with: "+Game.getEnemyLayer()[y][x]+"                         ");
+                List<Character> enemies = Game.getEnemySymbolsInCell(x, y);
+                
+                drawBoxWithText(13, 2, "  Combat Mode! with: "+enemies.toString() + "  ");
                 drawHorizontalButtons(16, 4, 2, "Move", "Talk", "Attack", "Stats", "Eat", "Bestiary");
             case STATS:
                 break;
