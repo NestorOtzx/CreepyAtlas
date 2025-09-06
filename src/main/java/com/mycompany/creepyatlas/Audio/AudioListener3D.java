@@ -70,10 +70,12 @@ public class AudioListener3D {
     // --- registrar fuente ---
     public static void registerSource(AudioSource3D source) {
         sources.add(source);
+        updateSourcesGain();
     }
 
     // --- recalcular volúmenes ---
     private static void updateSourcesGain() {
+        System.out.println("Update sources gain");
         for (AudioSource3D source : sources) {
             float dx = source.getX() - x;
             float dy = source.getY() - y;
