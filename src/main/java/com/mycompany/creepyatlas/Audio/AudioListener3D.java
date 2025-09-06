@@ -75,7 +75,6 @@ public class AudioListener3D {
 
     // --- recalcular volúmenes ---
     private static void updateSourcesGain() {
-        System.out.println("Update sources gain");
         for (AudioSource3D source : sources) {
             float dx = source.getX() - x;
             float dy = source.getY() - y;
@@ -87,6 +86,12 @@ public class AudioListener3D {
             } else {
                 source.setGain(1f); // volumen normal
             }
+        }
+    }
+
+    public static void DisabelAllAudios(){
+        for (AudioSource3D source : sources) {
+            source.Disable();
         }
     }
 }

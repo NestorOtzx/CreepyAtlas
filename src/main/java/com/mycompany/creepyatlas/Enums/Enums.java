@@ -29,6 +29,7 @@ public class Enums {
         MOVE_COMMANDS,
         NOISE_COMMANDS,
         COMBAT,
+        GAME_OVER,
     }
 
 }

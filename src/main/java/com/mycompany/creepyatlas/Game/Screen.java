@@ -49,6 +49,12 @@ public class Screen {
                 
                 drawBoxWithText(13, 2, "  Combat Mode! with: "+enemies.toString() + "  ");
                 drawHorizontalButtons(16, 4, 2, "Move", "Talk", "Attack", "Stats", "Eat", "Bestiary");
+                break;
+            case GAME_OVER:
+                drawBoxWithText(2, 2, "                            YOU ARE DEAD                       ");
+                drawBoxWithText(8, 2, "                            GAME OVER...                      ");
+                drawHorizontalButtons(12, 4, 2, "Quit");
+                break;
             case STATS:
                 break;
 
@@ -67,15 +73,6 @@ public class Screen {
             for (int x = 0; x < cam[y].length && x + startX < WIDTH; x++) {
                 buffer[startY + y][startX + x] = cam[y][x];
             }
-        }
-    }
-
-    private static void drawCenteredLine(int row, String text, int midX) {
-        int start = midX - text.length() / 2;
-        if (row < 0 || row >= HEIGHT) return;
-
-        for (int i = 0; i < text.length() && (start + i) < WIDTH; i++) {
-            buffer[row][start + i] = text.charAt(i);
         }
     }
 

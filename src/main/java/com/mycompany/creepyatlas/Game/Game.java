@@ -105,7 +105,7 @@ public class Game {
     }
 
 
-    public void EnemyAttacksPosition(Entity entity, int x, int y, char target, int damage)
+    public static void EnemyAttacksPosition(Entity attacker, int x, int y, char target, int damage)
     {
         List<Enemy> enemies = getEnemiesInCell(x, y);
         
@@ -118,7 +118,7 @@ public class Game {
         }
         if (player.getSymbol() == target)
         {
-            player.RecieveAttack(entity, damage);
+            player.RecieveAttack(attacker, damage);
         }
     }
 
@@ -160,6 +160,10 @@ public class Game {
             inGame = false;
             return;
         }
+        if (player.getIsDead())
+        {
+            return;
+        }
         switch (command.getType()) {
             case MOVE:
                 if (command.getDirection() == Direction.NONE)
@@ -177,6 +181,10 @@ public class Game {
                 }else{
                     Screen.setState(ScreenState.BASE);
                 }
+            case ATTACK:
+                break;
+            case EAT:
+                break;
             default:
                 break;
         }          

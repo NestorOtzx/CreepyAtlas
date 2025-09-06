@@ -19,6 +19,7 @@ public class Player extends Entity {
     @Override
     public void move(Direction direction)
     {
+        if (is_dead) { return; }
         super.move(direction);
         AudioListener3D.setPosition(x, y);
         System.out.println("character: "+ Game.getEnemyLayer()[y][x]);
@@ -37,9 +38,24 @@ public class Player extends Entity {
     @Override
     public void Attack(int x, int y, char target)
     {
+        if (is_dead) { return; }
         super.Attack(x, y, target);
         Game.PlayerAttacksPosition(x, y, target, this.attack_damage);
     }
 
+    @Override
+    public void RecieveAttack(Entity attacker, int damage)
+    {
+        if (is_dead) { return; }
+        super.RecieveAttack(attacker, damage);
+    }
 
+    @Override
+    protected void OnDie(){
+        if (is_dead) { return; }
+        Screen.setState(ScreenState.GAME_OVER);
+        AudioListener3D.DisabelAllAudios();
+    }
+
+    
 }

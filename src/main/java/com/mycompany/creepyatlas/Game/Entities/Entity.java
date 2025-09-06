@@ -31,6 +31,7 @@ public abstract class Entity{
     public int getY() { return y; }
 
     public void move(int dx, int dy) {
+        if (is_dead) { return; }
         x += dx;
         y += dy;
         if (this.audiosource != null)
@@ -41,6 +42,7 @@ public abstract class Entity{
 
     public void move(Direction direction)
     {
+        if (is_dead) { return; }
         int dx = 0;
         int dy = 0;
 
@@ -103,12 +105,14 @@ public abstract class Entity{
 
     public void Attack(int x, int y, char target)
     {
-        System.out.println("I" + getSymbol() + " Attack "+x + ", "+ y+ " to: "+ target);
+        if (is_dead) { return; }
+        System.out.println("I " + getSymbol() + " Attack "+x + ", "+ y+ " to: "+ target);
     }
 
     public void RecieveAttack(Entity attacker, int damage)
     {
-        System.out.println("Recieve attack from " + attacker.getSymbol() + " amount:"+damage);
+        if (is_dead) { return; }
+        System.out.println("I" + getSymbol() + " Recieve attack from " + attacker.getSymbol() + " amount:"+damage);
         health -= damage;
         if (health <= 0){
             OnDie();
@@ -117,10 +121,14 @@ public abstract class Entity{
     }
 
     protected void OnDie(){
+        if (is_dead) { return; }
         health = 0;
         is_dead=true;
         audiosource.Disable();
     }
 
+    public boolean getIsDead(){
+        return is_dead;
+    }
     
 }
