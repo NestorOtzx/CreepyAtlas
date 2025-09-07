@@ -2,7 +2,6 @@ package com.mycompany.creepyatlas.Game;
 
 import com.mycompany.creepyatlas.Enums.Enums.*;
 import com.mycompany.creepyatlas.Game.Entities.*;
-import com.mycompany.creepyatlas.Utils.ConsoleCommand;
 import com.mycompany.creepyatlas.Utils.CommandReader;
 import com.mycompany.creepyatlas.Utils.MapReader;
 

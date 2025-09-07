@@ -1,13 +1,10 @@
 package com.mycompany.creepyatlas.Utils;
-
 import com.mycompany.creepyatlas.Audio.AudioSource3D;
 import com.mycompany.creepyatlas.Enums.Enums.*;
 import com.mycompany.creepyatlas.Game.Game;
 import com.mycompany.creepyatlas.Game.Screen;
-
-import java.io.InputStream;
 import java.util.*;
-import javax.sound.sampled.*;
+
 public class CommandReader {
     private static final Scanner scanner = new Scanner(System.in);
 
