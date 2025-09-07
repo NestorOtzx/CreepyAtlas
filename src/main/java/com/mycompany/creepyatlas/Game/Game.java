@@ -11,6 +11,7 @@ public class Game {
     private static char[][] baseMap;
     private static char[][] enemyLayer;
     private static char[][] playerLayer;
+    private static char[][] fogLayer;
     private final List<char[][]> renderLayers;
 
     private static Player player;
@@ -28,8 +29,14 @@ public class Game {
         baseMap = mapData.getBaseMap();
         enemyLayer = new char[baseMap.length][baseMap[0].length];
         playerLayer = new char[baseMap.length][baseMap[0].length];
+        fogLayer = new char[baseMap.length][baseMap[0].length];
+        for (char[] row : fogLayer) {
+            Arrays.fill(row, '.');
+        }
 
         player = mapData.getPlayer();
+        ClearFog(player.getX(), player.getY());
+
         entities = new ArrayList<>();
         enemies = new ArrayList<>();
         entities.add(player);
@@ -40,24 +47,25 @@ public class Game {
         renderLayers.add(baseMap);
         renderLayers.add(enemyLayer);
         renderLayers.add(playerLayer);
+        renderLayers.add(fogLayer);
     }
 
-    private void refreshEntityLayer() {
+    private void refreshEnemyLayer() {
         for (char[] row : enemyLayer) {
             Arrays.fill(row, ' ');   
         }
         for (char[] row : playerLayer) {
             Arrays.fill(row, ' ');
-            
         }
+        
 
 
-        for (Entity entity : entities) {
-            int x = entity.getX();
-            int y = entity.getY();
+        for (Enemy enemy : enemies) {
+            int x = enemy.getX();
+            int y = enemy.getY();
             if (y >= 0 && y < enemyLayer.length &&
                 x >= 0 && x < enemyLayer[0].length) {
-                enemyLayer[y][x] = entity.getSymbol();
+                enemyLayer[y][x] = enemy.getSymbol();
             }
         }
 
@@ -141,7 +149,7 @@ public class Game {
     public void update() {
         while (inGame)
         {
-            refreshEntityLayer();
+            refreshEnemyLayer();
             CameraConsole.draw(
             player.getX(),
             player.getY(),
@@ -168,5 +176,54 @@ public class Game {
     public static void SetInGame(boolean _ingame)
     {
         inGame = _ingame;
+    }
+
+    public static void ClearFog(int x, int y)
+    {
+        if (y >= 0 && y < fogLayer.length)
+        {
+            if (x >= 0 && x < fogLayer.length)
+            {
+                fogLayer[y][x] = ' ';
+            }
+            if (x - 1 >= 0 && x-1 < fogLayer[y].length)
+            {
+                fogLayer[y][x-1] = ' ';
+            }
+            if (x + 1 >= 0 && x+1 < fogLayer[y].length)
+            {
+                fogLayer[y][x+1] = ' ';
+            }
+        }
+        if (y+1 >= 0 && y+1 < fogLayer.length)
+        {
+            if (x >= 0 && x < fogLayer.length)
+            {
+                fogLayer[y+1][x] = ' ';
+            }
+            if (x - 1 >= 0 && x-1 < fogLayer[y+1].length)
+            {
+                fogLayer[y+1][x-1] = ' ';
+            }
+            if (x + 1 >= 0 && x+1 < fogLayer[y+1].length)
+            {
+                fogLayer[y+1][x+1] = ' ';
+            }
+        }
+        if (y-1 >= 0 && y-1 < fogLayer.length)
+        {
+            if (x >= 0 && x < fogLayer.length)
+            {
+                fogLayer[y-1][x] = ' ';
+            }
+            if (x - 1 >= 0 && x-1 < fogLayer[y-1].length)
+            {
+                fogLayer[y-1][x-1] = ' ';
+            }
+            if (x + 1 >= 0 && x+1 < fogLayer[y-1].length)
+            {
+                fogLayer[y-1][x+1] = ' ';
+            }
+        }
     }
 }

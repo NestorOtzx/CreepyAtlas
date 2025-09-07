@@ -24,11 +24,11 @@ public class MapReader {
 
                 if (c == 'P') {
                     player = new Player(x, y, 100, 100);
-                    baseMap[y][x] = '.'; 
+                    baseMap[y][x] = ' '; 
                 } else if (Character.isLetter(c)) {
                     Enemy enemy = createEnemy(c, x,y);
                     enemies.add(enemy);
-                    baseMap[y][x] = '.'; 
+                    baseMap[y][x] = ' '; 
                 } else {
                     baseMap[y][x] = c; 
                 }

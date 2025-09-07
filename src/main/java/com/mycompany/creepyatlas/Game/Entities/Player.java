@@ -3,6 +3,7 @@ package com.mycompany.creepyatlas.Game.Entities;
 import javax.swing.DebugGraphics;
 
 import com.mycompany.creepyatlas.Audio.AudioListener3D;
+import com.mycompany.creepyatlas.Audio.AudioSource3D;
 import com.mycompany.creepyatlas.Enums.Enums.*;
 import com.mycompany.creepyatlas.Game.Game;
 import com.mycompany.creepyatlas.Game.Screen;
@@ -22,13 +23,58 @@ public class Player extends Entity {
     public void move(Direction direction)
     {
         if (is_dead) { return; }
-        super.move(direction);
+        int dx = 0;
+        int dy = 0;
+
+        switch (direction) {
+            case LEFT:  dx = -1; break;
+            case RIGHT: dx =  1; break;
+            case UP:    dy = -1; break;
+            case DOWN:  dy =  1; break;
+            default:    break;
+        }
+
+        int newX = this.x + dx;
+        int newY = this.y + dy;
+
+        if (newY < 0 || newY >= Game.getBaseMap().length || newX < 0 || newX >= Game.getBaseMap()[0].length) {
+            System.out.println("You cannot move outside the map!");
+            return;
+        }
+
+        char target = Game.getBaseMap()[newY][newX];
+        
+        if (target == '|' || target == '-' || target == '#') {
+            System.out.println("There is a wall in that direction!");
+            try {
+                AudioSource3D wallSound = new AudioSource3D("/audios/footsteps_and_wall.wav", false, this.x, this.y);
+                wallSound.play();
+                } catch (Exception e) {
+                    System.out.println("error");
+                }
+            return;
+        }
+        else{
+            try {
+                AudioSource3D stepSound = new AudioSource3D("/audios/footsteps.wav", false, this.x, this.y);
+                stepSound.play();
+                } catch (Exception e) {
+                    System.out.println("error");
+                }      
+        }
+
+        move(dx, dy);
         AudioListener3D.setPosition(x, y);
         System.out.println("character: "+ Game.getEnemyLayer()[y][x]);
-        if (Game.getEnemyLayer()[y][x] != ' ' && Game.getEnemyLayer()[y][x] != '|' && Game.getEnemyLayer()[y][x] != '-' && Game.getEnemyLayer()[y][x] != '#')
+        if (Game.getEnemyLayer()[y][x] != ' ')
         {
             Screen.setState(ScreenState.COMBAT);
+        }else{
+            Screen.setState(ScreenState.BASE);
         }
+        Game.ClearFog(x, y);
+        
+
     }
 
     @Override

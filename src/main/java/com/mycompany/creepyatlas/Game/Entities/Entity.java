@@ -58,30 +58,14 @@ public abstract class Entity{
         int newY = this.y + dy;
 
         if (newY < 0 || newY >= Game.getBaseMap().length || newX < 0 || newX >= Game.getBaseMap()[0].length) {
-            System.out.println("You cannot move outside the map!");
+            System.out.println(getSymbol()+": cannot move outside the map!");
             return;
         }
 
         char target = Game.getBaseMap()[newY][newX];
         if (target == '|' || target == '-' || target == '#') {
-            System.out.println("There is a wall in that direction!");
-            try {
-                AudioSource3D wallSound = new AudioSource3D("/audios/footsteps_and_wall.wav", false, this.x, this.y);
-                wallSound.play();
-                } catch (Exception e) {
-                    System.out.println("error");
-                }
-            return;
+            System.out.println(getSymbol()+": There is a wall in that direction!");
         }
-        else{
-            try {
-                AudioSource3D stepSound = new AudioSource3D("/audios/footsteps.wav", false, this.x, this.y);
-                stepSound.play();
-                } catch (Exception e) {
-                    System.out.println("error");
-                }            
-        }
-
         move(dx, dy);
     }
 

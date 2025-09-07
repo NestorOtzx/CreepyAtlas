@@ -42,7 +42,6 @@ public class CommandReader {
                     {
                         Screen.setState(ScreenState.MOVE_COMMANDS);
                     }else{
-                        Screen.setState(ScreenState.BASE);
                         Game.getPlayer().move(dir);
                     }
                     
