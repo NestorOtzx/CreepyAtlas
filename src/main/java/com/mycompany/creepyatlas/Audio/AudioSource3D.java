@@ -1,6 +1,8 @@
 package com.mycompany.creepyatlas.Audio;
 
 import javax.sound.sampled.*;
+import javax.swing.DebugGraphics;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -88,8 +90,9 @@ public class AudioSource3D {
     }
 
     public void Disable(){
-        enabled = false;
         setGain(0);
+        enabled = false;
+        System.out.println("disable");
     }
 
     public float getX() { return x; }

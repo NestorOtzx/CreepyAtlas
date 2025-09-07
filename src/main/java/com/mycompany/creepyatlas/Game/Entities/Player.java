@@ -1,5 +1,7 @@
 package com.mycompany.creepyatlas.Game.Entities;
 
+import javax.swing.DebugGraphics;
+
 import com.mycompany.creepyatlas.Audio.AudioListener3D;
 import com.mycompany.creepyatlas.Enums.Enums.*;
 import com.mycompany.creepyatlas.Game.Game;
@@ -52,8 +54,10 @@ public class Player extends Entity {
 
     @Override
     protected void OnDie(){
+        System.out.println("Player die");
         if (is_dead) { return; }
         Screen.setState(ScreenState.GAME_OVER);
+        super.OnDie();
         AudioListener3D.DisabelAllAudios();
     }
 

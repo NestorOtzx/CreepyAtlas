@@ -18,7 +18,7 @@ public class Game {
     private static List<Entity> entities;
     private static List<Enemy> enemies;
 
-    private boolean inGame = true;
+    private static boolean inGame = true;
 
 
     public Game() {
@@ -154,40 +154,7 @@ public class Game {
 
     private void ReadAction()
     {
-        ConsoleCommand command = CommandReader.readCommand();
-        System.out.println(command);
-        if (command.getType() == CommandType.QUIT){
-            inGame = false;
-            return;
-        }
-        if (player.getIsDead())
-        {
-            return;
-        }
-        switch (command.getType()) {
-            case MOVE:
-                if (command.getDirection() == Direction.NONE)
-                {
-                    Screen.setState(ScreenState.MOVE_COMMANDS);
-                }else{
-                    Screen.setState(ScreenState.BASE);
-                    player.move(command.getDirection());
-                }
-                break;
-            case NOISE:
-                if (command.getNoise() == NoiseType.UNKNOWN)
-                {
-                    Screen.setState(ScreenState.NOISE_COMMANDS);
-                }else{
-                    Screen.setState(ScreenState.BASE);
-                }
-            case ATTACK:
-                break;
-            case EAT:
-                break;
-            default:
-                break;
-        }          
+        CommandReader.execCommand();
     }
 
     public void start() {
@@ -197,5 +164,10 @@ public class Game {
     public static char[][] getBaseMap()
     {
         return baseMap;
+    }
+
+    public static void SetInGame(boolean _ingame)
+    {
+        inGame = _ingame;
     }
 }

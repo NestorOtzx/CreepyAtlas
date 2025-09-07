@@ -124,7 +124,10 @@ public abstract class Entity{
         if (is_dead) { return; }
         health = 0;
         is_dead=true;
-        audiosource.Disable();
+        if (audiosource != null)
+        {
+            audiosource.Disable();
+        }
     }
 
     public boolean getIsDead(){

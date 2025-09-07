@@ -8,6 +8,8 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DebugGraphics;
+
 import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.openal.ALC10.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
@@ -91,7 +93,11 @@ public class AudioListener3D {
 
     public static void DisabelAllAudios(){
         for (AudioSource3D source : sources) {
-            source.Disable();
+            System.out.println("source: "+source );
+            if (source != null)
+            {
+                source.Disable();
+            }
         }
     }
 }
