@@ -9,9 +9,12 @@ import com.mycompany.creepyatlas.Game.Game;
 import com.mycompany.creepyatlas.Game.Screen;
 
 public class Player extends Entity {
+    Direction faceDirection;
+
     public Player(int x, int y, int baseHealth, int attack_damage) {
         super(x, y, baseHealth, attack_damage);
         AudioListener3D.setPosition(x, y);
+        faceDirection = Direction.DOWN;
     }
 
     @Override
@@ -66,12 +69,7 @@ public class Player extends Entity {
         move(dx, dy);
         AudioListener3D.setPosition(x, y);
         System.out.println("character: "+ Game.getEnemyLayer()[y][x]);
-        if (Game.getEnemyLayer()[y][x] != ' ')
-        {
-            Screen.setState(ScreenState.COMBAT);
-        }else{
-            Screen.setState(ScreenState.BASE);
-        }
+
         Game.ClearFog(x, y);
         
 
@@ -107,5 +105,10 @@ public class Player extends Entity {
         AudioListener3D.DisabelAllAudios();
     }
 
+
+    public Direction getFaceDirection()
+    {
+        return faceDirection;
+    }
     
 }

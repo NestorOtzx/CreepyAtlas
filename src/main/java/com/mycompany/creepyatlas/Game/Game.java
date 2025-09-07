@@ -74,6 +74,12 @@ public class Game {
         int playerx = player.getX();
         int playery = player.getY();
         playerLayer[playery][playerx] = player.getSymbol();
+        if (Game.getEnemyLayer()[playery][playerx] != ' ' && Game.getEnemiesInCell(playerx, playery).size()>0)
+        {
+            Screen.setState(ScreenState.COMBAT);
+        }else{
+            Screen.setState(ScreenState.BASE);
+        }
     }
 
     public static char[][] getEnemyLayer()

@@ -4,6 +4,11 @@ import static com.mycompany.creepyatlas.Enums.Enums.*;
 
 import java.util.List;
 
+import javax.swing.DebugGraphics;
+
+import com.mycompany.creepyatlas.Enums.Enums.Direction;
+import com.mycompany.creepyatlas.Enums.Enums.ScreenState;
+
 public class Screen {
 
     private static final int WIDTH = 77;
@@ -28,6 +33,7 @@ public class Screen {
                 renderGame(1, 2);
                 drawBoxWithText(13, 2, "                          Commands                         ");
                 drawHorizontalButtons(16, 4, 2, "Move", "Noise", "Stats", "Eat", "Rest", "Bestiary","Quit");
+                drawArrow(1, 65, Game.getPlayer().getFaceDirection());
                 break;
 
             case MOVE_COMMANDS:
@@ -125,10 +131,85 @@ public class Screen {
     }
 
     public static void setState(ScreenState state) {
+        
         currentState = state;
     }
 
     public static ScreenState getState() {
         return currentState;
     }
+
+    public static void drawArrow(int top, int left, Direction dir) {
+
+        // Definimos las flechas en ASCII (6x10)
+        String[] arrow;
+
+        switch (dir) {
+            case UP:
+                arrow = new String[]{
+                    "    ^     ",
+                    "   /|\\    ",
+                    "  / | \\   ",
+                    "    |     ",
+                    "    |     ",
+                    "    |     "
+                };
+                break;
+
+            case DOWN:
+                arrow = new String[]{
+                    "    |     ",
+                    "    |     ",
+                    "    |     ",
+                    "  \\ | /   ",
+                    "   \\|/    ",
+                    "    v     "
+                };
+                break;
+
+            case LEFT:
+                arrow = new String[]{
+                    "          ",
+                    "   /      ",
+                    "  <----   ",
+                    "   \\      ",
+                    "          ",
+                    "          "
+                };
+                break;
+
+            case RIGHT:
+                arrow = new String[]{
+                    "          ",
+                    "      \\   ",
+                    "   ---->  ",
+                    "      /   ",
+                    "          ",
+                    "          "
+                };
+                break;
+
+            default:
+                arrow = new String[]{
+                    "          ",
+                    "          ",
+                    "   ???    ",
+                    "          ",
+                    "          ",
+                    "          "
+                };
+                break;
+        }
+
+        // Dibuja la flecha en el buffer con top y left
+        for (int y = 0; y < arrow.length; y++) {
+            for (int x = 0; x < arrow[y].length(); x++) {
+                char c = arrow[y].charAt(x);
+                if (top + y < HEIGHT && left + x < WIDTH) {
+                    buffer[top + y][left + x] = c;
+                }
+            }
+        }
+}
+
 }
