@@ -83,7 +83,7 @@ public class AudioListener3D {
             float dz = source.getZ() - z;
             float dist = (float) Math.sqrt(dx*dx + dy*dy + dz*dz);
 
-            if (dist > 1.1f * SPACE_UNITS) {
+            if (dist > 2.1f * SPACE_UNITS) {
                 source.setGain(0f); // mutea
             } else {
                 source.setGain(1f); // volumen normal

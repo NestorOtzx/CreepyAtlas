@@ -30,10 +30,29 @@ public abstract class Entity{
     public int getX() { return x; }
     public int getY() { return y; }
 
+    
+
     public void move(int dx, int dy) {
         if (is_dead) { return; }
+        
+
+        int newX = this.x + dx;
+        int newY = this.y + dy;
+
+        if (newY < 0 || newY >= Game.getBaseMap().length || newX < 0 || newX >= Game.getBaseMap()[0].length) {
+            System.out.println(getSymbol()+": cannot move outside the map!");
+            return;
+        }
+
+        char target = Game.getBaseMap()[newY][newX];
+        if (target == '|' || target == '-' || target == '#') {
+            System.out.println(getSymbol()+": There is a wall in that direction!");
+            return;
+        }
+        
         x += dx;
         y += dy;
+
         if (this.audiosource != null)
         {
             this.audiosource.setPosition(x, y);
@@ -52,19 +71,6 @@ public abstract class Entity{
             case UP:    dy = -1; break;
             case DOWN:  dy =  1; break;
             default:    break;
-        }
-
-        int newX = this.x + dx;
-        int newY = this.y + dy;
-
-        if (newY < 0 || newY >= Game.getBaseMap().length || newX < 0 || newX >= Game.getBaseMap()[0].length) {
-            System.out.println(getSymbol()+": cannot move outside the map!");
-            return;
-        }
-
-        char target = Game.getBaseMap()[newY][newX];
-        if (target == '|' || target == '-' || target == '#') {
-            System.out.println(getSymbol()+": There is a wall in that direction!");
         }
         move(dx, dy);
     }
@@ -116,6 +122,11 @@ public abstract class Entity{
 
     public boolean getIsDead(){
         return is_dead;
+    }
+
+    public void OnUpdateGame()
+    {
+
     }
     
 }

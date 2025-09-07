@@ -61,10 +61,12 @@ public class Game {
 
 
         for (Enemy enemy : enemies) {
+            enemy.OnUpdateGame();
             int x = enemy.getX();
             int y = enemy.getY();
             if (y >= 0 && y < enemyLayer.length &&
                 x >= 0 && x < enemyLayer[0].length) {
+                    
                 enemyLayer[y][x] = enemy.getSymbol();
             }
         }
