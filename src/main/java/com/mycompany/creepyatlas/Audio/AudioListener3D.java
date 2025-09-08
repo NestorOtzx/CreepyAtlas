@@ -8,6 +8,8 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DebugGraphics;
+
 import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.openal.ALC10.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
@@ -70,6 +72,7 @@ public class AudioListener3D {
     // --- registrar fuente ---
     public static void registerSource(AudioSource3D source) {
         sources.add(source);
+        updateSourcesGain();
     }
 
     // --- recalcular volúmenes ---
@@ -80,10 +83,20 @@ public class AudioListener3D {
             float dz = source.getZ() - z;
             float dist = (float) Math.sqrt(dx*dx + dy*dy + dz*dz);
 
-            if (dist > 1.1f * SPACE_UNITS) {
+            if (dist > 2.1f * SPACE_UNITS) {
                 source.setGain(0f); // mutea
             } else {
                 source.setGain(1f); // volumen normal
+            }
+        }
+    }
+
+    public static void DisabelAllAudios(){
+        for (AudioSource3D source : sources) {
+            System.out.println("source: "+source );
+            if (source != null)
+            {
+                source.Disable();
             }
         }
     }

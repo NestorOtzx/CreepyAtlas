@@ -1,14 +1,14 @@
 package com.mycompany.creepyatlas.Utils;
-
 import com.mycompany.creepyatlas.Audio.AudioSource3D;
 import com.mycompany.creepyatlas.Enums.Enums.*;
-import java.io.InputStream;
+import com.mycompany.creepyatlas.Game.Game;
+import com.mycompany.creepyatlas.Game.Screen;
 import java.util.*;
-import javax.sound.sampled.*;
+
 public class CommandReader {
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static ConsoleCommand readCommand() {
+    public static void execCommand() {
         while (true) {
             System.out.print("> ");
             String input = scanner.nextLine().trim().toLowerCase();
@@ -22,64 +22,89 @@ public class CommandReader {
             }
 
             String main = parts[0];
-
-            if (main.equals("move")) {
-                Direction dir = Direction.NONE;
-                if (parts.length > 1) {
-                    dir = parseDirection(parts[1]);
-                }
-                return new ConsoleCommand(CommandType.MOVE, dir, NoiseType.UNKNOWN);
-            } else if (main.equals("noise")) {
-                if (parts.length < 2) {
-                    System.out.println("Use: burp, scream.");
-                    continue;
-                }
-                NoiseType noise = parseNoise(parts[1]);
-                return new ConsoleCommand(CommandType.NOISE, Direction.NONE, noise);
-
-            } else if (main.equals("quit")){
-                return new ConsoleCommand(CommandType.QUIT, Direction.NONE, NoiseType.UNKNOWN);
-            } else if (main.equals("attack")){
-                try {
-                AudioSource3D attackSound = new AudioSource3D("/audios/attack.wav", false);
-                attackSound.play();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return new ConsoleCommand(CommandType.ATTACK, Direction.NONE, NoiseType.UNKNOWN);
-
-            } else if (main.equals("eat")){
-                try {
-                AudioSource3D eatSound = new AudioSource3D("/audios/eat.wav", false);
-                eatSound.play();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return new ConsoleCommand(CommandType.EAT, Direction.NONE, NoiseType.UNKNOWN);
- 
-            } else if (main.equals("rest")){
-                try {
-                AudioSource3D restSound = new AudioSource3D("/audios/rest.wav", false);
-                restSound.play();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return new ConsoleCommand(CommandType.REST, Direction.NONE, NoiseType.UNKNOWN);
-            } else if (main.equals("bestiary")){
-                try {
-                    AudioSource3D bestiarySound = new AudioSource3D("/audios/bestiary.wav", false);
-                    bestiarySound.play();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                com.mycompany.creepyatlas.Game.Data.Bestiary.printBestiary();
-                return new ConsoleCommand(CommandType.BESTIARY, Direction.NONE, NoiseType.UNKNOWN);
-
+            if (main.equals("quit")){
+                Game.SetInGame(false);
+                System.out.println("Good bye.");
+                break;
             }
-            else{
-                System.out.println("Unknown command. Try again.");
+            else if (Game.getPlayer().getIsDead()){
+                System.out.println("You are dead, you can't do anything.");
+            }
+            else {
+                
+                if (main.equals("move")) {
+                    Direction dir = Direction.NONE;
+                    if (parts.length > 1) {
+                        dir = parseDirection(parts[1]);
+                    }
+
+                    if (dir == Direction.NONE)
+                    {
+                        Screen.setState(ScreenState.MOVE_COMMANDS);
+                    }else{
+                        Game.getPlayer().move(dir);
+                    }
+                    
+                } else if (main.equals("ok"))
+                {
+                    System.out.println("...");
+                } else if (main.equals("noise")) {
+                    if (parts.length < 2) {
+                        System.out.println("Use: burp, scream.");
+                        continue;
+                    }
+                    NoiseType noise = parseNoise(parts[1]);
+                    if (noise == NoiseType.UNKNOWN)
+                    {
+                        Screen.setState(ScreenState.NOISE_COMMANDS);
+                    }else{
+                        Screen.setState(ScreenState.BASE);
+                    }
+                } else if (main.equals("attack")){
+                    try {
+                        int x = Game.getPlayer().getX();
+                        int y = Game.getPlayer().getY();
+                        AudioSource3D attackSound = new AudioSource3D("/audios/attack.wav", false, x, y);
+                        attackSound.play();
+                        if (parts.length < 2) {
+                            System.out.println("Who do you want to attack? ej: attack A.");
+                            continue;
+                        }
+                        Game.getPlayer().Attack(x, y, parts[1].toUpperCase().toCharArray()[0]);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                } else if (main.equals("eat")){
+                    try {
+                    AudioSource3D eatSound = new AudioSource3D("/audios/eat.wav", false, Game.getPlayer().getX(), Game.getPlayer().getY());
+                    eatSound.play();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+    
+                } else if (main.equals("rest")){
+                    try {
+                    AudioSource3D restSound = new AudioSource3D("/audios/rest.wav", false, Game.getPlayer().getX(), Game.getPlayer().getY());
+                    restSound.play();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else if (main.equals("bestiary")){
+                    try {
+                        AudioSource3D bestiarySound = new AudioSource3D("/audios/bestiary.wav", false, Game.getPlayer().getX(), Game.getPlayer().getY());
+                        bestiarySound.play();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    com.mycompany.creepyatlas.Game.Data.Bestiary.printBestiary();
+                }
+                else{
+                    System.out.println("Unknown command. Try again.");
+                }
+                break;
             }
         }
     }

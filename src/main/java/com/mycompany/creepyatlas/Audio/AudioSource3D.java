@@ -1,6 +1,8 @@
 package com.mycompany.creepyatlas.Audio;
 
 import javax.sound.sampled.*;
+import javax.swing.DebugGraphics;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -16,8 +18,10 @@ public class AudioSource3D {
     private boolean loop;
 
     private float x, y, z;
+    private boolean enabled = true;
 
-    public AudioSource3D(String resourcePath, boolean loop) throws Exception {
+    public AudioSource3D(String resourcePath, boolean loop, int x, int y) throws Exception {
+        enabled = true;
         this.loop = loop;
         URL url = AudioSource3D.class.getResource(resourcePath);
         if (url == null) throw new IOException("File " + resourcePath + " not found in resources");
@@ -58,6 +62,7 @@ public class AudioSource3D {
         }
 
         // registrar fuente en el listener
+        setPosition(x, y);
         AudioListener3D.registerSource(this);
     }
 
@@ -78,7 +83,16 @@ public class AudioSource3D {
     }
 
     public void setGain(float gain) {
-        alSourcef(source, AL_GAIN, gain);
+        if (gain <= 0 || gain > 0 && enabled)
+        {
+            alSourcef(source, AL_GAIN, gain);
+        }
+    }
+
+    public void Disable(){
+        setGain(0);
+        enabled = false;
+        System.out.println("disable");
     }
 
     public float getX() { return x; }
@@ -86,7 +100,10 @@ public class AudioSource3D {
     public float getZ() { return z; }
 
     public void play() {
-        alSourcePlay(source);
+        if (enabled)
+        {
+            alSourcePlay(source);
+        }
     }
 
     public boolean isPlaying() {

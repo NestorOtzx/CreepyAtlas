@@ -1,12 +1,15 @@
 package com.mycompany.creepyatlas.Game;
 
-import static com.mycompany.creepyatlas.Enums.Enums.*;
+import java.util.List;
+
+import com.mycompany.creepyatlas.Enums.Enums.Direction;
+import com.mycompany.creepyatlas.Enums.Enums.ScreenState;
 
 public class Screen {
 
     private static final int WIDTH = 77;
     private static final int HEIGHT = 20;
-    private static ScreenState currentState = ScreenState.BASE; 
+    private static ScreenState currentState = ScreenState.SCENE_PROLOG_1; 
 
     private static char[][] buffer = new char[HEIGHT][WIDTH];
 
@@ -25,7 +28,8 @@ public class Screen {
             case BASE:
                 renderGame(1, 2);
                 drawBoxWithText(13, 2, "                          Commands                         ");
-                drawHorizontalButtons(16, 4, 2, "Move", "Noise", "Stats", "Attack", "Eat", "Rest", "Bestiary","Quit");
+                drawHorizontalButtons(16, 4, 2, "Move", "Noise", "Stats", "Eat", "Rest", "Bestiary","Quit");
+                drawArrow(1, 65, Game.getPlayer().getFaceDirection());
                 break;
 
             case MOVE_COMMANDS:
@@ -38,9 +42,48 @@ public class Screen {
                 drawBoxWithText(13, 2, "                            Noise + ...                       ");
                 drawHorizontalButtons(16, 2, 2, "Burp", "Scream");
                 break;
+            case COMBAT:
+                renderGame(1, 2);
+                int x = Game.getPlayer().getX();
+                int y = Game.getPlayer().getY();
+
+                List<Character> enemies = Game.getEnemySymbolsInCell(x, y);
+                
+                drawBoxWithText(13, 2, "  Combat Mode! with: "+enemies.toString() + "  ");
+                drawHorizontalButtons(16, 4, 2, "Move", "Talk", "Attack", "Stats", "Eat", "Bestiary");
+                break;
+            case GAME_OVER:
+                drawBoxWithText(2, 2, "                            YOU ARE DEAD                       ");
+                drawBoxWithText(8, 2, "                            GAME OVER...                      ");
+                drawHorizontalButtons(12, 4, 2, "Quit");
+                break;
             case STATS:
                 break;
-
+            case SCENE_PROLOG_1:
+                PrintAtlas();
+                drawBoxWithText(1, 1, "You are a wizard looking for something magic on the caves, you find atlas");
+                drawBoxWithText(5, 1, "and he stabs your eyes");
+                drawBoxWithText(13, 1, "                          Commands                         ");
+                drawHorizontalButtons(16, 4, 2, "Ok");
+                break;
+            case SCENE_PROLOG_2:
+                drawBoxWithText(1, 1, "You try to run away from him");
+                drawBoxWithText(5, 1, "but he keeps following you");
+                drawBoxWithText(13, 1, "                          Commands                         ");
+                drawHorizontalButtons(16, 4, 2, "Ok");
+                break;
+            case SCENE_PROLOG_3:
+                drawBoxWithText(1, 1, "Now you have to scape from the cave");
+                drawBoxWithText(5, 1, "and avoid the Creepy atlas catch you");
+                drawBoxWithText(13, 1, "                          Commands                         ");
+                drawHorizontalButtons(16, 4, 2, "Ok");
+                break;
+            case END_SCREEN_NEUTRAL_1:
+                drawBoxWithText(1, 1, "You have scaped from the cave!");
+                drawBoxWithText(5, 1, "You have made friends and enemies along the way!");
+                drawBoxWithText(13, 1, "                          Commands                         ");
+                drawHorizontalButtons(16, 4, 2, "Ok");
+                break;
             default:
                 break;
         }
@@ -56,15 +99,6 @@ public class Screen {
             for (int x = 0; x < cam[y].length && x + startX < WIDTH; x++) {
                 buffer[startY + y][startX + x] = cam[y][x];
             }
-        }
-    }
-
-    private static void drawCenteredLine(int row, String text, int midX) {
-        int start = midX - text.length() / 2;
-        if (row < 0 || row >= HEIGHT) return;
-
-        for (int i = 0; i < text.length() && (start + i) < WIDTH; i++) {
-            buffer[row][start + i] = text.charAt(i);
         }
     }
 
@@ -117,10 +151,140 @@ public class Screen {
     }
 
     public static void setState(ScreenState state) {
+        System.out.println("STATE: "+state);
         currentState = state;
     }
 
     public static ScreenState getState() {
         return currentState;
     }
+
+    public static void PrintAtlas()
+    {
+        System.out.println("#############################################################################");
+        System.out.println("@@@@@@@@@@@@@@@@%%%%%@@%@@#=*-.=-==-                                        #");
+        System.out.println("@@@@@@@@@@@@@@@@%%%%%%%@@@#+*-.=-=-:                                        #");
+        System.out.println("@@@@@@@@@@@@@@@@%%%%%%%%@@*+#::-==-:                                        #");
+        System.out.println("@@@@@@@@@@@@@@@@%%%%%%%%%@*+#-:====.                                        #");
+        System.out.println("@@@@@@@@@@@@@@@@%%%%%%@%%@*+*:............:.                                #");
+        System.out.println("@@@@@@@@@@@@@@@@%%%%%%%%%%-........:..........::                            #");
+        System.out.println("@@@@@@@@@@@@@@@@%%%%%@%#=................ ....:-::                          #");
+        System.out.println("@@@@@@@@@@@@@@@@*%%%%%*:-..-.::.............:.:=+-::                        #");
+        System.out.println("@@@@@@@@@@@@@@@@%%%%#=:-..:-:.::........:..-=---=--:.::.                    #");
+        System.out.println("@@@@@@@@@@@@@@@@%%#..:==:+#*+:::...:....:-=+*%...:=-::--:                   #");
+        System.out.println("@@@@@@@@@@@@@@@@#::.:-=..  -+--..:::-...:+==##@@@*=----=+#-                 #");
+        System.out.println("@@@@@@@@@@@@@@@@*::.:==*@@@@++...........=*#@#@@@@#===+**==-. :             #");
+        System.out.println("@@@@@@@@@@@%*+::::::-:#@@@@@+:-........::-:=@@@@@%*%**#@*-=*-..             #");
+        System.out.println("@@@@@@@@@@@%@@#-----+#-*##*=+-:-.......-.:-+*=:-:+*#*#+=%**+=-              #");
+        System.out.println("@@@@@@@@@@@@@@#--:=:++*:::-=:-:::.:.::--::==-=++#++*-++#+#=++-              #");
+        System.out.println("@@@@@@@@@@@@@#**#=--+:#*+=:-=-..:::::--:-:=:+==***#*-==#@%*++=.             #");
+        System.out.println("@@@@@@@@@@@@@@@#%%+==:-**=-=-=.:::....::::-=+===*#**=+*=%#=*=#=             #");
+        System.out.println("@@@@@@@@@@@@@@@%@@#:+=-+==+=+=::.:=-+==..:--=+++-+=**+#+*=--=*+             #");
+        System.out.println("@@@@@@@@@@@@@@@##*+:*=:::=+*-:..=***#**-:.::-+=*++-:+*##@::--%*             #");
+        System.out.println("@@@@@@@@@@@@@@@#*+=:#*-:=++-...+**+#**+*=:...-=**-::=%%*+:+*#%*             #");
+        System.out.println("@@@@@@@@@@@@@@@@@#=-##...+*:.*@%@#%###**%%*:-=+##=-::%@##=#%@@*.            #");
+        System.out.println("@@@@@@@@@@@@@@@@@##+%@+*=+*:+@%%+ :-==%%@@@@:-+***%*#@@%@#%%%@*:            #");
+        System.out.println("@@@@@@@@@@@@@@@@@@=-=#%@@*+:@@@@@@@@@@@@@@@@-=++*#*%@@@%@%@#*#+             #");
+        System.out.println("@@@@@@@@@@@@@@@@%+++==#%@-=:@@@@@@@@@@@@@@@@==+++%@@@@@@@%@*#+=             #");
+        System.out.println("@@@@@@@@@@@@@@@@*=-#+#+-%++=:@@@@@@@@@@@@@@@+=*++@@-@@@@@##**++             #");
+        System.out.println("@@@@@@@@@@@@@@%%++*%**=*%*=#=+@@@@@@@@@@@@#*++++%-@*@@@@@@**++*.            #");
+        System.out.println("@@@@@@@%@%%@@%%%#**###*%%@##**+=@@@@@@@@@%%#+*+%@#@@*%@@@@@#*%%=            #");
+        System.out.println("@@@@%@%%%%%%%%%%%-**+=-++#+@%%%@@@@@@@@@@%**#*#@@@@@@@@@@@@@+  .            #");
+        System.out.println("%%%%%%%%%%%%%%%##=+===*:==+%%@@#%@@@@@@@@%@@%@%@@@@@%@%%**%*+               #");
+        System.out.println("%%%%%%%#########*-+++=-:-=++*#@@@@@@@@@@@@@@#@%@@@@@@%%#*-=+:.              #");
+        System.out.println("%%%##%#########*::+--===:==*+=%@@@@@@@@@@@@@%%%@@@@@@@#%**+*.               #");
+        System.out.println("###########*##*.::=--+*++:+++=+#@@@@@@@@@@@@%%%@@@@%%%@#==*++:              #");
+        System.out.println("#######*##****..:--=+*%+:+++=*++*%@@@@@@@@@@%*%@@@@%%#%#++++=-.             #");
+        System.out.println("######**#**#*=...:-=**=##-:=+**+**%@@@@@@@@@%%%@@@@%@#%*+***+=.             #");
+        System.out.println("##***##******-:.:::-*+**+:-++**+**#%@@@%@@@%%@@@@@@%@#%%*+*#*+-             #");
+        System.out.println("#**#********++::.:-=*****-:=+#***#%####%%###@@@@%%#@%%%%#*#**+-.            #");
+        System.out.println("***#******++++-...::=+###*%--*#*##*#####***@@@@@@%%%%%%%#*#*+==:.       ..  #");
+        System.out.println("#***********++-:....--+#%*#=++++####%*****@@@@@%%%@%%%%@%**++=-.        . ..#");
+        System.out.println("******++***+==:--.::::-*#%**%--=+*@@@%%@@@@@%%%@@@@%%%%@@%*===:        .....#");
+        System.out.println("***++++****+++-:=-.:.-==+*=%++%#*%%@@@%%@@@@@@%@@@@%%%%@%#+=-=      . ......#");
+        System.out.println("********++=-#----::.:.+++*+*+++=#*#@@@%*@@@@@@@@@@%%#%@%#*=--+    ..........#");
+        System.out.println("***++*++==:**+=-:-..:=-*=+*#=*=*=++%@@%#@@@@%@@@@@#%#%%#*++=*+ .     .....  #");
+        System.out.println("+*++*++==-=#*===-:--=:+=++*%##+*--+@#@%%%@@@%@@@@@#%%%##*+*#*+  ..          #");
+        System.out.println("++***+++=-#***+-=+*:-=--==+%%#*=-*%**@%%%@@@%@@@@%%%%##%##+*#-.     ...   ..#");
+        System.out.println("**+*+++=--%##**=-=====--:=*%#%%*+@**%%%%@@%@%@@%@%##%###%##**:...:..::::::::#");
+        System.out.println("++*+==-:::%#***#++-+++++-=+@#%%%#%##%**#%%@%@@%@%@@%%%#@##%#*. ...:::::-----#");
+        System.out.println("+*+=--:..*%%***#===++++***#@##%###@@*==*##@%@%%%@%%@%%@%@%%#+.   .. .....   #");
+        System.out.println("*+==-:...#%%#*#+*+*#++#+#*#@**##*%%*++=#*#%@%@@%@%%@@%@@%@%*+#@@=...   .....#");
+        System.out.println("++-:::...%##**#+**#**#%*#+*%++##**+*+++**%%@%%%##%@@%%##%###-.::-==+*#%%%#..#");
+        System.out.println("=-:::.::.+%*******#*%*#****#==+#%*++***#%%#@%%%%#%@%%%%%####=:.....::+%%#%*##");
+    }
+
+    public static void drawArrow(int top, int left, Direction dir) {
+
+        // Definimos las flechas en ASCII (6x10)
+        String[] arrow;
+
+        switch (dir) {
+            case UP:
+                arrow = new String[]{
+                    "    ^     ",
+                    "   /|\\    ",
+                    "  / | \\   ",
+                    "    |     ",
+                    "    |     ",
+                    "    |     "
+                };
+                break;
+
+            case DOWN:
+                arrow = new String[]{
+                    "    |     ",
+                    "    |     ",
+                    "    |     ",
+                    "  \\ | /   ",
+                    "   \\|/    ",
+                    "    v     "
+                };
+                break;
+
+            case LEFT:
+                arrow = new String[]{
+                    "          ",
+                    "   /      ",
+                    "  <----   ",
+                    "   \\      ",
+                    "          ",
+                    "          "
+                };
+                break;
+
+            case RIGHT:
+                arrow = new String[]{
+                    "          ",
+                    "      \\   ",
+                    "   ---->  ",
+                    "      /   ",
+                    "          ",
+                    "          "
+                };
+                break;
+
+            default:
+                arrow = new String[]{
+                    "          ",
+                    "          ",
+                    "   ???    ",
+                    "          ",
+                    "          ",
+                    "          "
+                };
+                break;
+        }
+
+        // Dibuja la flecha en el buffer con top y left
+        for (int y = 0; y < arrow.length; y++) {
+            for (int x = 0; x < arrow[y].length(); x++) {
+                char c = arrow[y].charAt(x);
+                if (top + y < HEIGHT && left + x < WIDTH) {
+                    buffer[top + y][left + x] = c;
+                }
+            }
+        }
+}
+
 }

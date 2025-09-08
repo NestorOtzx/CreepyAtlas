@@ -54,7 +54,6 @@ public class CameraConsole {
             }
         }
 
-        Screen.render();
     }
 
     // Getter to access the last captured frame

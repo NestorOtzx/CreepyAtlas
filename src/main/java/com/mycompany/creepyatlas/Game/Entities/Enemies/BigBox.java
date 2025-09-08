@@ -2,13 +2,17 @@ package com.mycompany.creepyatlas.Game.Entities.Enemies;
 import com.mycompany.creepyatlas.Game.Entities.*;
 
 public class BigBox extends Enemy {
-    public BigBox(int x, int y) {
-        super(x, y);
+    public BigBox(int x, int y, int baseHealth, int attack_damage) {
+        super(x, y, baseHealth, attack_damage);
     }
 
     @Override
     public char getSymbol() {
-        return 'B';
+        if (!is_dead)
+        {
+            return 'B';
+        }
+        return super.getSymbol();
     }
    @Override
     public String getBaseAudioPath(){
