@@ -14,4 +14,9 @@ public class PrayPrey extends Enemy {
         }
         return super.getSymbol();
     }
+
+    @Override
+    public String getBaseAudioPath(){
+        return "/audios/pray_prey_mono.wav";
+    }
 }

@@ -10,5 +10,9 @@ public class AKa extends Enemy {
     public char getSymbol() {
         return 'K';
     }
+    @Override
+    public String getBaseAudioPath(){
+        return "/audios/a_ka_mono.wav";
+    }
 }
 

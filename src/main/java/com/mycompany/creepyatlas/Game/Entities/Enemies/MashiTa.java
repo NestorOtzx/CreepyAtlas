@@ -14,4 +14,9 @@ public class MashiTa extends Enemy {
         }
         return super.getSymbol();
     }
+
+    @Override
+    public String getBaseAudioPath(){
+        return "/audios/mashi_ta_mono.wav";
+    }
 }

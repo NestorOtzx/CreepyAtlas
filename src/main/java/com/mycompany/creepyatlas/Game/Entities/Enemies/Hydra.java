@@ -14,4 +14,9 @@ public class Hydra extends Enemy {
         }
         return super.getSymbol();
     }
+
+    @Override
+    public String getBaseAudioPath(){
+        return "/audios/hydra_mono.wav";
+    }
 }

@@ -95,4 +95,9 @@ public class Chubby extends Enemy {
         }
         return false;
     }
+
+    @Override
+    public String getBaseAudioPath(){
+        return "/audios/chubby_mono.wav";
+    }
 }

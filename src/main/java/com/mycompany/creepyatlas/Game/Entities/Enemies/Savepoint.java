@@ -14,5 +14,10 @@ public class Savepoint extends Enemy {
         }
         return super.getSymbol();
     }
+
+    @Override
+    public String getBaseAudioPath(){
+        return "/audios/savepoint.wav";
+    }
 }
 

@@ -10,4 +10,9 @@ public class Acerco extends Enemy {
     public char getSymbol() {
         return 'Z';
     }
+
+    @Override
+    public String getBaseAudioPath(){
+        return "/audios/acerco_mono.wav";
+    }
 }

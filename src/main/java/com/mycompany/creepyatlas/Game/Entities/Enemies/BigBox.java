@@ -14,4 +14,8 @@ public class BigBox extends Enemy {
         }
         return super.getSymbol();
     }
+   @Override
+    public String getBaseAudioPath(){
+        return "/audios/big_boss_mono.wav";
+    }
 }

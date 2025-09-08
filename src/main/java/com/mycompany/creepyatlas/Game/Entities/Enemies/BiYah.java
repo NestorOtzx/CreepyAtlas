@@ -14,4 +14,8 @@ public class BiYah extends Enemy {
         }
         return super.getSymbol();
     }
+    @Override
+    public String getBaseAudioPath(){
+        return "/audios/bi_yah_mono.wav";
+    }
 }
