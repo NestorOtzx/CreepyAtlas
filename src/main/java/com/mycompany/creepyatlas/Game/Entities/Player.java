@@ -56,6 +56,9 @@ public class Player extends Entity {
                     System.out.println("error");
                 }
             return;
+        } else if (target == '$')
+        {
+            Game.EndGame();
         }
         else{
             try {

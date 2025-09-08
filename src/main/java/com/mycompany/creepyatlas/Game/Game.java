@@ -195,6 +195,13 @@ public class Game {
         inGame = _ingame;
     }
 
+    public static void EndGame()
+    {
+        Screen.setState(ScreenState.END_SCREEN_NEUTRAL_1);
+        Screen.render();
+        CommandReader.execCommand();
+    }
+
     public static void ClearFog(int x, int y)
     {
         if (y >= 0 && y < fogLayer.length)

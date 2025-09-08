@@ -78,6 +78,12 @@ public class Screen {
                 drawBoxWithText(13, 1, "                          Commands                         ");
                 drawHorizontalButtons(16, 4, 2, "Ok");
                 break;
+            case END_SCREEN_NEUTRAL_1:
+                drawBoxWithText(1, 1, "You have scaped from the cave!");
+                drawBoxWithText(5, 1, "You have made friends and enemies along the way!");
+                drawBoxWithText(13, 1, "                          Commands                         ");
+                drawHorizontalButtons(16, 4, 2, "Ok");
+                break;
             default:
                 break;
         }
