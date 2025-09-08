@@ -10,4 +10,9 @@ public class MashiTa extends Enemy {
     public char getSymbol() {
         return 'T';
     }
+
+    @Override
+    public String getBaseAudioPath(){
+        return "/audios/mashi_ta_mono.wav";
+    }
 }

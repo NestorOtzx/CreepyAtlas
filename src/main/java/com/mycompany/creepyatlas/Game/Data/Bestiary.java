@@ -118,8 +118,9 @@ public class Bestiary {
         // ToraGe
         enemies.put("ToraGe", new Enemy(
                 "G", "ToraGe", 1000000000, 100000000, 1000000000,
-                "A beautiful rose from Celestia. Sweet aroma, captivating color, and poison..."
-                +"so potent that just getting close to it can kill you."
+                "A beautiful Bengal tiger"
+                +"burning eyes, captivating color, and a roar..."
+                +"so powerful that just getting close to it can kill you."
         ));
 
         // Savepoint (lo puse como “enemigo especial” sin stats)

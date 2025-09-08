@@ -10,4 +10,9 @@ public class Chubby extends Enemy {
     public char getSymbol() {
         return 'C';
     }
+
+    @Override
+    public String getBaseAudioPath(){
+        return "/audios/chubby_mono.wav";
+    }
 }

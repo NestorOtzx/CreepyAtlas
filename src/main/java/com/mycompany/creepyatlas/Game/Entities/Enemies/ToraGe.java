@@ -10,5 +10,10 @@ public class ToraGe extends Enemy {
     public char getSymbol() {
         return 'G';
     }
+
+    @Override
+    public String getBaseAudioPath(){
+        return "/audios/tora_ge_mono.wav";
+    }
 }
 

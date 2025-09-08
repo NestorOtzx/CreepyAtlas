@@ -10,4 +10,8 @@ public class BiYah extends Enemy {
     public char getSymbol() {
         return 'Y';
     }
+    @Override
+    public String getBaseAudioPath(){
+        return "/audios/bi_yah_mono.wav";
+    }
 }

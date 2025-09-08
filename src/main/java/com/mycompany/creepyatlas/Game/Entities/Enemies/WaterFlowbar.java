@@ -10,5 +10,10 @@ public class WaterFlowbar extends Enemy {
     public char getSymbol() {
         return 'F';
     }
+
+    @Override
+    public String getBaseAudioPath(){
+        return "/audios/water_flowbar_mono.wav";
+    }
 }
 

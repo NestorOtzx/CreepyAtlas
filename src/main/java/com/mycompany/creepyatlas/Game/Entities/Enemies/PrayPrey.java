@@ -10,4 +10,9 @@ public class PrayPrey extends Enemy {
     public char getSymbol() {
         return 'O';
     }
+
+    @Override
+    public String getBaseAudioPath(){
+        return "/audios/pray_prey_mono.wav";
+    }
 }

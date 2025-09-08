@@ -9,5 +9,11 @@ public class Ana extends Enemy {
     @Override
     public char getSymbol() {
         return 'N';
+
+    }
+
+    @Override
+    public String getBaseAudioPath(){
+        return "/audios/ana_mono.wav";
     }
 }

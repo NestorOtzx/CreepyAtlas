@@ -10,4 +10,9 @@ public class Hydra extends Enemy {
     public char getSymbol() {
         return 'H';
     }
+
+    @Override
+    public String getBaseAudioPath(){
+        return "/audios/hydra_mono.wav";
+    }
 }

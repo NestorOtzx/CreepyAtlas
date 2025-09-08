@@ -10,4 +10,8 @@ public class BigBox extends Enemy {
     public char getSymbol() {
         return 'B';
     }
+   @Override
+    public String getBaseAudioPath(){
+        return "/audios/big_boss_mono.wav";
+    }
 }
