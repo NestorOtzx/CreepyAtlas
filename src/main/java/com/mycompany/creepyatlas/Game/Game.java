@@ -7,6 +7,8 @@ import com.mycompany.creepyatlas.Utils.MapReader;
 
 import java.util.*;
 
+import javax.swing.DebugGraphics;
+
 public class Game {
     private static char[][] baseMap;
     private static char[][] enemyLayer;
@@ -70,6 +72,7 @@ public class Game {
         int playerx = player.getX();
         int playery = player.getY();
         playerLayer[playery][playerx] = player.getSymbol();
+        System.out.println("P: "+playerLayer[playery][playerx]);
         if (Game.getEnemyLayer()[playery][playerx] != ' ' && Game.getEnemiesInCell(playerx, playery).size()>0)
         {
             Screen.setState(ScreenState.COMBAT);
@@ -206,7 +209,7 @@ public class Game {
     {
         if (y >= 0 && y < fogLayer.length)
         {
-            if (x >= 0 && x < fogLayer.length)
+            if (x >= 0 && x < fogLayer[y].length)
             {
                 fogLayer[y][x] = ' ';
             }
@@ -221,7 +224,7 @@ public class Game {
         }
         if (y+1 >= 0 && y+1 < fogLayer.length)
         {
-            if (x >= 0 && x < fogLayer.length)
+            if (x >= 0 && x < fogLayer[y+1].length)
             {
                 fogLayer[y+1][x] = ' ';
             }
@@ -236,7 +239,7 @@ public class Game {
         }
         if (y-1 >= 0 && y-1 < fogLayer.length)
         {
-            if (x >= 0 && x < fogLayer.length)
+            if (x >= 0 && x < fogLayer[y-1].length)
             {
                 fogLayer[y-1][x] = ' ';
             }
