@@ -30,6 +30,9 @@ public class Enums {
         NOISE_COMMANDS,
         COMBAT,
         GAME_OVER,
+        SCENE_PROLOG_1,
+        SCENE_PROLOG_2,
+        SCENE_PROLOG_3,
     }
 
 }

@@ -1,10 +1,6 @@
 package com.mycompany.creepyatlas.Game;
 
-import static com.mycompany.creepyatlas.Enums.Enums.*;
-
 import java.util.List;
-
-import javax.swing.DebugGraphics;
 
 import com.mycompany.creepyatlas.Enums.Enums.Direction;
 import com.mycompany.creepyatlas.Enums.Enums.ScreenState;
@@ -13,7 +9,7 @@ public class Screen {
 
     private static final int WIDTH = 77;
     private static final int HEIGHT = 20;
-    private static ScreenState currentState = ScreenState.BASE; 
+    private static ScreenState currentState = ScreenState.SCENE_PROLOG_1; 
 
     private static char[][] buffer = new char[HEIGHT][WIDTH];
 
@@ -63,7 +59,25 @@ public class Screen {
                 break;
             case STATS:
                 break;
-
+            case SCENE_PROLOG_1:
+                PrintAtlas();
+                drawBoxWithText(1, 1, "You are a wizard looking for something magic on the caves, you find atlas");
+                drawBoxWithText(5, 1, "and he stabs your eyes");
+                drawBoxWithText(13, 1, "                          Commands                         ");
+                drawHorizontalButtons(16, 4, 2, "Ok");
+                break;
+            case SCENE_PROLOG_2:
+                drawBoxWithText(1, 1, "You try to run away from him");
+                drawBoxWithText(5, 1, "but he keeps following you");
+                drawBoxWithText(13, 1, "                          Commands                         ");
+                drawHorizontalButtons(16, 4, 2, "Ok");
+                break;
+            case SCENE_PROLOG_3:
+                drawBoxWithText(1, 1, "Now you have to scape from the cave");
+                drawBoxWithText(5, 1, "and avoid the Creepy atlas catch you");
+                drawBoxWithText(13, 1, "                          Commands                         ");
+                drawHorizontalButtons(16, 4, 2, "Ok");
+                break;
             default:
                 break;
         }
@@ -131,12 +145,67 @@ public class Screen {
     }
 
     public static void setState(ScreenState state) {
-        
+        System.out.println("STATE: "+state);
         currentState = state;
     }
 
     public static ScreenState getState() {
         return currentState;
+    }
+
+    public static void PrintAtlas()
+    {
+        System.out.println("#############################################################################");
+        System.out.println("@@@@@@@@@@@@@@@@%%%%%@@%@@#=*-.=-==-                                        #");
+        System.out.println("@@@@@@@@@@@@@@@@%%%%%%%@@@#+*-.=-=-:                                        #");
+        System.out.println("@@@@@@@@@@@@@@@@%%%%%%%%@@*+#::-==-:                                        #");
+        System.out.println("@@@@@@@@@@@@@@@@%%%%%%%%%@*+#-:====.                                        #");
+        System.out.println("@@@@@@@@@@@@@@@@%%%%%%@%%@*+*:............:.                                #");
+        System.out.println("@@@@@@@@@@@@@@@@%%%%%%%%%%-........:..........::                            #");
+        System.out.println("@@@@@@@@@@@@@@@@%%%%%@%#=................ ....:-::                          #");
+        System.out.println("@@@@@@@@@@@@@@@@*%%%%%*:-..-.::.............:.:=+-::                        #");
+        System.out.println("@@@@@@@@@@@@@@@@%%%%#=:-..:-:.::........:..-=---=--:.::.                    #");
+        System.out.println("@@@@@@@@@@@@@@@@%%#..:==:+#*+:::...:....:-=+*%...:=-::--:                   #");
+        System.out.println("@@@@@@@@@@@@@@@@#::.:-=..  -+--..:::-...:+==##@@@*=----=+#-                 #");
+        System.out.println("@@@@@@@@@@@@@@@@*::.:==*@@@@++...........=*#@#@@@@#===+**==-. :             #");
+        System.out.println("@@@@@@@@@@@%*+::::::-:#@@@@@+:-........::-:=@@@@@%*%**#@*-=*-..             #");
+        System.out.println("@@@@@@@@@@@%@@#-----+#-*##*=+-:-.......-.:-+*=:-:+*#*#+=%**+=-              #");
+        System.out.println("@@@@@@@@@@@@@@#--:=:++*:::-=:-:::.:.::--::==-=++#++*-++#+#=++-              #");
+        System.out.println("@@@@@@@@@@@@@#**#=--+:#*+=:-=-..:::::--:-:=:+==***#*-==#@%*++=.             #");
+        System.out.println("@@@@@@@@@@@@@@@#%%+==:-**=-=-=.:::....::::-=+===*#**=+*=%#=*=#=             #");
+        System.out.println("@@@@@@@@@@@@@@@%@@#:+=-+==+=+=::.:=-+==..:--=+++-+=**+#+*=--=*+             #");
+        System.out.println("@@@@@@@@@@@@@@@##*+:*=:::=+*-:..=***#**-:.::-+=*++-:+*##@::--%*             #");
+        System.out.println("@@@@@@@@@@@@@@@#*+=:#*-:=++-...+**+#**+*=:...-=**-::=%%*+:+*#%*             #");
+        System.out.println("@@@@@@@@@@@@@@@@@#=-##...+*:.*@%@#%###**%%*:-=+##=-::%@##=#%@@*.            #");
+        System.out.println("@@@@@@@@@@@@@@@@@##+%@+*=+*:+@%%+ :-==%%@@@@:-+***%*#@@%@#%%%@*:            #");
+        System.out.println("@@@@@@@@@@@@@@@@@@=-=#%@@*+:@@@@@@@@@@@@@@@@-=++*#*%@@@%@%@#*#+             #");
+        System.out.println("@@@@@@@@@@@@@@@@%+++==#%@-=:@@@@@@@@@@@@@@@@==+++%@@@@@@@%@*#+=             #");
+        System.out.println("@@@@@@@@@@@@@@@@*=-#+#+-%++=:@@@@@@@@@@@@@@@+=*++@@-@@@@@##**++             #");
+        System.out.println("@@@@@@@@@@@@@@%%++*%**=*%*=#=+@@@@@@@@@@@@#*++++%-@*@@@@@@**++*.            #");
+        System.out.println("@@@@@@@%@%%@@%%%#**###*%%@##**+=@@@@@@@@@%%#+*+%@#@@*%@@@@@#*%%=            #");
+        System.out.println("@@@@%@%%%%%%%%%%%-**+=-++#+@%%%@@@@@@@@@@%**#*#@@@@@@@@@@@@@+  .            #");
+        System.out.println("%%%%%%%%%%%%%%%##=+===*:==+%%@@#%@@@@@@@@%@@%@%@@@@@%@%%**%*+               #");
+        System.out.println("%%%%%%%#########*-+++=-:-=++*#@@@@@@@@@@@@@@#@%@@@@@@%%#*-=+:.              #");
+        System.out.println("%%%##%#########*::+--===:==*+=%@@@@@@@@@@@@@%%%@@@@@@@#%**+*.               #");
+        System.out.println("###########*##*.::=--+*++:+++=+#@@@@@@@@@@@@%%%@@@@%%%@#==*++:              #");
+        System.out.println("#######*##****..:--=+*%+:+++=*++*%@@@@@@@@@@%*%@@@@%%#%#++++=-.             #");
+        System.out.println("######**#**#*=...:-=**=##-:=+**+**%@@@@@@@@@%%%@@@@%@#%*+***+=.             #");
+        System.out.println("##***##******-:.:::-*+**+:-++**+**#%@@@%@@@%%@@@@@@%@#%%*+*#*+-             #");
+        System.out.println("#**#********++::.:-=*****-:=+#***#%####%%###@@@@%%#@%%%%#*#**+-.            #");
+        System.out.println("***#******++++-...::=+###*%--*#*##*#####***@@@@@@%%%%%%%#*#*+==:.       ..  #");
+        System.out.println("#***********++-:....--+#%*#=++++####%*****@@@@@%%%@%%%%@%**++=-.        . ..#");
+        System.out.println("******++***+==:--.::::-*#%**%--=+*@@@%%@@@@@%%%@@@@%%%%@@%*===:        .....#");
+        System.out.println("***++++****+++-:=-.:.-==+*=%++%#*%%@@@%%@@@@@@%@@@@%%%%@%#+=-=      . ......#");
+        System.out.println("********++=-#----::.:.+++*+*+++=#*#@@@%*@@@@@@@@@@%%#%@%#*=--+    ..........#");
+        System.out.println("***++*++==:**+=-:-..:=-*=+*#=*=*=++%@@%#@@@@%@@@@@#%#%%#*++=*+ .     .....  #");
+        System.out.println("+*++*++==-=#*===-:--=:+=++*%##+*--+@#@%%%@@@%@@@@@#%%%##*+*#*+  ..          #");
+        System.out.println("++***+++=-#***+-=+*:-=--==+%%#*=-*%**@%%%@@@%@@@@%%%%##%##+*#-.     ...   ..#");
+        System.out.println("**+*+++=--%##**=-=====--:=*%#%%*+@**%%%%@@%@%@@%@%##%###%##**:...:..::::::::#");
+        System.out.println("++*+==-:::%#***#++-+++++-=+@#%%%#%##%**#%%@%@@%@%@@%%%#@##%#*. ...:::::-----#");
+        System.out.println("+*+=--:..*%%***#===++++***#@##%###@@*==*##@%@%%%@%%@%%@%@%%#+.   .. .....   #");
+        System.out.println("*+==-:...#%%#*#+*+*#++#+#*#@**##*%%*++=#*#%@%@@%@%%@@%@@%@%*+#@@=...   .....#");
+        System.out.println("++-:::...%##**#+**#**#%*#+*%++##**+*+++**%%@%%%##%@@%%##%###-.::-==+*#%%%#..#");
+        System.out.println("=-:::.::.+%*******#*%*#****#==+#%*++***#%%#@%%%%#%@%%%%%####=:.....::+%%#%*##");
     }
 
     public static void drawArrow(int top, int left, Direction dir) {

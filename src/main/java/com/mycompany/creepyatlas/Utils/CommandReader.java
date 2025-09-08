@@ -45,6 +45,9 @@ public class CommandReader {
                         Game.getPlayer().move(dir);
                     }
                     
+                } else if (main.equals("ok"))
+                {
+                    System.out.println("...");
                 } else if (main.equals("noise")) {
                     if (parts.length < 2) {
                         System.out.println("Use: burp, scream.");

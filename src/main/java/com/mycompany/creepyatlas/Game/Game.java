@@ -22,7 +22,6 @@ public class Game {
 
 
     public Game() {
-
         inGame = true;
         MapReader.MapData mapData = MapReader.loadLevel("levels/level1.txt");
 
@@ -57,9 +56,6 @@ public class Game {
         for (char[] row : playerLayer) {
             Arrays.fill(row, ' ');
         }
-        
-
-
         for (Enemy enemy : enemies) {
             enemy.OnUpdateGame();
             int x = enemy.getX();
@@ -78,6 +74,7 @@ public class Game {
         {
             Screen.setState(ScreenState.COMBAT);
         }else{
+            System.out.println("SetScreenState: "+ScreenState.BASE);
             Screen.setState(ScreenState.BASE);
         }
     }
@@ -153,6 +150,20 @@ public class Game {
         return player;
     }
 
+    public void start() {
+        Screen.setState(ScreenState.SCENE_PROLOG_1);
+        Screen.render();
+        CommandReader.execCommand();
+        Screen.setState(ScreenState.SCENE_PROLOG_2);
+        Screen.render();
+        CommandReader.execCommand();
+        Screen.setState(ScreenState.SCENE_PROLOG_3);
+        Screen.render();
+        CommandReader.execCommand();
+        update();
+    }
+
+
 
     public void update() {
         while (inGame)
@@ -163,6 +174,7 @@ public class Game {
             player.getY(),
             renderLayers
             );
+            Screen.render();
             ReadAction();
         }
     }
@@ -172,10 +184,7 @@ public class Game {
         CommandReader.execCommand();
     }
 
-    public void start() {
-        update();
-    }
-
+    
     public static char[][] getBaseMap()
     {
         return baseMap;
