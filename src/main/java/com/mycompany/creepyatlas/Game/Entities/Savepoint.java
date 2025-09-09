@@ -1,12 +1,13 @@
-package com.mycompany.creepyatlas.Game.Entities.Enemies;
+package com.mycompany.creepyatlas.Game.Entities;
 import com.mycompany.creepyatlas.Audio.AudioSource3D;
 import com.mycompany.creepyatlas.Game.Game;
-import com.mycompany.creepyatlas.Game.Entities.Enemy;
-import com.mycompany.creepyatlas.Utils.Distance;
 
-public class Savepoint extends Enemy {
-    public Savepoint(int x, int y, int baseHealth,int mentalHealth, int attack_damage) {
+public class Savepoint extends Entity {
+    int savePointIndex;
+
+    public Savepoint(int x, int y, int baseHealth,int mentalHealth, int attack_damage, int index) {
         super(x, y, baseHealth, mentalHealth,attack_damage);
+        savePointIndex = index;
     }
 
     @Override
@@ -31,6 +32,7 @@ public class Savepoint extends Enemy {
         System.out.println("player: "+playerx + playery+ " save: "+ x + y);
         if (playerx == this.x && playery == this.y)
         {
+            Game.getPlayer().SetSavePoint(savePointIndex);
             audiosource.play();
         }
     }

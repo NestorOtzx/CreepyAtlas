@@ -28,7 +28,14 @@ public class CommandReader {
                 break;
             }
             else if (Game.getPlayer().getIsDead()){
-                System.out.println("You are dead, you can't do anything.");
+                if (main.equals("ok") || main.equals("continue"))
+                {
+                    System.out.println("...");
+                    Game.RevivePlayer();
+                    break;
+                }else{
+                    System.out.println("You are dead, write 'continue' to continue.");
+                }
             }
             else {
                 

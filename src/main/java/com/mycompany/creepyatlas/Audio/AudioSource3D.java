@@ -27,7 +27,7 @@ public class AudioSource3D {
         if (url == null) throw new IOException("File " + resourcePath + " not found in resources");
 
         try (InputStream is = url.openStream();
-             AudioInputStream ais0 = AudioSystem.getAudioInputStream(is)) {
+            AudioInputStream ais0 = AudioSystem.getAudioInputStream(is)) {
 
             AudioFormat base = ais0.getFormat();
             AudioFormat pcm16 = new AudioFormat(
@@ -59,6 +59,7 @@ public class AudioSource3D {
                 alSourcef(source, AL_GAIN, 1f);
                 alSourcei(source, AL_LOOPING, loop ? AL_TRUE : AL_FALSE);
             }
+        } catch (Exception e){
         }
 
         // registrar fuente en el listener
@@ -92,7 +93,10 @@ public class AudioSource3D {
     public void Disable(){
         setGain(0);
         enabled = false;
-        System.out.println("disable");
+    }
+
+    public void Enable(){
+        enabled = true;
     }
 
     public float getX() { return x; }

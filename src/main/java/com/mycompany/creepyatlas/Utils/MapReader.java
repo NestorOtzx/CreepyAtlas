@@ -17,7 +17,8 @@ public class MapReader {
         char[][] baseMap = new char[rows][cols];
         Player player = null;
         List<Enemy> enemies = new ArrayList<>();
-        
+        List<Savepoint> savePoints = new ArrayList<>();
+
         for (int y = 0; y < rows; y++) {
             String line = lines.get(y);
             System.out.println("xddddddd"+line);
@@ -27,11 +28,16 @@ public class MapReader {
                 if (c == 'P') {
                     player = new Player(x, y, 100, 100, 100);
                     baseMap[y][x] = ' '; 
-                } else if (Character.isLetter(c)) {
+                } else if (c == 'S')
+                {
+                    savePoints.add(new Savepoint(x, y, 0, 0, 0, savePoints.size()));
+                    baseMap[y][x] = ' '; 
+                }
+                else if (Character.isLetter(c)) {
                     Enemy enemy = createEnemy(c, x,y);
                     enemies.add(enemy);
                     baseMap[y][x] = ' '; 
-                } else {
+                } else{
                     baseMap[y][x] = c; 
                 }
             }
@@ -41,7 +47,7 @@ public class MapReader {
             throw new IllegalStateException("The level has no player (P).");
         }
 
-        return new MapData(baseMap, player, enemies);
+        return new MapData(baseMap, player, enemies, savePoints);
     }
 
     private static Enemy createEnemy(char symbol, int x, int y) {
@@ -59,7 +65,6 @@ public class MapReader {
             case 'O': return new PrayPrey(x,y, 1,1, 1);
             case 'K': return new AKa(x,y, 1,1, 1);
             case 'G': return new ToraGe(x,y, 1,1, 1);
-            case 'S': return new Savepoint(x,y, 1,1, 1);
             default: return new Enemy(x,y, 1,1, 1);
         }
     }
@@ -81,15 +86,18 @@ public class MapReader {
         private final char[][] baseMap;
         private final Player player;
         private final List<Enemy> enemies;
+        private final List<Savepoint> savePoints;
 
-        public MapData(char[][] baseMap, Player player, List<Enemy> enemies) {
+        public MapData(char[][] baseMap, Player player, List<Enemy> enemies, List<Savepoint> savePoints) {
             this.baseMap = baseMap;
             this.player = player;
             this.enemies = enemies;
+            this.savePoints = savePoints;
         }
 
         public char[][] getBaseMap() { return baseMap; }
         public Player getPlayer() { return player; }
         public List<Enemy> getEnemies() { return enemies; }
+        public List<Savepoint> getSavePoints() { return savePoints; }
     }
 }
