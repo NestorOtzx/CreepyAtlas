@@ -4,6 +4,8 @@ import org.lwjgl.openal.AL;
 import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALCCapabilities;
 
+import com.mycompany.creepyatlas.Utils.Distance;
+
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,12 +80,7 @@ public class AudioListener3D {
     // --- recalcular volúmenes ---
     private static void updateSourcesGain() {
         for (AudioSource3D source : sources) {
-            float dx = source.getX() - x;
-            float dy = source.getY() - y;
-            float dz = source.getZ() - z;
-            float dist = (float) Math.sqrt(dx*dx + dy*dy + dz*dz);
-
-            if (dist > 2.1f * SPACE_UNITS) {
+            if (Distance.Euclidean(source.getX(), source.getY(), x, y) > 2.1f * SPACE_UNITS) {
                 source.setGain(0f); // mutea
             } else {
                 source.setGain(1f); // volumen normal

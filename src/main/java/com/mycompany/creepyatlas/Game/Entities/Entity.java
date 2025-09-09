@@ -17,6 +17,15 @@ public abstract class Entity{
     public Entity(int x, int y, int baseHealth, int mentalHealth, int attack_damage){
         this.x = x;
         this.y = y;
+        InitAudio();
+        this.is_dead = false;
+        this.attack_damage = attack_damage;
+        this.health = baseHealth;
+        this.mental_health = mentalHealth;
+    }
+
+    
+    protected void InitAudio(){
         try {
             this.audiosource = new AudioSource3D(this.getBaseAudioPath(), true, x, y);
             this.audiosource.play();
@@ -24,10 +33,6 @@ public abstract class Entity{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.is_dead = false;
-        this.attack_damage = attack_damage;
-        this.health = baseHealth;
-        this.mental_health = mentalHealth;
     }
 
     public int getX() { return x; }
