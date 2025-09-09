@@ -23,14 +23,15 @@ public class MaKinDa extends Enemy {
     @Override
     public String getDefeatMessage() {
         return "has defeated a mountain..."+
+        "\n"+
         "it looks like it fell on one. It must not be very important.";
     }
     @Override
     public String getForgiveMessage() {
         return "MaKinDa: Uh, thank you."+
-        "/n" +
+        "\n" +
         "excellent, traveler!" + 
-        "/n" + 
+        "\n" + 
         "You made it through MaKinDa's favorite tunnel!";
     }
 }

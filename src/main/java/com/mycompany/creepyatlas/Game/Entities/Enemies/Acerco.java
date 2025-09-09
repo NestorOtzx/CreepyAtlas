@@ -1,6 +1,4 @@
 package com.mycompany.creepyatlas.Game.Entities.Enemies;
-import java.security.PublicKey;
-
 import com.mycompany.creepyatlas.Game.Entities.*;
 
 public class Acerco extends Enemy {
@@ -20,8 +18,8 @@ public class Acerco extends Enemy {
     @Override
     public String getDefeatMessage() {
         return "Acerco: Dude, I couldn't believe it... she was like..." +
-            "\n" + 
-            "Acerco: And I couldn't... Parkour! Bro, it was crazy [...]";
+        "\n" + 
+        "Acerco: And I couldn't... Parkour! Bro, it was crazy [...]";
     }
     @Override
     public String getForgiveMessage() {

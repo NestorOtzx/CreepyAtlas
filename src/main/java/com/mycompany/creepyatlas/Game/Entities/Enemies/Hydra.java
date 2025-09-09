@@ -23,7 +23,7 @@ public class Hydra extends Enemy {
     @Override
     public String getDefeatMessage() {
         return "Hydra: ...Please."+
-        "/n"+
+        "\n"+
         "Just don't hurt Flowby.";
     }
     @Override

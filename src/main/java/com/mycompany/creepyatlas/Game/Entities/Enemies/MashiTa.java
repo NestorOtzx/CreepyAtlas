@@ -19,4 +19,15 @@ public class MashiTa extends Enemy {
     public String getBaseAudioPath(){
         return "/audios/mashi_ta_mono.wav";
     }
+    @Override
+    public String getDefeatMessage() {
+        return "You scared it to death!";
+    }
+    //Igual muere
+    @Override
+    public String getForgiveMessage() {
+        return "You scared it to death!";
+    }
+    
+
 }
