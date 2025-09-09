@@ -10,11 +10,17 @@ import com.mycompany.creepyatlas.Game.Screen;
 
 public class Player extends Entity {
     Direction faceDirection;
+    int currentSavePoint;
+    int initialPlayerX;
+    int initialPlayerY;
 
     public Player(int x, int y, int baseHealth,int mental_health, int attack_damage) {
         super(x, y, baseHealth, mental_health, attack_damage);
         AudioListener3D.setPosition(x, y);
         faceDirection = Direction.DOWN;
+        currentSavePoint = -1;
+        initialPlayerX = x;
+        initialPlayerY = y;
     }
 
     @Override
@@ -74,8 +80,16 @@ public class Player extends Entity {
         System.out.println("character: "+ Game.getEnemyLayer()[y][x]);
 
         Game.ClearFog(x, y);
-        
+    }
 
+    public int GetInitialX()
+    {
+        return initialPlayerX;
+    }
+
+    public int GetInitialY()
+    {
+        return initialPlayerY;
     }
 
     @Override
@@ -108,10 +122,19 @@ public class Player extends Entity {
         AudioListener3D.DisabelAllAudios();
     }
 
-
     public Direction getFaceDirection()
     {
         return faceDirection;
     }
+
+    public void SetSavePoint(int index)
+    {
+        currentSavePoint = index;
+    }
+
+    public int GetSavePoint(){
+        return this.currentSavePoint;
+    }
+    
     
 }

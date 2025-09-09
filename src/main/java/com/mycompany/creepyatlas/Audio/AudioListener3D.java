@@ -78,7 +78,7 @@ public class AudioListener3D {
     }
 
     // --- recalcular volúmenes ---
-    private static void updateSourcesGain() {
+    public static void updateSourcesGain() {
         for (AudioSource3D source : sources) {
             if (Distance.Euclidean(source.getX(), source.getY(), x, y) > 2.1f * SPACE_UNITS) {
                 source.setGain(0f); // mutea
@@ -97,4 +97,15 @@ public class AudioListener3D {
             }
         }
     }
+
+    public static void EnableAllAudios(){
+        for (AudioSource3D source : sources) {
+            if (source != null)
+            {
+                source.Enable();
+            }
+        }
+        updateSourcesGain();
+    }
+
 }

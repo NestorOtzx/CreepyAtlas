@@ -55,7 +55,7 @@ public class Screen {
             case GAME_OVER:
                 drawBoxWithText(2, 2, "                            YOU ARE DEAD                       ");
                 drawBoxWithText(8, 2, "                            GAME OVER...                      ");
-                drawHorizontalButtons(12, 4, 2, "Quit");
+                drawHorizontalButtons(12, 4, 2, "Continue", "Quit");
                 break;
             case STATS:
                 break;
