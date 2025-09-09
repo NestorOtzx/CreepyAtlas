@@ -20,14 +20,13 @@ public class Ana extends Enemy {
 
     @Override
     public String getDefeatMessage() {
-        return "Oh, for Celestia's sake. You're so mean, you don't deserve to keep playing."
-                ;
+        return "Oh, for Celestia's sake. You're so mean, you don't deserve to keep playing.";
     //PIERDE
     }
     @Override
     public String getForgiveMessage() {
         return "Ana: I was so scared!"+
-                "/n" + 
-                "Ana: Mmmm... I think you're kinda cute.";
+        "\n" + 
+        "Ana: Mmmm... I think you're kinda cute.";
     }
 }

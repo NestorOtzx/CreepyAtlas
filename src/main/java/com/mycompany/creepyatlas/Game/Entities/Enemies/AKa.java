@@ -18,7 +18,7 @@ public class AKa extends Enemy {
     @Override
     public String getDefeatMessage() {
         return "AKa: Bzzz..."+
-                "/n"+
+                "\n"+
                 "Mmmm, looks like someone won't be able to sleep well tonight."
                 ;
     }

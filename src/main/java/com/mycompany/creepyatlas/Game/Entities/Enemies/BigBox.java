@@ -22,8 +22,11 @@ public class BigBox extends Enemy {
 
     @Override
     public String getDefeatMessage() {
-        return "BigBox: ..."
-                ;
+        return "BigBox: ..."+
+        "\n"+
+        "..."+
+        "\n"+
+        "It was just a cardboard box";
     }
     @Override
     public String getForgiveMessage() {

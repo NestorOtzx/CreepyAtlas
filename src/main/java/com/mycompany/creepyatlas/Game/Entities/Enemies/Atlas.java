@@ -52,8 +52,11 @@ public class Atlas extends Enemy {
 
     @Override
     public String getDefeatMessage() {
-        return "Atlas: Huh... Do you think you can defeat me?"
-                ;
+        return "Atlas: Huh... Do you think you can defeat me?..."+
+        "\n"+ 
+        "..."+
+        "\n"+
+        "Uhu, it seems you were right.";
     }
     @Override
     public String getForgiveMessage() {

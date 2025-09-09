@@ -19,5 +19,6 @@ public class Savepoint extends Enemy {
     public String getBaseAudioPath(){
         return "/audios/savepoint.wav";
     }
+
 }
 

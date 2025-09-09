@@ -80,8 +80,7 @@ public class Bestiary {
                 "T", "MashiTa", 0, 0, 0,
                 "You've found a wandering spirit!                                                                                   "
                 +"Eh...                                                                                                             " 
-                +"wait…                                                                                                             "
-                +"You scared it to death!                                                                                           "
+                +"wait...                                                                                                           "                                                                                           
         ));
 
         // Bi-Yah

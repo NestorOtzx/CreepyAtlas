@@ -108,6 +108,7 @@ public class Chubby extends Enemy {
     @Override
     public String getForgiveMessage() {
         return "Chubby: ribbit!" +
+        "\n"+
         "What a kind adventurer you are. Chubby is very happy!";
     }
 }
