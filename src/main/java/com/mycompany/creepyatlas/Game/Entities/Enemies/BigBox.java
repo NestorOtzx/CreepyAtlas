@@ -18,4 +18,15 @@ public class BigBox extends Enemy {
     public String getBaseAudioPath(){
         return "/audios/big_boss_mono.wav";
     }
+
+
+    @Override
+    public String getDefeatMessagge() {
+        return "BigBox: ..."
+                ;
+    }
+    @Override
+    public String getForgiveMessagge() {
+        return "BigBox: ...";
+    }
 }

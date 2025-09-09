@@ -33,4 +33,14 @@ public class Enemy extends Entity {
         super.Attack(x, y, target);
         Game.EnemyAttacksPosition(this, x, y, target, attack_damage);
     }
+    
+    public String getDefeatMessagge(){
+        return "";
+        
+    }
+
+    public String getForgiveMessagge(){
+        return "";
+        
+    }
 }

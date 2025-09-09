@@ -1,4 +1,6 @@
 package com.mycompany.creepyatlas.Game.Entities.Enemies;
+import java.security.PublicKey;
+
 import com.mycompany.creepyatlas.Game.Entities.*;
 
 public class Acerco extends Enemy {
@@ -15,4 +17,16 @@ public class Acerco extends Enemy {
     public String getBaseAudioPath(){
         return "/audios/acerco_mono.wav";
     }
+    @Override
+    public String getDefeatMessagge() {
+        return "Acerco: Dude, I couldn't believe it... she was like..." +
+            "\n" + 
+            "Acerco: And I couldn't... Parkour! Bro, it was crazy [...]";
+    }
+    @Override
+    public String getForgiveMessagge() {
+        return "Acerco: Hey, buddy. Where are you going?";
+    }
+
 }
+

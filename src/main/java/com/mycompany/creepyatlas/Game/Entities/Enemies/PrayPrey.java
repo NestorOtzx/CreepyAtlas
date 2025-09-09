@@ -1,5 +1,5 @@
 package com.mycompany.creepyatlas.Game.Entities.Enemies;
-import com.mycompany.creepyatlas.Game.Entities.*;
+import com.mycompany.creepyatlas.Game.Entities.Enemy;
 
 public class PrayPrey extends Enemy {
     public PrayPrey(int x, int y, int baseHealth, int attack_damage) {
@@ -18,5 +18,14 @@ public class PrayPrey extends Enemy {
     @Override
     public String getBaseAudioPath(){
         return "/audios/pray_prey_mono.wav";
+    }
+
+    @Override
+    public String getDefeatMessagge() {
+        return "WIIIIIIIIIIITCH!!!";
+    }
+    @Override
+    public String getForgiveMessagge() {
+        return "PrayPrey: Do you have a few minutes to talk about God?";
     }
 }

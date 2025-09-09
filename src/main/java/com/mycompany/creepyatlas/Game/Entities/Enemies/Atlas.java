@@ -2,7 +2,7 @@ package com.mycompany.creepyatlas.Game.Entities.Enemies;
 import java.util.List;
 
 import com.mycompany.creepyatlas.Game.Game;
-import com.mycompany.creepyatlas.Game.Entities.*;
+import com.mycompany.creepyatlas.Game.Entities.Enemy;
 import com.mycompany.creepyatlas.Utils.Dijkstra;
 
 public class Atlas extends Enemy {
@@ -48,5 +48,15 @@ public class Atlas extends Enemy {
             }
         }
 
+    }
+
+    @Override
+    public String getDefeatMessagge() {
+        return "Atlas: Huh... Do you think you can defeat me?"
+                ;
+    }
+    @Override
+    public String getForgiveMessagge() {
+        return "Atlas: sniff* ";
     }
 }

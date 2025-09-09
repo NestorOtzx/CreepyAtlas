@@ -14,5 +14,23 @@ public class AKa extends Enemy {
     public String getBaseAudioPath(){
         return "/audios/a_ka_mono.wav";
     }
+
+    @Override
+    public String getDefeatMessagge() {
+        return "AKa: Bzzz..."+
+                "/n"+
+                "Mmmm, looks like someone won't be able to sleep well tonight."
+                ;
+    }
+    @Override
+    public String getForgiveMessagge() {
+        return "AKa: BZZZ!" +
+                "/n" + 
+                "WHAT AN UNGRATEFUL CREATURE!";
+    }
+
+    
+
+
 }
 

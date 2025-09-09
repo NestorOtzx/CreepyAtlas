@@ -1,5 +1,5 @@
 package com.mycompany.creepyatlas.Game.Entities.Enemies;
-import com.mycompany.creepyatlas.Game.Entities.*;
+import com.mycompany.creepyatlas.Game.Entities.Enemy;
 
 public class Hydra extends Enemy {
     public Hydra(int x, int y, int baseHealth, int attack_damage) {
@@ -18,5 +18,16 @@ public class Hydra extends Enemy {
     @Override
     public String getBaseAudioPath(){
         return "/audios/hydra_mono.wav";
+    }
+
+    @Override
+    public String getDefeatMessagge() {
+        return "Hydra: ...Please."+
+        "/n"+
+        "Just don't hurt Flowby.";
+    }
+    @Override
+    public String getForgiveMessagge() {
+        return "Hydra: I didn't need your forgiveness anyway!";
     }
 }

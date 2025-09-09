@@ -100,4 +100,14 @@ public class Chubby extends Enemy {
     public String getBaseAudioPath(){
         return "/audios/chubby_mono.wav";
     }
+
+    @Override
+    public String getDefeatMessagge() {
+        return "EWWW, NOW YOU'RE COVERED IN THICK SNOOT";
+    }
+    @Override
+    public String getForgiveMessagge() {
+        return "Chubby: ribbit!" +
+        "What a kind adventurer you are. Chubby is very happy!";
+    }
 }
