@@ -21,13 +21,13 @@ public class ToraGe extends Enemy {
     }
 
     @Override
-    public String getDefeatMessagge() {
+    public String getDefeatMessage() {
         return "Oh my gosh, it's like a giant kitten." +
                 "/n" + 
                "Scratch its belly a little for me.";
     }
     @Override
-    public String getForgiveMessagge() {
+    public String getForgiveMessage() {
         return "Tora is very grateful." + 
         "/n" + 
         "He can finally go home with his tigress.";

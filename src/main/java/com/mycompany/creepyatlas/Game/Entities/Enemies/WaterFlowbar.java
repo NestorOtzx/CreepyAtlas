@@ -21,11 +21,11 @@ public class WaterFlowbar extends Enemy {
     }
 
     @Override
-    public String getDefeatMessagge() {
+    public String getDefeatMessage() {
         return "WaterFlowbar: glup...";
     }
     @Override
-    public String getForgiveMessagge() {
+    public String getForgiveMessage() {
         return "WaterFlowbar: glup, glup! ^u^";
     }
 }

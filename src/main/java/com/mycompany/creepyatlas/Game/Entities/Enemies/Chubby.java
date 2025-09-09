@@ -102,11 +102,11 @@ public class Chubby extends Enemy {
     }
 
     @Override
-    public String getDefeatMessagge() {
+    public String getDefeatMessage() {
         return "EWWW, NOW YOU'RE COVERED IN THICK SNOOT";
     }
     @Override
-    public String getForgiveMessagge() {
+    public String getForgiveMessage() {
         return "Chubby: ribbit!" +
         "What a kind adventurer you are. Chubby is very happy!";
     }

@@ -20,11 +20,11 @@ public class BiYah extends Enemy {
     }
 
     @Override
-    public String getDefeatMessagge() {
+    public String getDefeatMessage() {
         return "BiYah couldn't handle the pressure and just blew himself up.";
     }
     @Override
-    public String getForgiveMessagge() {
+    public String getForgiveMessage() {
         return "One of BiYah's wives appears and drags her husband away by his ears.";
     }
 }

@@ -21,12 +21,12 @@ public class BigBox extends Enemy {
 
 
     @Override
-    public String getDefeatMessagge() {
+    public String getDefeatMessage() {
         return "BigBox: ..."
                 ;
     }
     @Override
-    public String getForgiveMessagge() {
+    public String getForgiveMessage() {
         return "BigBox: ...";
     }
 }

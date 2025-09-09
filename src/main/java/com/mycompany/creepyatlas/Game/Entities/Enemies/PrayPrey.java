@@ -21,11 +21,11 @@ public class PrayPrey extends Enemy {
     }
 
     @Override
-    public String getDefeatMessagge() {
+    public String getDefeatMessage() {
         return "WIIIIIIIIIIITCH!!!";
     }
     @Override
-    public String getForgiveMessagge() {
+    public String getForgiveMessage() {
         return "PrayPrey: Do you have a few minutes to talk about God?";
     }
 }

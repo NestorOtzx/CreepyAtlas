@@ -16,14 +16,14 @@ public class AKa extends Enemy {
     }
 
     @Override
-    public String getDefeatMessagge() {
+    public String getDefeatMessage() {
         return "AKa: Bzzz..."+
                 "/n"+
                 "Mmmm, looks like someone won't be able to sleep well tonight."
                 ;
     }
     @Override
-    public String getForgiveMessagge() {
+    public String getForgiveMessage() {
         return "AKa: BZZZ!" +
                 "/n" + 
                 "WHAT AN UNGRATEFUL CREATURE!";

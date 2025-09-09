@@ -21,13 +21,13 @@ public class Hydra extends Enemy {
     }
 
     @Override
-    public String getDefeatMessagge() {
+    public String getDefeatMessage() {
         return "Hydra: ...Please."+
         "/n"+
         "Just don't hurt Flowby.";
     }
     @Override
-    public String getForgiveMessagge() {
+    public String getForgiveMessage() {
         return "Hydra: I didn't need your forgiveness anyway!";
     }
 }

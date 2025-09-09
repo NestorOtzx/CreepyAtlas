@@ -51,12 +51,12 @@ public class Atlas extends Enemy {
     }
 
     @Override
-    public String getDefeatMessagge() {
+    public String getDefeatMessage() {
         return "Atlas: Huh... Do you think you can defeat me?"
                 ;
     }
     @Override
-    public String getForgiveMessagge() {
+    public String getForgiveMessage() {
         return "Atlas: sniff* ";
     }
 }

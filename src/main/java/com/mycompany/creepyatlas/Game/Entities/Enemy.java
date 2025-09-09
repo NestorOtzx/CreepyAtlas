@@ -34,12 +34,12 @@ public class Enemy extends Entity {
         Game.EnemyAttacksPosition(this, x, y, target, attack_damage);
     }
     
-    public String getDefeatMessagge(){
+    public String getDefeatMessage(){
         return "";
         
     }
 
-    public String getForgiveMessagge(){
+    public String getForgiveMessage(){
         return "";
         
     }
