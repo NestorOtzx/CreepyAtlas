@@ -11,8 +11,8 @@ import com.mycompany.creepyatlas.Game.Screen;
 public class Player extends Entity {
     Direction faceDirection;
 
-    public Player(int x, int y, int baseHealth, int attack_damage) {
-        super(x, y, baseHealth, attack_damage);
+    public Player(int x, int y, int baseHealth,int mental_health, int attack_damage) {
+        super(x, y, baseHealth, mental_health, attack_damage);
         AudioListener3D.setPosition(x, y);
         faceDirection = Direction.DOWN;
     }

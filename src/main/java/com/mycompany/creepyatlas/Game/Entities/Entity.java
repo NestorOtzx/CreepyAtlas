@@ -9,10 +9,12 @@ public abstract class Entity{
     protected int y;
     protected AudioSource3D audiosource;
     protected int health = 100;
+    protected int mental_health = 100;
     protected int attack_damage = 10;
     protected boolean is_dead = false;
+    protected boolean is_forgiven = false;
 
-    public Entity(int x, int y, int baseHealth, int attack_damage){
+    public Entity(int x, int y, int baseHealth, int mentalHealth, int attack_damage){
         this.x = x;
         this.y = y;
         try {
@@ -25,6 +27,7 @@ public abstract class Entity{
         this.is_dead = false;
         this.attack_damage = attack_damage;
         this.health = baseHealth;
+        this.mental_health = mentalHealth;
     }
 
     public int getX() { return x; }
@@ -95,13 +98,13 @@ public abstract class Entity{
 
     public void Attack(int x, int y, char target)
     {
-        if (is_dead) { return; }
+        if (is_dead || is_forgiven) { return; }
         System.out.println("I " + getSymbol() + " Attack "+x + ", "+ y+ " to: "+ target);
     }
 
     public void RecieveAttack(Entity attacker, int damage)
     {
-        if (is_dead) { return; }
+        if (is_dead || is_forgiven) { return; }
         System.out.println("I" + getSymbol() + " Recieve attack from " + attacker.getSymbol() + " amount:"+damage);
         health -= damage;
         if (health <= 0){
@@ -110,14 +113,30 @@ public abstract class Entity{
         //puedes agregar aqui un audio de recibir daño
     }
 
+    public void RecieveForgiveness(Entity forgiver, int forgiveness)
+    {
+        if (is_dead || is_forgiven) { return; }
+        mental_health -= forgiveness;
+        if (mental_health <= 0)
+        {
+            OnBeForgiven();
+        }
+    }
+
     protected void OnDie(){
-        if (is_dead) { return; }
+        if (is_dead || is_forgiven) { return; }
         health = 0;
         is_dead=true;
         if (audiosource != null)
         {
             audiosource.Disable();
         }
+    }
+
+    protected void OnBeForgiven(){
+        if (is_dead || is_forgiven) { return; }
+        mental_health = 0;
+        is_forgiven = true;
     }
 
     public boolean getIsDead(){

@@ -4,8 +4,8 @@ import java.security.PublicKey;
 import com.mycompany.creepyatlas.Game.Entities.*;
 
 public class Acerco extends Enemy {
-    public Acerco(int x, int y, int baseHealth, int attack_damage) {
-        super(x, y, baseHealth, attack_damage);
+    public Acerco(int x, int y, int baseHealth, int mentalHealth, int attack_damage) {
+        super(x, y, baseHealth, mentalHealth, attack_damage);
     }
 
     @Override

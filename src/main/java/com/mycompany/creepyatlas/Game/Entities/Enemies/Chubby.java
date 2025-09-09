@@ -9,8 +9,8 @@ public class Chubby extends Enemy {
     private int timesPlayerMoved;
     private int timesChubbyMoved;
 
-    public Chubby(int x, int y, int baseHealth, int attack_damage) {
-        super(x, y, baseHealth, attack_damage);
+    public Chubby(int x, int y, int baseHealth,int mentalHealth, int attack_damage) {
+        super(x, y, baseHealth,mentalHealth, attack_damage);
         initialX = x;
         initialY = y;
     }

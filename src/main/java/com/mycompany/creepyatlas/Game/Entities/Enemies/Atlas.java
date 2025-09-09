@@ -8,8 +8,8 @@ import com.mycompany.creepyatlas.Utils.Dijkstra;
 public class Atlas extends Enemy {
     private int timesPlayerMoved;
 
-    public Atlas(int x, int y, int baseHealth, int attack_damage) {
-        super(x, y, baseHealth, attack_damage);
+    public Atlas(int x, int y, int baseHealth, int mentalHealth, int attack_damage) {
+        super(x, y, baseHealth, mentalHealth, attack_damage);
     }
 
     @Override

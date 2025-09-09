@@ -2,8 +2,8 @@ package com.mycompany.creepyatlas.Game.Entities.Enemies;
 import com.mycompany.creepyatlas.Game.Entities.Enemy;
 
 public class BiYah extends Enemy {
-    public BiYah(int x, int y, int baseHealth, int attack_damage) {
-        super(x, y, baseHealth, attack_damage);
+    public BiYah(int x, int y, int baseHealth,int mentalHealth, int attack_damage) {
+        super(x, y, baseHealth, mentalHealth, attack_damage);
     }
 
     @Override

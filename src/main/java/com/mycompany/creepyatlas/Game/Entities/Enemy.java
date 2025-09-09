@@ -3,8 +3,8 @@ package com.mycompany.creepyatlas.Game.Entities;
 import com.mycompany.creepyatlas.Game.Game;
 
 public class Enemy extends Entity {
-    public Enemy(int x, int y, int baseHealth, int attack_damage ) {
-        super(x, y, baseHealth, attack_damage);
+    public Enemy(int x, int y, int baseHealth, int mentalHealth, int attack_damage ) {
+        super(x, y, baseHealth, mentalHealth, attack_damage);
     }
 
     @Override

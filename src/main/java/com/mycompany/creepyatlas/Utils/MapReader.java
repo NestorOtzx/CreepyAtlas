@@ -25,7 +25,7 @@ public class MapReader {
                 char c = line.charAt(x);
 
                 if (c == 'P') {
-                    player = new Player(x, y, 100, 100);
+                    player = new Player(x, y, 100, 100, 100);
                     baseMap[y][x] = ' '; 
                 } else if (Character.isLetter(c)) {
                     Enemy enemy = createEnemy(c, x,y);
@@ -46,21 +46,21 @@ public class MapReader {
 
     private static Enemy createEnemy(char symbol, int x, int y) {
         switch (symbol) {
-            case 'A': return new Atlas(x, y, 1000,1000);
-            case 'M': return new MaKinDa(x,y, 1, 1);
-            case 'B': return new BigBox(x,y, 1, 1);
-            case 'C': return new Chubby(x,y, 1, 1);
-            case 'H': return new Hydra(x,y, 1, 1);
-            case 'W': return new WaterFlowbar(x,y, 1, 1);
-            case 'N': return new Ana(x,y, 1, 1);
-            case 'T': return new MashiTa(x,y, 1, 1);
-            case 'Y': return new BiYah(x,y, 1, 1);
-            case 'Z': return new Acerco(x,y, 1, 1);
-            case 'O': return new PrayPrey(x,y, 1, 1);
-            case 'K': return new AKa(x,y, 1, 1);
-            case 'G': return new ToraGe(x,y, 1, 1);
-            case 'S': return new Savepoint(x,y, 1, 1);
-            default: return new Enemy(x,y, 1, 1);
+            case 'A': return new Atlas(x, y, 1000, 1000, 1000);
+            case 'M': return new MaKinDa(x,y, 1,1,1);
+            case 'B': return new BigBox(x,y, 1, 1, 1);
+            case 'C': return new Chubby(x,y, 1,1, 1);
+            case 'H': return new Hydra(x,y, 1,1, 1);
+            case 'W': return new WaterFlowbar(x,y, 1,1, 1);
+            case 'N': return new Ana(x,y, 1,1, 1);
+            case 'T': return new MashiTa(x,y, 1,1, 1);
+            case 'Y': return new BiYah(x,y, 1,1, 1);
+            case 'Z': return new Acerco(x,y, 1,1, 1);
+            case 'O': return new PrayPrey(x,y, 1,1, 1);
+            case 'K': return new AKa(x,y, 1,1, 1);
+            case 'G': return new ToraGe(x,y, 1,1, 1);
+            case 'S': return new Savepoint(x,y, 1,1, 1);
+            default: return new Enemy(x,y, 1,1, 1);
         }
     }
 
