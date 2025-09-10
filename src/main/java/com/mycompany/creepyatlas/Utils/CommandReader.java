@@ -61,8 +61,8 @@ public class CommandReader {
                         continue;
                     }else{
                         Direction dir = Direction.NONE;
-                            if (parts.length > 1) {
-                                dir = parseDirection(parts[1]);
+                        if (parts.length > 1) {
+                            dir = parseDirection(parts[1]);
                         }
                         
                         if (dir == Direction.NONE)
@@ -112,7 +112,6 @@ public class CommandReader {
                             continue;
                         }
                         Game.getPlayer().Forgive(x, y, parts[1].toUpperCase().toCharArray()[0]);
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

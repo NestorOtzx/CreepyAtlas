@@ -55,7 +55,6 @@ public class CameraConsole {
 
     }
 
-    // Getter to access the last captured frame
     public static char[][] getLastFrame() {
         return lastFrame;
     }

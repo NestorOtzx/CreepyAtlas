@@ -58,7 +58,7 @@ public class Game {
         {
             if (enemies.get(i).getSymbol() == 'A')
             {
-                ClearFogSingle(enemies.get(i).getX(), enemies.get(i).getY());
+                ClearFog(enemies.get(i).getX(), enemies.get(i).getY());
             }
         }
 
@@ -309,7 +309,7 @@ public class Game {
             enemies.get(i).translate(enemies.get(i).getInitialX(), enemies.get(i).getInitialY());            
             enemies.get(i).OnPlayerRespawn();
         }
-        AudioListener3D.EnableAllAudios(); 
+        AudioListener3D.enableAllAudioSources(); 
         Screen.setState(ScreenState.BASE);
         
     }

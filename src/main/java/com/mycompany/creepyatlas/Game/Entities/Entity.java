@@ -157,7 +157,6 @@ public abstract class Entity{
         if (health <= 0){
             OnDie();
         }
-        //puedes agregar aqui un audio de recibir daño
     }
 
     public void RecieveForgiveness(Entity forgiver, int forgiveness)
@@ -176,7 +175,7 @@ public abstract class Entity{
         is_dead=true;
         if (audiosource != null)
         {
-            audiosource.Disable();
+            audiosource.disable();
         }
     }
 

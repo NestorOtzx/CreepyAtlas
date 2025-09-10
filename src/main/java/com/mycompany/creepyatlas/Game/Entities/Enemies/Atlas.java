@@ -15,12 +15,19 @@ public class Atlas extends Enemy {
     public void move(int dx, int dy)
     {
         super.move(dx, dy);
-        Game.ClearFogSingle(this.x, this.y);
+        Game.ClearFog(this.x, this.y);
         int playerx = Game.getPlayer().getX();
         int playery = Game.getPlayer().getY();
         if (playerx == this.x && playery == this.y){
             Game.EnemyAttacksPosition(this, x, y, Game.getPlayer().getSymbol(), attack_damage);
         }
+    }
+
+    @Override
+    public void translate(int x, int y)
+    {
+        super.translate(x, y);
+        Game.ClearFog(this.x, this.y);
     }
 
     @Override

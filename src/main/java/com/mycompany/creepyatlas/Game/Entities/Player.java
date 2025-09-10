@@ -87,6 +87,12 @@ public class Player extends Entity {
     }
 
     @Override
+    public void translate(int x, int y) {
+        super.translate(x, y);
+        Game.ClearFog(x, y);
+    }
+
+    @Override
     public String getBaseAudioPath()
     {
         return "";
@@ -119,7 +125,7 @@ public class Player extends Entity {
         if (is_dead) { return; }
         Screen.setState(ScreenState.GAME_OVER);
         super.OnDie();
-        AudioListener3D.DisabelAllAudios();
+        AudioListener3D.disabelAllAudioSources();
     }
 
     public Direction getFaceDirection()
