@@ -243,7 +243,7 @@ public class Game {
         boolean all_alive = true;
         for (int i = 0; i<enemies.size(); i++)
         {
-            if (!enemies.get(i).getIsDead() && enemies.get(i).getSymbol() == 'A'){
+            if (!enemies.get(i).getIsDead() && enemies.get(i).getSymbol() != 'A'){
                 all_dead = false;
             }
             if (enemies.get(i).getIsDead()){
@@ -306,11 +306,11 @@ public class Game {
             reviveY = currentSave.getPositionY();
         }
         player = new Player(reviveX, reviveY, 100, 100, 50, 50);
+        AudioListener3D.enableAllAudioSources(); 
         for (int i = 0; i<enemies.size(); i++){
             enemies.get(i).translate(enemies.get(i).getInitialX(), enemies.get(i).getInitialY());            
             enemies.get(i).onPlayerRespawn();
         }
-        AudioListener3D.enableAllAudioSources(); 
         Screen.setState(ScreenState.BASE);
         
     }
