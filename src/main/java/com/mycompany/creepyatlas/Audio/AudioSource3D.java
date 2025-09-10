@@ -1,7 +1,6 @@
 package com.mycompany.creepyatlas.Audio;
 
 import javax.sound.sampled.*;
-import javax.swing.DebugGraphics;
 
 import java.io.IOException;
 import java.io.InputStream;
