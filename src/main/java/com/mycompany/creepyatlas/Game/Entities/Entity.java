@@ -101,6 +101,8 @@ public abstract class Entity{
         {
             this.audiosource.setPosition(x, y);
         }
+        this.x = newX;
+        this.y = newY;
     }
 
     public void move(Direction direction)

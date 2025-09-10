@@ -58,4 +58,8 @@ public class Enemy extends Entity {
     public String getForgiveMessage(){
         return "";
     }
+
+    public void OnPlayerRespawn(){
+        
+    }
 }

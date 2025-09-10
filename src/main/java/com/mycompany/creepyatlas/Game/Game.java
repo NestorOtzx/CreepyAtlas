@@ -295,6 +295,7 @@ public class Game {
     {
         for (int i = 0; i<enemies.size(); i++){
             enemies.get(i).translate(enemies.get(i).getInitialX(), enemies.get(i).getInitialY());            
+            enemies.get(i).OnPlayerRespawn();
         }
         Savepoint currentSave = GetCurrentSavePoint();
         int reviveX = player.getInitialX();
