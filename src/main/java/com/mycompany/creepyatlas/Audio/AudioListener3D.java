@@ -26,7 +26,7 @@ public class AudioListener3D {
 
     private static final List<AudioSource3D> allAudioSources = new ArrayList<>();
 
-    public static void InitOpenAL() {
+    public static void initOpenAL() {
         audioDeviceHandler = alcOpenDevice((ByteBuffer) null);
         if (audioDeviceHandler == NULL) throw new IllegalStateException("Failed to open audio device.");
         ALCCapabilities caps = ALC.createCapabilities(audioDeviceHandler);
@@ -36,25 +36,25 @@ public class AudioListener3D {
 
         alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED);
 
-        SetPosition(0, 0);
+        setPosition(0, 0);
         alListener3f(AL_VELOCITY, 0, 0, 0);
-        SetOrientation(0, 0, -1, 0, 1, 0);
+        setOrientation(0, 0, -1, 0, 1, 0);
     }
 
-    public static void CleanupOpenAL() {
+    public static void cleanupOpenAL() {
         alcDestroyContext(audioContext);
         alcCloseDevice(audioDeviceHandler);
     }
 
-    public static void SetPosition(float positionX, float positionY) {
+    public static void setPosition(float positionX, float positionY) {
         AudioListener3D.positionX = positionX * SPACE_UNITS;
         AudioListener3D.positionY = positionY * SPACE_UNITS;
         alListener3f(AL_POSITION, AudioListener3D.positionX, AudioListener3D.positionY, 0);
 
-        UpdateSourcesGain();
+        updateSourcesGain();
     }
 
-    public static void SetOrientation(
+    public static void setOrientation(
             float atX, float atY, float atZ,
             float upX, float upY, float upZ) 
     {
@@ -62,17 +62,17 @@ public class AudioListener3D {
         alListenerfv(AL_ORIENTATION, orientation);
     }
 
-    public static float GetPositionX() { return positionX; }
-    public static float GetPositionY() { return positionY; }
+    public static float getPositionX() { return positionX; }
+    public static float getPositionY() { return positionY; }
 
-    public static void RegisterSource(AudioSource3D source) {
+    public static void registerSource(AudioSource3D source) {
         allAudioSources.add(source);
-        UpdateSourcesGain();
+        updateSourcesGain();
     }
 
-    public static void UpdateSourcesGain() {
+    public static void updateSourcesGain() {
         for (AudioSource3D source : allAudioSources) {
-            if (Distance.Euclidean(source.getX(), source.getY(), positionX, positionY) > 2.1f * SPACE_UNITS) {
+            if (Distance.Euclidean(source.getPositionX(), source.getPositionY(), positionX, positionY) > 2.1f * SPACE_UNITS) {
                 source.setGain(0f);
             } else {
                 source.setGain(1f);
@@ -80,22 +80,22 @@ public class AudioListener3D {
         }
     }
 
-    public static void DisabelAllAudioSources(){
+    public static void disabelAllAudioSources(){
         for (AudioSource3D source : allAudioSources) {
             if (source != null)
             {
-                source.Disable();
+                source.disable();
             }
         }
     }
 
-    public static void EnableAllAudioSources(){
+    public static void enableAllAudioSources(){
         for (AudioSource3D source : allAudioSources) {
             if (source != null)
             {
-                source.Enable();
+                source.enable();
             }
         }
-        UpdateSourcesGain();
+        updateSourcesGain();
     }
 }

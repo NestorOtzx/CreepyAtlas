@@ -13,116 +13,111 @@ import static org.lwjgl.system.MemoryUtil.memAlloc;
 import static org.lwjgl.system.MemoryUtil.memFree;
 
 public class AudioSource3D {
-    private int source;
-    private int buffer;
-    private boolean loop;
+    private int openAlSourceId;
+    private int openAlBufferId;
+    private boolean playAudioInLoop;
 
-    private float x, y, z;
-    private boolean enabled = true;
+    private float positionX;
+    private float positionY;
+
+    private boolean isEnabled = true;
 
     public AudioSource3D(String resourcePath, boolean loop, int x, int y) throws Exception {
-        enabled = true;
-        this.loop = loop;
-        URL url = AudioSource3D.class.getResource(resourcePath);
-        if (url == null) throw new IOException("File " + resourcePath + " not found in resources");
+        this.playAudioInLoop = loop;
+        URL resourceUrl = AudioSource3D.class.getResource(resourcePath);
+        if (resourceUrl == null) throw new IOException("File " + resourcePath + " not found in resources");
 
-        try (InputStream is = url.openStream();
-            AudioInputStream ais0 = AudioSystem.getAudioInputStream(is)) {
+        try (InputStream stream = resourceUrl.openStream();
+             AudioInputStream originalStream = AudioSystem.getAudioInputStream(stream)) {
 
-            AudioFormat base = ais0.getFormat();
-            AudioFormat pcm16 = new AudioFormat(
+            AudioFormat baseFormat = originalStream.getFormat();
+            AudioFormat pcm16Format = new AudioFormat(
                     AudioFormat.Encoding.PCM_SIGNED,
-                    base.getSampleRate(),
+                    baseFormat.getSampleRate(),
                     16,
-                    base.getChannels(),
-                    base.getChannels() * 2,
-                    base.getSampleRate(),
+                    baseFormat.getChannels(),
+                    baseFormat.getChannels() * 2,
+                    baseFormat.getSampleRate(),
                     false
             );
-            try (AudioInputStream ais = AudioSystem.getAudioInputStream(pcm16, ais0)) {
-                byte[] bytes = ais.readAllBytes();
-                int channels = pcm16.getChannels();
-                int sampleRate = Math.round(pcm16.getSampleRate());
 
-                int format = (channels == 1) ? AL_FORMAT_MONO16 :
-                             (channels == 2) ? AL_FORMAT_STEREO16 : 0;
-                if (format == 0) throw new IllegalStateException("Unsupported channel count: " + channels);
+            try (AudioInputStream pcmStream = AudioSystem.getAudioInputStream(pcm16Format, originalStream)) {
+                byte[] audioBytes = pcmStream.readAllBytes();
+                int channelCount = pcm16Format.getChannels();
+                int sampleRateHz = Math.round(pcm16Format.getSampleRate());
 
-                buffer = alGenBuffers();
-                ByteBuffer data = memAlloc(bytes.length).put(bytes);
-                data.flip();
-                alBufferData(buffer, format, data, sampleRate);
-                memFree(data);
+                int audioFormat = (channelCount == 1) ? AL_FORMAT_MONO16 :
+                                  (channelCount == 2) ? AL_FORMAT_STEREO16 : 0;
+                if (audioFormat == 0) throw new IllegalStateException("Unsupported channel count: " + channelCount);
 
-                source = alGenSources();
-                alSourcei(source, AL_BUFFER, buffer);
-                alSourcef(source, AL_GAIN, 1f);
-                alSourcei(source, AL_LOOPING, loop ? AL_TRUE : AL_FALSE);
+                openAlBufferId = alGenBuffers();
+                ByteBuffer audioBuffer = memAlloc(audioBytes.length).put(audioBytes);
+                audioBuffer.flip();
+                alBufferData(openAlBufferId, audioFormat, audioBuffer, sampleRateHz);
+                memFree(audioBuffer);
+
+                openAlSourceId = alGenSources();
+                alSourcei(openAlSourceId, AL_BUFFER, openAlBufferId);
+                alSourcef(openAlSourceId, AL_GAIN, 1f);
+                alSourcei(openAlSourceId, AL_LOOPING, loop ? AL_TRUE : AL_FALSE);
             }
-            catch (Exception e)
-            {
-                
-            }
-        } catch (Exception e){
         }
 
         setPosition(x, y);
-        AudioListener3D.RegisterSource(this);
+        AudioListener3D.registerSource(this);
     }
 
-    public void setLoop(boolean loop) {
-        this.loop = loop;
-        alSourcei(source, AL_LOOPING, loop ? AL_TRUE : AL_FALSE);
+    public void setPlayAudioInLoop(boolean loop) {
+        this.playAudioInLoop = loop;
+        alSourcei(openAlSourceId, AL_LOOPING, loop ? AL_TRUE : AL_FALSE);
     }
 
     public boolean isLooping() {
-        return loop;
+        return playAudioInLoop;
     }
 
     public void setPosition(float x, float y) {
-        this.x = x * AudioListener3D.SPACE_UNITS;
-        this.y = y * AudioListener3D.SPACE_UNITS;
-        this.z = 0;
-        alSource3f(source, AL_POSITION, this.x, this.y, this.z);
+        this.positionX = x * AudioListener3D.SPACE_UNITS;
+        this.positionY = y * AudioListener3D.SPACE_UNITS;
+        alSource3f(openAlSourceId, AL_POSITION, this.positionX, this.positionY, 0);
     }
 
     public void setGain(float gain) {
-        if (gain <= 0 || gain > 0 && enabled)
+        if (gain <= 0 || gain > 0 && isEnabled)
         {
-            alSourcef(source, AL_GAIN, gain);
+            alSourcef(openAlSourceId, AL_GAIN, gain);
         }
     }
 
-    public void Disable(){
+    public void disable(){
         setGain(0);
-        enabled = false;
+        isEnabled = false;
     }
 
-    public void Enable(){
-        enabled = true;
+    public void enable(){
+        isEnabled = true;
     }
 
-    public float getX() { return x; }
-    public float getY() { return y; }
-    public float getZ() { return z; }
+    public float getPositionX() { return positionX; }
+    public float getPositionY() { return positionY; }
 
     public void play() {
-        if (enabled)
+        if (isEnabled)
         {
-            alSourcePlay(source);
+            alSourcePlay(openAlSourceId);
         }
     }
 
     public boolean isPlaying() {
-        return alGetSourcei(source, AL_SOURCE_STATE) == AL_PLAYING;
+        return alGetSourcei(openAlSourceId, AL_SOURCE_STATE) == AL_PLAYING;
     }
 
     public void stop() {
-        alSourceStop(source);
+        alSourceStop(openAlSourceId);
     }
 
     public void cleanup() {
-        alDeleteSources(source);
-        alDeleteBuffers(buffer);
+        alDeleteSources(openAlSourceId);
+        alDeleteBuffers(openAlBufferId);
     }
 }

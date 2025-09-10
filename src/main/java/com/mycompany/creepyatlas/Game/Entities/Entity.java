@@ -175,7 +175,7 @@ public abstract class Entity{
         is_dead=true;
         if (audiosource != null)
         {
-            audiosource.Disable();
+            audiosource.disable();
         }
     }
 
