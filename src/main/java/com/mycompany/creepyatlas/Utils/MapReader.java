@@ -3,16 +3,40 @@ package com.mycompany.creepyatlas.Utils;
 import java.nio.file.*;
 import java.util.*;
 
+import com.mycompany.creepyatlas.Game.Data.Bestiary;
+import com.mycompany.creepyatlas.Game.Data.EntityInformation;
 import com.mycompany.creepyatlas.Game.Entities.*;
 import com.mycompany.creepyatlas.Game.Entities.Enemies.*;
 
 public class MapReader {
 
+    private static final Map<Character, EnemyFactory> enemyFactories = new HashMap<>();
+    static {
+        enemyFactories.put('A', Atlas::new);
+        enemyFactories.put('M', MaKinDa::new);
+        enemyFactories.put('B', BigBox::new);
+        enemyFactories.put('C', Chubby::new);
+        enemyFactories.put('H', Hydra::new);
+        enemyFactories.put('W', WaterFlowbar::new);
+        enemyFactories.put('N', Ana::new);
+        enemyFactories.put('T', MashiTa::new);
+        enemyFactories.put('Y', BiYah::new);
+        enemyFactories.put('Z', Acerco::new);
+        enemyFactories.put('O', PrayPrey::new);
+        enemyFactories.put('K', AKa::new);
+        enemyFactories.put('G', ToraGe::new);
+    }
+
+    @FunctionalInterface
+    private interface EnemyFactory {
+        Enemy create(int x, int y, int health, int attackDamage, int mentalHealth);
+    }
+
     public static MapData loadLevel(String levelFile) {
         List<String> lines = readFile(levelFile);
         int rows = lines.size();
         int cols = lines.get(0).length();
-        
+
         char[][] baseMap = new char[rows][cols];
         Player player = null;
         List<Enemy> enemies = new ArrayList<>();
@@ -21,22 +45,20 @@ public class MapReader {
         for (int y = 0; y < rows; y++) {
             String line = lines.get(y);
             for (int x = 0; x < line.length(); x++) {
-                char c = line.charAt(x);
+                char symbol = line.charAt(x);
 
-                if (c == 'P') {
+                if (symbol == 'P') {
                     player = new Player(x, y, 100, 100, 50, 50);
-                    baseMap[y][x] = ' '; 
-                } else if (c == 'S')
-                {
+                    baseMap[y][x] = ' ';
+                } else if (symbol == 'S') {
                     savePoints.add(new Savepoint(x, y, 0, 0, 0, savePoints.size()));
-                    baseMap[y][x] = ' '; 
-                }
-                else if (Character.isLetter(c)) {
-                    Enemy enemy = createEnemy(c, x,y);
+                    baseMap[y][x] = ' ';
+                } else if (Character.isLetter(symbol)) {
+                    Enemy enemy = createEnemy(symbol, x, y);
                     enemies.add(enemy);
-                    baseMap[y][x] = ' '; 
-                } else{
-                    baseMap[y][x] = c; 
+                    baseMap[y][x] = ' ';
+                } else {
+                    baseMap[y][x] = symbol;
                 }
             }
         }
@@ -49,22 +71,15 @@ public class MapReader {
     }
 
     private static Enemy createEnemy(char symbol, int x, int y) {
-        switch (symbol) {
-            case 'A': return new Atlas(x, y, 100000, 100000, 100000);
-            case 'M': return new MaKinDa(x,y, 1,95,10);
-            case 'B': return new BigBox(x,y, 140, 20, 10);
-            case 'C': return new Chubby(x,y, 20,120, 10);
-            case 'H': return new Hydra(x,y, 100,100, 10);
-            case 'W': return new WaterFlowbar(x,y, 90,90, 10);
-            case 'N': return new Ana(x,y, 100,100, 10);
-            case 'T': return new MashiTa(x,y, 35,49, 10);
-            case 'Y': return new BiYah(x,y, 10,20, 10);
-            case 'Z': return new Acerco(x,y, 1,1, 10);
-            case 'O': return new PrayPrey(x,y, 95,95, 10);
-            case 'K': return new AKa(x,y, 95,91, 10);
-            case 'G': return new ToraGe(x,y, 92,91, 10);
-            default: return new Enemy(x,y, 90,90, 10);
+        EntityInformation info = Bestiary.enemyInformationBySymbol.get(symbol);
+        if (info == null) return new Enemy(x, y, 0, 0, 0);
+
+        EnemyFactory factory = enemyFactories.get(symbol);
+        if (factory == null) {
+            return new Enemy(x, y, info.getHealth(), info.getMentalHealth(), info.getAttackDamage());
         }
+
+        return factory.create(x, y, info.getHealth(), info.getMentalHealth(), info.getAttackDamage());
     }
 
     private static List<String> readFile(String levelFile) {
@@ -80,22 +95,5 @@ public class MapReader {
         }
     }
 
-    public static class MapData {
-        private final char[][] baseMap;
-        private final Player player;
-        private final List<Enemy> enemies;
-        private final List<Savepoint> savePoints;
-
-        public MapData(char[][] baseMap, Player player, List<Enemy> enemies, List<Savepoint> savePoints) {
-            this.baseMap = baseMap;
-            this.player = player;
-            this.enemies = enemies;
-            this.savePoints = savePoints;
-        }
-
-        public char[][] getBaseMap() { return baseMap; }
-        public Player getPlayer() { return player; }
-        public List<Enemy> getEnemies() { return enemies; }
-        public List<Savepoint> getSavePoints() { return savePoints; }
-    }
+    
 }

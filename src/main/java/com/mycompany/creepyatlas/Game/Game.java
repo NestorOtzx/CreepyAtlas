@@ -4,6 +4,7 @@ import com.mycompany.creepyatlas.Audio.AudioListener3D;
 import com.mycompany.creepyatlas.Enums.Enums.*;
 import com.mycompany.creepyatlas.Game.Entities.*;
 import com.mycompany.creepyatlas.Utils.CommandReader;
+import com.mycompany.creepyatlas.Utils.MapData;
 import com.mycompany.creepyatlas.Utils.MapReader;
 
 import java.util.*;
@@ -25,7 +26,7 @@ public class Game {
 
     public Game() {
         inGame = true;
-        MapReader.MapData mapData = MapReader.loadLevel("levels/level1.txt");
+        MapData mapData = MapReader.loadLevel("levels/level1.txt");
 
         baseMap = mapData.getBaseMap();
         savePoints = mapData.getSavePoints();
