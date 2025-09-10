@@ -8,7 +8,7 @@ public class BiYah extends Enemy {
 
     @Override
     public char getSymbol() {
-        if (!is_dead)
+        if (!isDead)
         {
             return 'Y';
         }

@@ -2,13 +2,13 @@ package com.mycompany.creepyatlas.Game.Entities.Enemies;
 import com.mycompany.creepyatlas.Game.Entities.Enemy;
 
 public class PrayPrey extends Enemy {
-    public PrayPrey(int x, int y, int baseHealth, int mentalHealth, int attack_damage) {
-        super(x, y, baseHealth, mentalHealth,attack_damage);
+    public PrayPrey(int positionX, int positionY, int baseHealth, int mentalHealth, int attack_damage) {
+        super(positionX, positionY, baseHealth, mentalHealth,attack_damage);
     }
 
     @Override
     public char getSymbol() {
-        if (!is_dead)
+        if (!isDead)
         {
             return 'O';
         }

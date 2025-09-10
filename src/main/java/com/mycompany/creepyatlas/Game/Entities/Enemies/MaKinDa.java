@@ -8,13 +8,13 @@ public class MaKinDa extends Enemy {
     final int PLAYER_REWARD_Y = 2;
     final int PLAYER_REWARD_X = 8;
 
-    public MaKinDa(int x, int y, int baseHealth,int mentalHealth, int attack_damage) {
-        super(x, y, baseHealth, mentalHealth, attack_damage);
+    public MaKinDa(int positionX, int positionY, int baseHealth,int mentalHealth, int attack_damage) {
+        super(positionX, positionY, baseHealth, mentalHealth, attack_damage);
     }
 
     @Override
     public char getSymbol() {
-        if (!is_dead)
+        if (!isDead)
         {
             return 'M';
         }
@@ -42,9 +42,9 @@ public class MaKinDa extends Enemy {
     }
 
     @Override 
-    public void OnBeForgiven()
+    public void onBeForgiven()
     {
-        super.OnBeForgiven();
+        super.onBeForgiven();
         Game.getPlayer().translate(PLAYER_REWARD_X, PLAYER_REWARD_Y);
     }
 }

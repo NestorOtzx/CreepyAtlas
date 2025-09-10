@@ -44,11 +44,11 @@ public class Game {
         }
         for (int i = 0; i<savePoints.size(); i++)
         {
-            savePointsLayer[savePoints.get(i).getY()][savePoints.get(i).getX()] = savePoints.get(i).getSymbol();    
+            savePointsLayer[savePoints.get(i).getPositionY()][savePoints.get(i).getPositionX()] = savePoints.get(i).getSymbol();    
         }
 
         player = mapData.getPlayer();
-        ClearFog(player.getX(), player.getY());
+        ClearFog(player.getPositionX(), player.getPositionY());
         
         entities = new ArrayList<>();
         enemies = new ArrayList<>();
@@ -59,7 +59,7 @@ public class Game {
         {
             if (enemies.get(i).getSymbol() == 'A')
             {
-                ClearFog(enemies.get(i).getX(), enemies.get(i).getY());
+                ClearFog(enemies.get(i).getPositionX(), enemies.get(i).getPositionY());
             }
         }
 
@@ -83,20 +83,20 @@ public class Game {
             Arrays.fill(row, ' ');
         }
         for (Enemy enemy : enemies) {
-            enemy.OnUpdateGame();
-            int x = enemy.getX();
-            int y = enemy.getY();
+            enemy.onUpdateGame();
+            int x = enemy.getPositionX();
+            int y = enemy.getPositionY();
             enemyLayer[y][x] = enemy.getSymbol();
         }
         for (Savepoint savepoint : savePoints)
         {
-            savepoint.OnUpdateGame();
-            savePointsLayer[savepoint.getY()][savepoint.getX()] = savepoint.getSymbol();    
+            savepoint.onUpdateGame();
+            savePointsLayer[savepoint.getPositionY()][savepoint.getPositionX()] = savepoint.getSymbol();    
         }
         
 
-        int playerx = player.getX();
-        int playery = player.getY();
+        int playerx = player.getPositionX();
+        int playery = player.getPositionY();
         playerLayer[playery][playerx] = player.getSymbol();
 
         if (!player.getIsDead())
@@ -119,7 +119,7 @@ public class Game {
     {
         List<Character> ans = new ArrayList<>(); 
         for (int i = 0; i<enemies.size(); i++){
-            if (enemies.get(i).getX() == x && enemies.get(i).getY() == y)
+            if (enemies.get(i).getPositionX() == x && enemies.get(i).getPositionY() == y)
             {
                 char symbol = enemies.get(i).getSymbol();
                 if (symbol != 'X')
@@ -135,7 +135,7 @@ public class Game {
     {
         List<Enemy> ans = new ArrayList<>(); 
         for (int i = 0; i<enemies.size(); i++){
-            if (enemies.get(i).getX() == x && enemies.get(i).getY() == y)
+            if (enemies.get(i).getPositionX() == x && enemies.get(i).getPositionY() == y)
             {
                 if (!enemies.get(i).getIsDead() && !enemies.get(i).getIsForgiven())
                 {
@@ -155,12 +155,12 @@ public class Game {
         {
             if (enemies.get(i).getSymbol() == target)
             {
-                enemies.get(i).RecieveAttack(player,damage);
+                enemies.get(i).recieveAttack(player,damage);
             }
         }
         if (player.getSymbol() == target)
         {
-            player.RecieveAttack(attacker, damage);
+            player.recieveAttack(attacker, damage);
         }
     }
 
@@ -171,7 +171,7 @@ public class Game {
         {
             if (enemies.get(i).getSymbol() == target)
             {
-                enemies.get(i).RecieveAttack(player,damage);
+                enemies.get(i).recieveAttack(player,damage);
             }
         }
     }
@@ -183,7 +183,7 @@ public class Game {
         {
             if (enemies.get(i).getSymbol() == target)
             {
-                enemies.get(i).RecieveForgiveness(player, forgiveness);
+                enemies.get(i).recieveForgiveness(player, forgiveness);
             }
         }
     }
@@ -212,8 +212,8 @@ public class Game {
         {
             refreshEnemyLayer();
             CameraConsole.draw(
-            player.getX(),
-            player.getY(),
+            player.getPositionX(),
+            player.getPositionY(),
             renderLayers
             );
             Screen.render();
@@ -287,11 +287,11 @@ public class Game {
 
     public static Savepoint GetCurrentSavePoint()
     {
-        if (player.GetSavePoint() < 0)
+        if (player.getSavePoint() < 0)
         {
             return null;
         }
-        return savePoints.get(player.GetSavePoint());
+        return savePoints.get(player.getSavePoint());
     }
 
     public static void RevivePlayer()
@@ -302,13 +302,13 @@ public class Game {
         int reviveY = player.getInitialY();
         
         if (currentSave != null){
-            reviveX = currentSave.getX();
-            reviveY = currentSave.getY();
+            reviveX = currentSave.getPositionX();
+            reviveY = currentSave.getPositionY();
         }
         player = new Player(reviveX, reviveY, 100, 100, 50, 50);
         for (int i = 0; i<enemies.size(); i++){
             enemies.get(i).translate(enemies.get(i).getInitialX(), enemies.get(i).getInitialY());            
-            enemies.get(i).OnPlayerRespawn();
+            enemies.get(i).onPlayerRespawn();
         }
         AudioListener3D.enableAllAudioSources(); 
         Screen.setState(ScreenState.BASE);

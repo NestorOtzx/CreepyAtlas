@@ -5,13 +5,13 @@ import com.mycompany.creepyatlas.Game.Game;
 public class Enemy extends Entity {
     int enemyID;
 
-    public Enemy(int x, int y, int baseHealth, int mentalHealth, int attack_damage ) {
-        super(x, y, baseHealth, mentalHealth, attack_damage);
+    public Enemy(int positionX, int positionY, int baseHealth, int mentalHealth, int attack_damage ) {
+        super(positionX, positionY, baseHealth, mentalHealth, attack_damage);
     }
 
     @Override
     public char getSymbol() {
-        if (!is_dead)
+        if (!isDead)
         {
             return 'E';
         }
@@ -19,34 +19,34 @@ public class Enemy extends Entity {
     }
 
     @Override
-    public void RecieveAttack(Entity attacker, int damage)
+    public void recieveAttack(Entity attacker, int damage)
     {
-        if (is_dead) { return; }
-        super.RecieveAttack(attacker, damage);
-        if (!is_dead)
+        if (isDead) { return; }
+        super.recieveAttack(attacker, damage);
+        if (!isDead)
         {
-            Attack(attacker.getX(), attack_damage, attacker.getSymbol());
+            attack(attacker.getPositionX(), attackDamage, attacker.getSymbol());
         }
     }
 
     @Override
-    public void Attack(int x, int y, char target){
-        if (is_dead) { return; }
-        super.Attack(x, y, target);
-        Game.EnemyAttacksPosition(this, x, y, target, attack_damage);
+    public void attack(int x, int y, char target){
+        if (isDead) { return; }
+        super.attack(x, y, target);
+        Game.EnemyAttacksPosition(this, x, y, target, attackDamage);
     }
 
     @Override
-    public void OnDie()
+    public void onDie()
     {
-        super.OnDie();
+        super.onDie();
         System.out.println(getDefeatMessage());
     }
 
     @Override
-    public void OnBeForgiven()
+    public void onBeForgiven()
     {
-        super.OnBeForgiven();
+        super.onBeForgiven();
         System.out.println(getForgiveMessage());   
     }
     
@@ -59,7 +59,7 @@ public class Enemy extends Entity {
         return "";
     }
 
-    public void OnPlayerRespawn(){
+    public void onPlayerRespawn(){
 
     }
 }

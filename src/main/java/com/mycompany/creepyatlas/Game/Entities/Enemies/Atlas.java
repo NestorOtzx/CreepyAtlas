@@ -7,19 +7,19 @@ import com.mycompany.creepyatlas.Utils.Dijkstra;
 
 public class Atlas extends Enemy {
 
-    public Atlas(int x, int y, int baseHealth, int mentalHealth, int attack_damage) {
-        super(x, y, baseHealth, mentalHealth, attack_damage);
+    public Atlas(int positionX, int positionY, int baseHealth, int mentalHealth, int attack_damage) {
+        super(positionX, positionY, baseHealth, mentalHealth, attack_damage);
     }
 
     @Override
     public void move(int dx, int dy)
     {
         super.move(dx, dy);
-        Game.ClearFog(this.x, this.y);
-        int playerx = Game.getPlayer().getX();
-        int playery = Game.getPlayer().getY();
-        if (playerx == this.x && playery == this.y){
-            Game.EnemyAttacksPosition(this, x, y, Game.getPlayer().getSymbol(), attack_damage);
+        Game.ClearFog(this.positionX, this.positionY);
+        int playerx = Game.getPlayer().getPositionX();
+        int playery = Game.getPlayer().getPositionY();
+        if (playerx == this.positionX && playery == this.positionY){
+            Game.EnemyAttacksPosition(this, positionX, positionY, Game.getPlayer().getSymbol(), attackDamage);
         }
     }
 
@@ -27,12 +27,12 @@ public class Atlas extends Enemy {
     public void translate(int x, int y)
     {
         super.translate(x, y);
-        Game.ClearFog(this.x, this.y);
+        Game.ClearFog(this.positionX, this.positionY);
     }
 
     @Override
     public char getSymbol() {
-        if (!is_dead)
+        if (!isDead)
         {
             return 'A';
         }
@@ -45,35 +45,35 @@ public class Atlas extends Enemy {
     }
 
     @Override
-    public void OnUpdateGame()
+    public void onUpdateGame()
     {
         if (Game.getPlayer().getIsDead()) { return; }
         
-        int playerx = Game.getPlayer().getX();
-        int playery = Game.getPlayer().getY();
-        if (playerx == this.x && playery == this.y){
-            Game.EnemyAttacksPosition(this, x, y, Game.getPlayer().getSymbol(), attack_damage);
+        int playerx = Game.getPlayer().getPositionX();
+        int playery = Game.getPlayer().getPositionY();
+        if (playerx == this.positionX && playery == this.positionY){
+            Game.EnemyAttacksPosition(this, positionX, positionY, Game.getPlayer().getSymbol(), attackDamage);
         }
              
 
-        int timesPlayerMoved = Game.getPlayer().GetTimesPlayerMoved();
+        int timesPlayerMoved = Game.getPlayer().getTimesPlayerMoved();
         if (timesPlayerMoved % 2 != 0)
         {
-            List<int[]> path = Dijkstra.findPath(Game.getBaseMap(), x, y, Game.getPlayer().getX(), Game.getPlayer().getY());
+            List<int[]> path = Dijkstra.findPath(Game.getBaseMap(), positionX, positionY, Game.getPlayer().getPositionX(), Game.getPlayer().getPositionY());
             
             if (path != null && path.size() >= 2 && path.size() < 5)
             {
-                int directionX = path.get(1)[1]-x;
-                int directionY = path.get(1)[0]-y;
+                int directionX = path.get(1)[1]-positionX;
+                int directionY = path.get(1)[0]-positionY;
                 move(directionX, directionY);
             }
-            TryTeleportToPlayer();
+            tryTeleportToPlayer();
         }
     }
 
-    private void TryTeleportToPlayer()
+    private void tryTeleportToPlayer()
     {
-        List<int[]> path = Dijkstra.findPath(Game.getBaseMap(), x, y, Game.getPlayer().getX(), Game.getPlayer().getY());
+        List<int[]> path = Dijkstra.findPath(Game.getBaseMap(), positionX, positionY, Game.getPlayer().getPositionX(), Game.getPlayer().getPositionY());
             
         if (path.size() >= 4)
         {
@@ -96,12 +96,12 @@ public class Atlas extends Enemy {
     }
 
     @Override
-    public void OnDie(){
+    public void onDie(){
         System.out.println("Atlas: Guau...");
     }
 
     @Override
-    public void OnPlayerRespawn(){
-        TryTeleportToPlayer();
+    public void onPlayerRespawn(){
+        tryTeleportToPlayer();
     }
 }

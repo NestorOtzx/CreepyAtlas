@@ -28,14 +28,14 @@ public class Player extends Entity {
         return 'P';
     }
 
-    public int GetTimesPlayerMoved(){
+    public int getTimesPlayerMoved(){
         return timesPlayerMoved;
     }
 
     @Override
     public void move(Direction direction)
     {
-        if (is_dead) { return; }
+        if (isDead) { return; }
         timesPlayerMoved++;
         int dx = 0;
         int dy = 0;
@@ -48,8 +48,8 @@ public class Player extends Entity {
             default:    break;
         }
 
-        int newX = this.x + dx;
-        int newY = this.y + dy;
+        int newX = this.positionX + dx;
+        int newY = this.positionY + dy;
 
         if (newY < 0 || newY >= Game.getBaseMap().length || newX < 0 || newX >= Game.getBaseMap()[0].length) {
             System.out.println("You cannot move outside the map!");
@@ -61,7 +61,7 @@ public class Player extends Entity {
         if (target == '|' || target == '-' || target == '#') {
             System.out.println("There is a wall in that direction!");
             try {
-                AudioSource3D wallSound = new AudioSource3D("/audios/footsteps_and_wall.wav", false, this.x, this.y);
+                AudioSource3D wallSound = new AudioSource3D("/audios/footsteps_and_wall.wav", false, this.positionX, this.positionY);
                 wallSound.play();
                 } catch (Exception e) {
                     System.out.println("error");
@@ -73,7 +73,7 @@ public class Player extends Entity {
         }
         else{
             try {
-                AudioSource3D stepSound = new AudioSource3D("/audios/footsteps.wav", false, this.x, this.y);
+                AudioSource3D stepSound = new AudioSource3D("/audios/footsteps.wav", false, this.positionX, this.positionY);
                 stepSound.play();
                 } catch (Exception e) {
                     System.out.println("error");
@@ -81,9 +81,9 @@ public class Player extends Entity {
         }
 
         move(dx, dy);
-        AudioListener3D.setPosition(x, y);
+        AudioListener3D.setPosition(positionX, positionY);
 
-        Game.ClearFog(x, y);
+        Game.ClearFog(positionX, positionY);
     }
 
     @Override
@@ -99,32 +99,32 @@ public class Player extends Entity {
     }
 
     @Override
-    public void Attack(int x, int y, char target)
+    public void attack(int x, int y, char target)
     {
-        if (is_dead) { return; }
-        super.Attack(x, y, target);
-        Game.PlayerAttacksPosition(x, y, target, this.attack_damage);
+        if (isDead) { return; }
+        super.attack(x, y, target);
+        Game.PlayerAttacksPosition(x, y, target, this.attackDamage);
     }
 
-    public void Forgive(int x, int y, char target)
+    public void forgive(int x, int y, char target)
     {
-        if (is_dead) { return; }
+        if (isDead) { return; }
         Game.PlayerForgivesPosition(x, y, target, this.mentalDamage);
     }
 
     @Override
-    public void RecieveAttack(Entity attacker, int damage)
+    public void recieveAttack(Entity attacker, int damage)
     {
-        if (is_dead) { return; }
-        super.RecieveAttack(attacker, damage);
+        if (isDead) { return; }
+        super.recieveAttack(attacker, damage);
     }
 
     @Override
-    protected void OnDie(){
+    protected void onDie(){
         System.out.println("Player die");
-        if (is_dead) { return; }
+        if (isDead) { return; }
         Screen.setState(ScreenState.GAME_OVER);
-        super.OnDie();
+        super.onDie();
         AudioListener3D.disabelAllAudioSources();
     }
 
@@ -133,16 +133,16 @@ public class Player extends Entity {
         return faceDirection;
     }
 
-    public void SetSavePoint(int index)
+    public void setSavePoint(int index)
     {
         currentSavePoint = index;
     }
 
-    public int GetSavePoint(){
+    public int getSavePoint(){
         return this.currentSavePoint;
     }
 
-    public void Rest()
+    public void rest()
     {
         health+=10;
         System.out.println("I will take a break and recover my health!");

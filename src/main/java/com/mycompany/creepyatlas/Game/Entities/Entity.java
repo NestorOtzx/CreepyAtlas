@@ -5,59 +5,58 @@ import com.mycompany.creepyatlas.Audio.AudioSource3D;
 import com.mycompany.creepyatlas.Enums.Enums.Direction;
 
 public abstract class Entity{
-    protected int x;
-    protected int y;
-    protected int initial_x;
-    protected int initial_y;
-    protected AudioSource3D audiosource;
+    protected int positionX;
+    protected int positionY;
+    protected int initialPositionX;
+    protected int initialPositionY;
+    protected AudioSource3D audioSource;
     protected int health = 100;
-    protected int mental_health = 100;
-    protected int attack_damage = 10;
-    protected boolean is_dead = false;
-    protected boolean is_forgiven = false;
+    protected int mentalHealth = 100;
+    protected int attackDamage = 10;
+    protected boolean isDead = false;
+    protected boolean isForgiven = false;
 
-    public Entity(int x, int y, int baseHealth, int mentalHealth, int attack_damage){
-        this.x = x;
-        this.y = y;
-        InitAudio();
-        this.is_dead = false;
-        this.attack_damage = attack_damage;
+    public Entity(int positionX, int positionY, int baseHealth, int mentalHealth, int attackDamage){
+        this.positionX = positionX;
+        this.positionY = positionY;
+        initAudio();
+        this.isDead = false;
+        this.attackDamage = attackDamage;
         this.health = baseHealth;
-        this.mental_health = mentalHealth;
-        initial_x = x;
-        initial_y = y;
+        this.mentalHealth = mentalHealth;
+        this.initialPositionX = positionX;
+        this.initialPositionY = positionY;
     }
 
     
-    protected void InitAudio(){
+    protected void initAudio(){
         try {
-            this.audiosource = new AudioSource3D(this.getBaseAudioPath(), true, x, y);
-            this.audiosource.play();
+            this.audioSource = new AudioSource3D(this.getBaseAudioPath(), true, positionX, positionY);
+            this.audioSource.play();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public int getX() { return x; }
-    public int getY() { return y; }
+    public int getPositionX() { return positionX; }
+    public int getPositionY() { return positionY; }
 
     public int getInitialX()
     {
-        return initial_x;
+        return initialPositionX;
     }
 
     public int getInitialY()
     {
-        return initial_y;
+        return initialPositionY;
     }
     
 
-    public void move(int dx, int dy) {
-        if (is_dead) { return; }
-        
+    public void move(int directionX, int directionY) {
+        if (isDead) { return; }
 
-        int newX = this.x + dx;
-        int newY = this.y + dy;
+        int newX = this.positionX + directionX;
+        int newY = this.positionY + directionY;
 
         if (newY < 0 || newY >= Game.getBaseMap().length || newX < 0 || newX >= Game.getBaseMap()[0].length) {
             System.out.println(getSymbol()+": cannot move outside the map!");
@@ -70,20 +69,19 @@ public abstract class Entity{
             return;
         }
         
-        x += dx;
-        y += dy;
+        positionX += directionX;
+        positionY += directionY;
 
-        if (this.audiosource != null)
+        if (this.audioSource != null)
         {
-            this.audiosource.setPosition(x, y);
+            this.audioSource.setPosition(positionX, positionY);
         }
     }
 
-    public void translate(int x, int y)
+    public void translate(int positionX, int positionY)
     {
-
-        int newX = x;
-        int newY = y;
+        int newX = positionX;
+        int newY = positionY;
 
         if (newY < 0 || newY >= Game.getBaseMap().length || newX < 0 || newX >= Game.getBaseMap()[0].length) {
             System.out.println(getSymbol()+": cannot translate outside the map!");
@@ -95,19 +93,18 @@ public abstract class Entity{
             System.out.println(getSymbol()+": There is a wall in that place!");
             return;
         }
-        
 
-        if (this.audiosource != null)
+        if (this.audioSource != null)
         {
-            this.audiosource.setPosition(x, y);
+            this.audioSource.setPosition(positionX, positionY);
         }
-        this.x = newX;
-        this.y = newY;
+        this.positionX = newX;
+        this.positionY = newY;
     }
 
     public void move(Direction direction)
     {
-        if (is_dead) { return; }
+        if (isDead) { return; }
         int dx = 0;
         int dy = 0;
 
@@ -123,7 +120,7 @@ public abstract class Entity{
 
     public char getSymbol()
     {
-        if (is_dead)
+        if (isDead)
         {
             return 'X';
         }else{
@@ -140,67 +137,63 @@ public abstract class Entity{
     }
 
     public int getMentalHealth(){
-        return mental_health;
+        return mentalHealth;
     }
 
-    public void Attack(int x, int y, char target)
+    public void attack(int x, int y, char target)
     {
-        if (is_dead || is_forgiven) { return; }
+        if (isDead || isForgiven) { return; }
         System.out.println(getSymbol() + " Attack "+x + ", "+ y+ " to: "+ target);
     }
 
-    public void RecieveAttack(Entity attacker, int damage)
+    public void recieveAttack(Entity attacker, int damage)
     {
-        if (is_dead || is_forgiven) { return; }
+        if (isDead || isForgiven) { return; }
         System.out.println(getSymbol() + " Recieve attack from " + attacker.getSymbol() + " amount:"+damage);
         health -= damage;
         if (health <= 0){
-            OnDie();
+            onDie();
         }
     }
 
-    public void RecieveForgiveness(Entity forgiver, int forgiveness)
+    public void recieveForgiveness(Entity forgiver, int forgiveness)
     {
-        if (is_dead || is_forgiven) { return; }
-        mental_health -= forgiveness;
-        if (mental_health <= 0)
+        if (isDead || isForgiven) { return; }
+        mentalHealth -= forgiveness;
+        if (mentalHealth <= 0)
         {
-            OnBeForgiven();
+            onBeForgiven();
         }
     }
 
-    protected void OnDie(){
-        if (is_dead || is_forgiven) { return; }
+    protected void onDie(){
+        if (isDead || isForgiven) { return; }
         health = 0;
-        is_dead=true;
-        if (audiosource != null)
+        isDead=true;
+        if (audioSource != null)
         {
-            audiosource.disable();
+            audioSource.disable();
         }
     }
 
-    protected void OnBeForgiven(){
-        if (is_dead || is_forgiven) { return; }
-        mental_health = 0;
-        is_forgiven = true;
+    protected void onBeForgiven(){
+        if (isDead || isForgiven) { return; }
+        mentalHealth = 0;
+        isForgiven = true;
 
     }
 
     public boolean getIsDead(){
-        return is_dead;
+        return isDead;
     }
-
 
     public boolean getIsForgiven()
     {
-        return is_forgiven;
+        return isForgiven;
     }
 
-
-
-    public void OnUpdateGame()
+    public void onUpdateGame()
     {
 
     }
-    
 }

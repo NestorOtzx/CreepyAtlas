@@ -13,14 +13,14 @@ public class Chubby extends Enemy {
 
     @Override
     public char getSymbol() {
-        if (!is_dead) {
+        if (!isDead) {
             return 'C';
         }
         return super.getSymbol();
     }
 
     @Override
-    public void OnUpdateGame() {
+    public void onUpdateGame() {
         timesPlayerMoved++;
         char[][] map = Game.getBaseMap();
 
@@ -49,8 +49,8 @@ public class Chubby extends Enemy {
                     timesChubbyMoved++;
                 }
             } else {
-                int dx = Integer.compare(initial_x, this.x);
-                int dy = Integer.compare(initial_y, this.y);
+                int dx = Integer.compare(initialPositionX, this.positionX);
+                int dy = Integer.compare(initialPositionY, this.positionY);
 
                 if (dx == 0 && dy == 0) {
                     timesChubbyMoved++;
@@ -65,8 +65,8 @@ public class Chubby extends Enemy {
     }
 
     private boolean tryMove(char[][] map, int dx, int dy) {
-        int newX = this.x + dx;
-        int newY = this.y + dy;
+        int newX = this.positionX + dx;
+        int newY = this.positionY + dy;
 
         if (newY >= 0 && newY < map.length &&
             newX >= 0 && newX < map[0].length &&

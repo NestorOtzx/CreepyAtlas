@@ -2,13 +2,13 @@ package com.mycompany.creepyatlas.Game.Entities.Enemies;
 import com.mycompany.creepyatlas.Game.Entities.*;
 
 public class AKa extends Enemy {
-    public AKa(int x, int y, int baseHealth, int mentalHealth, int attack_damage) {
-        super(x, y, baseHealth, mentalHealth, attack_damage);
+    public AKa(int positionX, int positionY, int baseHealth, int mentalHealth, int attack_damage) {
+        super(positionX, positionY, baseHealth, mentalHealth, attack_damage);
     }
 
     @Override
     public char getSymbol() {
-        if (!is_dead)
+        if (!isDead)
         {
             return 'K';
         }
@@ -32,9 +32,5 @@ public class AKa extends Enemy {
                 "/n" + 
                 "WHAT AN UNGRATEFUL CREATURE!";
     }
-
-    
-
-
 }
 

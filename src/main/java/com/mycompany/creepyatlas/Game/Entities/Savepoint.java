@@ -14,7 +14,7 @@ public class Savepoint extends Entity {
 
     @Override
     public char getSymbol() {
-        if (!is_dead && !taken)
+        if (!isDead && !taken)
         {
             return 'S';
         }else if (taken)
@@ -30,23 +30,23 @@ public class Savepoint extends Entity {
     }
 
     @Override
-    public void OnUpdateGame()
+    public void onUpdateGame()
     {
-        int playerx = Game.getPlayer().getX();
-        int playery = Game.getPlayer().getY();
-        if (playerx == this.x && playery == this.y)
+        int playerx = Game.getPlayer().getPositionX();
+        int playery = Game.getPlayer().getPositionY();
+        if (playerx == this.positionX && playery == this.positionY)
         {
-            Game.getPlayer().SetSavePoint(savePointIndex);
-            audiosource.play();
+            Game.getPlayer().setSavePoint(savePointIndex);
+            audioSource.play();
             taken = true;
         }
     }
 
     @Override
-    protected void InitAudio()
+    protected void initAudio()
     {
         try {
-            this.audiosource = new AudioSource3D(this.getBaseAudioPath(), false, x, y);
+            this.audioSource = new AudioSource3D(this.getBaseAudioPath(), false, positionX, positionY);
         } catch (Exception e) {
             e.printStackTrace();
         }

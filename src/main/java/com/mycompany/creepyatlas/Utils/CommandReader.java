@@ -87,15 +87,15 @@ public class CommandReader {
                     }
                 } else if (main.equals("attack")){
                     try {
-                        int x = Game.getPlayer().getX();
-                        int y = Game.getPlayer().getY();
+                        int x = Game.getPlayer().getPositionX();
+                        int y = Game.getPlayer().getPositionY();
                         AudioSource3D attackSound = new AudioSource3D("/audios/attack.wav", false, x, y);
                         attackSound.play();
                         if (parts.length < 2) {
                             System.out.println("Who do you want to attack? ej: attack A.");
                             continue;
                         }
-                        Game.getPlayer().Attack(x, y, parts[1].toUpperCase().toCharArray()[0]);
+                        Game.getPlayer().attack(x, y, parts[1].toUpperCase().toCharArray()[0]);
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -103,22 +103,22 @@ public class CommandReader {
 
                 } else if (main.equals("forgive")){
                     try {
-                        int x = Game.getPlayer().getX();
-                        int y = Game.getPlayer().getY();
+                        int x = Game.getPlayer().getPositionX();
+                        int y = Game.getPlayer().getPositionY();
                         AudioSource3D forgiveSound = new AudioSource3D("/audios/forgive.wav", false, x, y);
                         forgiveSound.play();
                         if (parts.length < 2) {
                             System.out.println("Who do you want to forgive? ej: forgive A.");
                             continue;
                         }
-                        Game.getPlayer().Forgive(x, y, parts[1].toUpperCase().toCharArray()[0]);
+                        Game.getPlayer().forgive(x, y, parts[1].toUpperCase().toCharArray()[0]);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
                 } else if (main.equals("eat")){
                     try {
-                    AudioSource3D eatSound = new AudioSource3D("/audios/eat.wav", false, Game.getPlayer().getX(), Game.getPlayer().getY());
+                    AudioSource3D eatSound = new AudioSource3D("/audios/eat.wav", false, Game.getPlayer().getPositionX(), Game.getPlayer().getPositionY());
                     eatSound.play();
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -126,15 +126,15 @@ public class CommandReader {
     
                 } else if (main.equals("rest")){
                     try {
-                    AudioSource3D restSound = new AudioSource3D("/audios/rest.wav", false, Game.getPlayer().getX(), Game.getPlayer().getY());
+                    AudioSource3D restSound = new AudioSource3D("/audios/rest.wav", false, Game.getPlayer().getPositionX(), Game.getPlayer().getPositionY());
                     restSound.play();
-                    Game.getPlayer().Rest();
+                    Game.getPlayer().rest();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 } else if (main.equals("bestiary")){
                     try {
-                        AudioSource3D bestiarySound = new AudioSource3D("/audios/bestiary.wav", false, Game.getPlayer().getX(), Game.getPlayer().getY());
+                        AudioSource3D bestiarySound = new AudioSource3D("/audios/bestiary.wav", false, Game.getPlayer().getPositionX(), Game.getPlayer().getPositionY());
                         bestiarySound.play();
                     } catch (Exception e) {
                         e.printStackTrace();

@@ -51,8 +51,8 @@ public class Screen {
                 break;
             case COMBAT:
                 renderGame(1, 2);
-                int x = Game.getPlayer().getX();
-                int y = Game.getPlayer().getY();
+                int x = Game.getPlayer().getPositionX();
+                int y = Game.getPlayer().getPositionY();
 
                 List<Enemy> enemies = Game.getEnemiesInCell(x, y);
 
