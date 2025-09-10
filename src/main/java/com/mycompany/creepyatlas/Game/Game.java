@@ -236,9 +236,50 @@ public class Game {
 
     public static void EndGame()
     {
-        Screen.setState(ScreenState.END_SCREEN_NEUTRAL_1);
-        Screen.render();
-        CommandReader.execCommand();
+        boolean all_dead = true;
+        boolean all_alive = true;
+        for (int i = 0; i<enemies.size(); i++)
+        {
+            if (!enemies.get(i).getIsDead()){
+                all_dead = false;
+            }
+            if (enemies.get(i).getIsDead()){
+                all_alive = false;
+            }
+        }
+        if (all_dead)
+        {
+            Screen.setState(ScreenState.END_SCREEN_GENOCIDE_1);
+            Screen.render();
+            CommandReader.execCommand();
+            Screen.setState(ScreenState.END_SCREEN_GENOCIDE_2);
+            Screen.render();
+            CommandReader.execCommand();
+            Screen.setState(ScreenState.END_SCREEN_GENOCIDE_3);
+            Screen.render();
+            CommandReader.execCommand();
+        }else if (all_alive){
+            Screen.setState(ScreenState.END_SCREEN_PACIFIST_1);
+            Screen.render();
+            CommandReader.execCommand();
+            Screen.setState(ScreenState.END_SCREEN_PACIFIST_2);
+            Screen.render();
+            CommandReader.execCommand();
+            Screen.setState(ScreenState.END_SCREEN_PACIFIST_3);
+            Screen.render();
+            CommandReader.execCommand();
+        }else{
+            Screen.setState(ScreenState.END_SCREEN_NEUTRAL_1);
+            Screen.render();
+            CommandReader.execCommand();
+            Screen.setState(ScreenState.END_SCREEN_NEUTRAL_2);
+            Screen.render();
+            CommandReader.execCommand();
+            Screen.setState(ScreenState.END_SCREEN_NEUTRAL_3);
+            Screen.render();
+            CommandReader.execCommand();
+        }
+        inGame = false;
     }
 
     public static Savepoint GetCurrentSavePoint()

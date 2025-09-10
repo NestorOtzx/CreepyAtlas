@@ -40,6 +40,18 @@ public class CommandReader {
             {
                 break;
             }
+            else if (Screen.getState() == ScreenState.END_SCREEN_GENOCIDE_1 || Screen.getState() == ScreenState.END_SCREEN_GENOCIDE_2 || Screen.getState() == ScreenState.END_SCREEN_GENOCIDE_3)
+            {
+                break;
+            }
+            else if (Screen.getState() == ScreenState.END_SCREEN_NEUTRAL_1 || Screen.getState() == ScreenState.END_SCREEN_NEUTRAL_2 || Screen.getState() == ScreenState.END_SCREEN_NEUTRAL_3)
+            {
+                break;
+            }
+            else if (Screen.getState() == ScreenState.END_SCREEN_PACIFIST_1 || Screen.getState() == ScreenState.END_SCREEN_PACIFIST_2 || Screen.getState() == ScreenState.END_SCREEN_PACIFIST_3)
+            {
+                break;
+            }
             else {
                 
                 if (main.equals("move")) {

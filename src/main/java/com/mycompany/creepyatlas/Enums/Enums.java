@@ -34,8 +34,14 @@ public class Enums {
         SCENE_PROLOG_2,
         SCENE_PROLOG_3,
         END_SCREEN_NEUTRAL_1,
+        END_SCREEN_NEUTRAL_2,
+        END_SCREEN_NEUTRAL_3,
         END_SCREEN_GENOCIDE_1,
+        END_SCREEN_GENOCIDE_2,
+        END_SCREEN_GENOCIDE_3,
         END_SCREEN_PACIFIST_1,
+        END_SCREEN_PACIFIST_2,
+        END_SCREEN_PACIFIST_3,
     }
 
 }
