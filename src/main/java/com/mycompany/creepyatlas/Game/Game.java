@@ -58,7 +58,7 @@ public class Game {
         {
             if (enemies.get(i).getSymbol() == 'A')
             {
-                ClearFogSingle(enemies.get(i).getX(), enemies.get(i).getY());
+                ClearFog(enemies.get(i).getX(), enemies.get(i).getY());
             }
         }
 

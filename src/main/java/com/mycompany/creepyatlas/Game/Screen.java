@@ -58,11 +58,11 @@ public class Screen {
 
                 StringBuilder enemyInfo = new StringBuilder();
                 for (Enemy enemy : enemies) {
-                    enemyInfo.append(enemy.getSymbol())
-                            .append(":|")
-                            .append(enemy.getHealth()).append("<3|")
-                            .append(enemy.getMentalHealth()).append("!!")
-                            .append("|"); 
+                    enemyInfo.append("{"+enemy.getSymbol())
+                            .append(": ")
+                            .append(enemy.getHealth()).append(" <3, ")
+                            .append(enemy.getMentalHealth()).append(" !!")
+                            .append("}"); 
                 }
 
                 drawBoxWithText(13, 2, "  Combat Mode! with: " + enemyInfo.toString() + "  ");

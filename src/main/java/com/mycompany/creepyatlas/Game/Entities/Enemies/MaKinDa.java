@@ -1,7 +1,13 @@
 package com.mycompany.creepyatlas.Game.Entities.Enemies;
+
+import com.mycompany.creepyatlas.Game.Game;
 import com.mycompany.creepyatlas.Game.Entities.Enemy;
+import com.mycompany.creepyatlas.Game.Entities.Savepoint;
 
 public class MaKinDa extends Enemy {
+    final int PLAYER_REWARD_Y = 2;
+    final int PLAYER_REWARD_X = 8;
+
     public MaKinDa(int x, int y, int baseHealth,int mentalHealth, int attack_damage) {
         super(x, y, baseHealth, mentalHealth, attack_damage);
     }
@@ -33,5 +39,12 @@ public class MaKinDa extends Enemy {
         "excellent, traveler!" + 
         "\n" + 
         "You made it through MaKinDa's favorite tunnel!";
+    }
+
+    @Override 
+    public void OnBeForgiven()
+    {
+        super.OnBeForgiven();
+        Game.getPlayer().translate(PLAYER_REWARD_X, PLAYER_REWARD_Y);
     }
 }
