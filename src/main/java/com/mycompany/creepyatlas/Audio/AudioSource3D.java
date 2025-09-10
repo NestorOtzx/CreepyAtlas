@@ -59,6 +59,10 @@ public class AudioSource3D {
                 alSourcef(source, AL_GAIN, 1f);
                 alSourcei(source, AL_LOOPING, loop ? AL_TRUE : AL_FALSE);
             }
+            catch (Exception e)
+            {
+                
+            }
         } catch (Exception e){
         }
 

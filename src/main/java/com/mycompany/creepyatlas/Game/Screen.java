@@ -50,7 +50,7 @@ public class Screen {
                 List<Character> enemies = Game.getEnemySymbolsInCell(x, y);
                 
                 drawBoxWithText(13, 2, "  Combat Mode! with: "+enemies.toString() + "  ");
-                drawHorizontalButtons(16, 4, 2, "Move", "Talk", "Attack", "Stats", "Eat", "Bestiary");
+                drawHorizontalButtons(16, 4, 2, "Forgive", "Attack", "Stats", "Eat", "Bestiary");
                 break;
             case GAME_OVER:
                 drawBoxWithText(2, 2, "                            YOU ARE DEAD                       ");
@@ -151,7 +151,6 @@ public class Screen {
     }
 
     public static void setState(ScreenState state) {
-        System.out.println("STATE: "+state);
         currentState = state;
     }
 

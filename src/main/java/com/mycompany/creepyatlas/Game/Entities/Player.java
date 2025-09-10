@@ -11,16 +11,16 @@ import com.mycompany.creepyatlas.Game.Screen;
 public class Player extends Entity {
     Direction faceDirection;
     int currentSavePoint;
-    int initialPlayerX;
-    int initialPlayerY;
+    int timesPlayerMoved;
+    int mentalDamage;
 
-    public Player(int x, int y, int baseHealth,int mental_health, int attack_damage) {
+    public Player(int x, int y, int baseHealth,int mental_health, int attack_damage, int mental_damage) {
         super(x, y, baseHealth, mental_health, attack_damage);
         AudioListener3D.setPosition(x, y);
         faceDirection = Direction.DOWN;
         currentSavePoint = -1;
-        initialPlayerX = x;
-        initialPlayerY = y;
+        timesPlayerMoved =0;
+        mentalDamage = mental_damage;
     }
 
     @Override
@@ -28,10 +28,15 @@ public class Player extends Entity {
         return 'P';
     }
 
+    public int GetTimesPlayerMoved(){
+        return timesPlayerMoved;
+    }
+
     @Override
     public void move(Direction direction)
     {
         if (is_dead) { return; }
+        timesPlayerMoved++;
         int dx = 0;
         int dy = 0;
 
@@ -77,19 +82,8 @@ public class Player extends Entity {
 
         move(dx, dy);
         AudioListener3D.setPosition(x, y);
-        System.out.println("character: "+ Game.getEnemyLayer()[y][x]);
 
         Game.ClearFog(x, y);
-    }
-
-    public int GetInitialX()
-    {
-        return initialPlayerX;
-    }
-
-    public int GetInitialY()
-    {
-        return initialPlayerY;
     }
 
     @Override
@@ -104,6 +98,12 @@ public class Player extends Entity {
         if (is_dead) { return; }
         super.Attack(x, y, target);
         Game.PlayerAttacksPosition(x, y, target, this.attack_damage);
+    }
+
+    public void Forgive(int x, int y, char target)
+    {
+        if (is_dead) { return; }
+        Game.PlayerForgivesPosition(x, y, target, this.mentalDamage);
     }
 
     @Override

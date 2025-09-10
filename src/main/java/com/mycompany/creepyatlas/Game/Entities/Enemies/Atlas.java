@@ -6,10 +6,16 @@ import com.mycompany.creepyatlas.Game.Entities.Enemy;
 import com.mycompany.creepyatlas.Utils.Dijkstra;
 
 public class Atlas extends Enemy {
-    private int timesPlayerMoved;
 
     public Atlas(int x, int y, int baseHealth, int mentalHealth, int attack_damage) {
         super(x, y, baseHealth, mentalHealth, attack_damage);
+    }
+
+    @Override
+    public void move(int dx, int dy)
+    {
+        super.move(dx, dy);
+        Game.ClearFogSingle(this.x, this.y);
     }
 
     @Override
@@ -29,25 +35,27 @@ public class Atlas extends Enemy {
     @Override
     public void OnUpdateGame()
     {
-        timesPlayerMoved++;
+        if (Game.getPlayer().getIsDead()) { return; }
+        
+        int playerx = Game.getPlayer().getX();
+        int playery = Game.getPlayer().getY();
+        if (playerx == this.x && playery == this.y){
+            Game.EnemyAttacksPosition(this, x, y, Game.getPlayer().getSymbol(), attack_damage);
+        }
+             
+
+        int timesPlayerMoved = Game.getPlayer().GetTimesPlayerMoved();
         if (timesPlayerMoved % 2 == 0)
         {
             List<int[]> path = Dijkstra.findPath(Game.getBaseMap(), x, y, Game.getPlayer().getX(), Game.getPlayer().getY());
-            if (path != null) {
-                for (int[] pos : path) {
-                    System.out.println("Y=" + pos[0] + ", X=" + pos[1]);
-                }
-            }
             
             if (path.size() > 2)
             {
                 int directionX = path.get(1)[1]-x;
                 int directionY = path.get(1)[0]-y;
-                System.err.println("dirx: "+ directionX + "dirY: "+directionY);
                 move(directionX, directionY);
             }
         }
-
     }
 
     @Override

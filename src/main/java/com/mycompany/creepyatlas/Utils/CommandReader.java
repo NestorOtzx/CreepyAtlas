@@ -36,25 +36,31 @@ public class CommandReader {
                 }else{
                     System.out.println("You are dead, write 'continue' to continue.");
                 }
+            } else if (Screen.getState() == ScreenState.SCENE_PROLOG_1 || Screen.getState() == ScreenState.SCENE_PROLOG_2 || Screen.getState() == ScreenState.SCENE_PROLOG_3)
+            {
+                break;
             }
             else {
                 
                 if (main.equals("move")) {
-                    Direction dir = Direction.NONE;
-                    if (parts.length > 1) {
-                        dir = parseDirection(parts[1]);
-                    }
-
-                    if (dir == Direction.NONE)
+                    if (Screen.getState() == ScreenState.COMBAT)
                     {
-                        Screen.setState(ScreenState.MOVE_COMMANDS);
+                        System.out.println("You can't escape from a combat");
+                        continue;
                     }else{
-                        Game.getPlayer().move(dir);
+                        Direction dir = Direction.NONE;
+                            if (parts.length > 1) {
+                                dir = parseDirection(parts[1]);
+                        }
+                        
+                        if (dir == Direction.NONE)
+                        {
+                            Screen.setState(ScreenState.MOVE_COMMANDS);
+                        }else{
+                            Game.getPlayer().move(dir);
+                        }
                     }
                     
-                } else if (main.equals("ok"))
-                {
-                    System.out.println("...");
                 } else if (main.equals("noise")) {
                     if (parts.length < 2) {
                         System.out.println("Use: burp, scream.");
@@ -78,6 +84,22 @@ public class CommandReader {
                             continue;
                         }
                         Game.getPlayer().Attack(x, y, parts[1].toUpperCase().toCharArray()[0]);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                } else if (main.equals("forgive")){
+                    try {
+                        int x = Game.getPlayer().getX();
+                        int y = Game.getPlayer().getY();
+                        AudioSource3D forgiveSound = new AudioSource3D("/audios/burp.wav", false, x, y);
+                        forgiveSound.play();
+                        if (parts.length < 2) {
+                            System.out.println("Who do you want to forgive? ej: forgive A.");
+                            continue;
+                        }
+                        Game.getPlayer().Forgive(x, y, parts[1].toUpperCase().toCharArray()[0]);
 
                     } catch (Exception e) {
                         e.printStackTrace();

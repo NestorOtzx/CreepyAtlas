@@ -14,7 +14,6 @@ public class CameraConsole {
             List<char[][]> layers
     ) {
         if (layers == null || layers.isEmpty()) {
-            System.out.println("No layers to draw.");
             lastFrame = null;
             return;
         }

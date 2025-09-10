@@ -7,6 +7,8 @@ import com.mycompany.creepyatlas.Enums.Enums.Direction;
 public abstract class Entity{
     protected int x;
     protected int y;
+    protected int initial_x;
+    protected int initial_y;
     protected AudioSource3D audiosource;
     protected int health = 100;
     protected int mental_health = 100;
@@ -22,6 +24,8 @@ public abstract class Entity{
         this.attack_damage = attack_damage;
         this.health = baseHealth;
         this.mental_health = mentalHealth;
+        initial_x = x;
+        initial_y = y;
     }
 
     
@@ -29,7 +33,6 @@ public abstract class Entity{
         try {
             this.audiosource = new AudioSource3D(this.getBaseAudioPath(), true, x, y);
             this.audiosource.play();
-            System.out.println("playing: "+ getBaseAudioPath() + " in: "+getSymbol());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,6 +41,15 @@ public abstract class Entity{
     public int getX() { return x; }
     public int getY() { return y; }
 
+    public int getInitialX()
+    {
+        return initial_x;
+    }
+
+    public int getInitialY()
+    {
+        return initial_y;
+    }
     
 
     public void move(int dx, int dy) {
@@ -60,6 +72,30 @@ public abstract class Entity{
         
         x += dx;
         y += dy;
+
+        if (this.audiosource != null)
+        {
+            this.audiosource.setPosition(x, y);
+        }
+    }
+
+    public void translate(int x, int y)
+    {
+
+        int newX = x;
+        int newY = y;
+
+        if (newY < 0 || newY >= Game.getBaseMap().length || newX < 0 || newX >= Game.getBaseMap()[0].length) {
+            System.out.println(getSymbol()+": cannot translate outside the map!");
+            return;
+        }
+
+        char target = Game.getBaseMap()[newY][newX];
+        if (target == '|' || target == '-' || target == '#') {
+            System.out.println(getSymbol()+": There is a wall in that place!");
+            return;
+        }
+        
 
         if (this.audiosource != null)
         {
@@ -104,13 +140,13 @@ public abstract class Entity{
     public void Attack(int x, int y, char target)
     {
         if (is_dead || is_forgiven) { return; }
-        System.out.println("I " + getSymbol() + " Attack "+x + ", "+ y+ " to: "+ target);
+        System.out.println(getSymbol() + " Attack "+x + ", "+ y+ " to: "+ target);
     }
 
     public void RecieveAttack(Entity attacker, int damage)
     {
         if (is_dead || is_forgiven) { return; }
-        System.out.println("I" + getSymbol() + " Recieve attack from " + attacker.getSymbol() + " amount:"+damage);
+        System.out.println(getSymbol() + " Recieve attack from " + attacker.getSymbol() + " amount:"+damage);
         health -= damage;
         if (health <= 0){
             OnDie();
@@ -142,11 +178,19 @@ public abstract class Entity{
         if (is_dead || is_forgiven) { return; }
         mental_health = 0;
         is_forgiven = true;
+
     }
 
     public boolean getIsDead(){
         return is_dead;
     }
+
+    public boolean getIsForgiven()
+    {
+        return is_forgiven;
+    }
+
+
 
     public void OnUpdateGame()
     {

@@ -12,7 +12,6 @@ public class MapReader {
         List<String> lines = readFile(levelFile);
         int rows = lines.size();
         int cols = lines.get(0).length();
-        System.out.println("x: "+rows+" y: "+cols);
         
         char[][] baseMap = new char[rows][cols];
         Player player = null;
@@ -21,12 +20,11 @@ public class MapReader {
 
         for (int y = 0; y < rows; y++) {
             String line = lines.get(y);
-            System.out.println("xddddddd"+line);
             for (int x = 0; x < line.length(); x++) {
                 char c = line.charAt(x);
 
                 if (c == 'P') {
-                    player = new Player(x, y, 100, 100, 100);
+                    player = new Player(x, y, 100, 100, 100, 100);
                     baseMap[y][x] = ' '; 
                 } else if (c == 'S')
                 {

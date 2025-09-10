@@ -29,7 +29,6 @@ public class Savepoint extends Entity {
     {
         int playerx = Game.getPlayer().getX();
         int playery = Game.getPlayer().getY();
-        System.out.println("player: "+playerx + playery+ " save: "+ x + y);
         if (playerx == this.x && playery == this.y)
         {
             Game.getPlayer().SetSavePoint(savePointIndex);
@@ -42,7 +41,6 @@ public class Savepoint extends Entity {
     {
         try {
             this.audiosource = new AudioSource3D(this.getBaseAudioPath(), false, x, y);
-            System.out.println("playing: "+ getBaseAudioPath() + " in: "+getSymbol());
         } catch (Exception e) {
             e.printStackTrace();
         }

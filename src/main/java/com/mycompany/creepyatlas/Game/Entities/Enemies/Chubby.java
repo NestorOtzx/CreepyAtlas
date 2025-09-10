@@ -4,15 +4,11 @@ import com.mycompany.creepyatlas.Game.Game;
 import com.mycompany.creepyatlas.Game.Entities.*;
 
 public class Chubby extends Enemy {
-    int initialX;
-    int initialY;
     private int timesPlayerMoved;
     private int timesChubbyMoved;
 
     public Chubby(int x, int y, int baseHealth,int mentalHealth, int attack_damage) {
         super(x, y, baseHealth,mentalHealth, attack_damage);
-        initialX = x;
-        initialY = y;
     }
 
     @Override
@@ -62,8 +58,8 @@ public class Chubby extends Enemy {
                 }
             } else {
                 // Movimiento de regreso al origen (paso a paso)
-                int dx = Integer.compare(initialX, this.x);
-                int dy = Integer.compare(initialY, this.y);
+                int dx = Integer.compare(initial_x, this.x);
+                int dy = Integer.compare(initial_y, this.y);
 
                 if (dx == 0 && dy == 0) {
                     // Ya estamos en el origen -> pasa al siguiente estado

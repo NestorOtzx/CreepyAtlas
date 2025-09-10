@@ -8,8 +8,6 @@ import com.mycompany.creepyatlas.Utils.MapReader;
 
 import java.util.*;
 
-import javax.swing.DebugGraphics;
-
 public class Game {
     private static char[][] baseMap;
     private static char[][] enemyLayer;
@@ -31,7 +29,7 @@ public class Game {
 
         baseMap = mapData.getBaseMap();
         savePoints = mapData.getSavePoints();
-       
+        
 
         enemyLayer = new char[baseMap.length][baseMap[0].length];
         playerLayer = new char[baseMap.length][baseMap[0].length];
@@ -50,12 +48,19 @@ public class Game {
 
         player = mapData.getPlayer();
         ClearFog(player.getX(), player.getY());
-
+        
         entities = new ArrayList<>();
         enemies = new ArrayList<>();
         entities.add(player);
         entities.addAll(mapData.getEnemies());
         enemies.addAll(mapData.getEnemies());
+        for (int i = 0; i<enemies.size(); i++)
+        {
+            if (enemies.get(i).getSymbol() == 'A')
+            {
+                ClearFogSingle(enemies.get(i).getX(), enemies.get(i).getY());
+            }
+        }
 
         renderLayers = new ArrayList<>();
         renderLayers.add(baseMap);
@@ -91,14 +96,12 @@ public class Game {
         int playerx = player.getX();
         int playery = player.getY();
         playerLayer[playery][playerx] = player.getSymbol();
-        System.out.println("P: "+playerLayer[playery][playerx]);
         if (!player.getIsDead())
         {
             if (Game.getEnemyLayer()[playery][playerx] != ' ' && Game.getEnemiesInCell(playerx, playery).size()>0)
             {
                 Screen.setState(ScreenState.COMBAT);
             }else{
-                System.out.println("SetScreenState: "+ScreenState.BASE);
                 Screen.setState(ScreenState.BASE);
             }
         }
@@ -131,8 +134,7 @@ public class Game {
         for (int i = 0; i<enemies.size(); i++){
             if (enemies.get(i).getX() == x && enemies.get(i).getY() == y)
             {
-                char symbol = enemies.get(i).getSymbol();
-                if (symbol != 'X')
+                if (!enemies.get(i).getIsDead() && !enemies.get(i).getIsForgiven())
                 {
                     ans.add(enemies.get(i));
                 }
@@ -167,6 +169,18 @@ public class Game {
             if (enemies.get(i).getSymbol() == target)
             {
                 enemies.get(i).RecieveAttack(player,damage);
+            }
+        }
+    }
+
+    public static void PlayerForgivesPosition(int x, int y, char target, int forgiveness)
+    {
+        List<Enemy> enemies = getEnemiesInCell(x, y);
+        for (int i = 0; i<enemies.size(); i++)
+        {
+            if (enemies.get(i).getSymbol() == target)
+            {
+                enemies.get(i).RecieveForgiveness(player, forgiveness);
             }
         }
     }
@@ -238,17 +252,25 @@ public class Game {
 
     public static void RevivePlayer()
     {
-       
+        for (int i = 0; i<enemies.size(); i++){
+            enemies.get(i).translate(enemies.get(i).getInitialX(), enemies.get(i).getInitialY());            
+        }
         Savepoint currentSave = GetCurrentSavePoint();
-        int reviveX = player.GetInitialX();
-        int reviveY = player.GetInitialY();
+        int reviveX = player.getInitialX();
+        int reviveY = player.getInitialY();
         if (currentSave != null){
             reviveX = currentSave.getX();
             reviveY = currentSave.getY();
         }
-        player = new Player(reviveX, reviveY, 100, 100, 100);
+        player = new Player(reviveX, reviveY, 100, 100, 100, 100);
         AudioListener3D.EnableAllAudios(); 
         Screen.setState(ScreenState.BASE);
+        
+    }
+
+    public static void ClearFogSingle(int x, int y)
+    {
+        fogLayer[y][x] = ' ';
     }
 
     public static void ClearFog(int x, int y)

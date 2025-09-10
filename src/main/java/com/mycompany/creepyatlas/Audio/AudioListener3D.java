@@ -90,7 +90,6 @@ public class AudioListener3D {
 
     public static void DisabelAllAudios(){
         for (AudioSource3D source : sources) {
-            System.out.println("source: "+source );
             if (source != null)
             {
                 source.Disable();
