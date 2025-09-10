@@ -23,7 +23,6 @@ public class MashiTa extends Enemy {
     public String getDefeatMessage() {
         return "You scared it to death!";
     }
-    //Igual muere
     @Override
     public String getForgiveMessage() {
         return "You scared it to death!";

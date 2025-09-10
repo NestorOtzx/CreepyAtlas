@@ -105,7 +105,7 @@ public class CommandReader {
                     try {
                         int x = Game.getPlayer().getX();
                         int y = Game.getPlayer().getY();
-                        AudioSource3D forgiveSound = new AudioSource3D("/audios/burp.wav", false, x, y);
+                        AudioSource3D forgiveSound = new AudioSource3D("/audios/forgive.wav", false, x, y);
                         forgiveSound.play();
                         if (parts.length < 2) {
                             System.out.println("Who do you want to forgive? ej: forgive A.");
