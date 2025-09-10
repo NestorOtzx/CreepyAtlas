@@ -50,7 +50,6 @@ public class Dijkstra {
             if (visited[current.y][current.x]) continue;
             visited[current.y][current.x] = true;
 
-            // Si llegamos al destino
             if (current.x == endX && current.y == endY) {
                 return reconstructPath(parentX, parentY, endX, endY);
             }

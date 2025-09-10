@@ -24,7 +24,6 @@ public class AudioListener3D {
 
     public static final int SPACE_UNITS = 10;
 
-    // --- lista de fuentes registradas ---
     private static final List<AudioSource3D> sources = new ArrayList<>();
 
     public static void initOpenAL() {
@@ -71,19 +70,17 @@ public class AudioListener3D {
     public static float getY() { return y; }
     public static float getZ() { return z; }
 
-    // --- registrar fuente ---
     public static void registerSource(AudioSource3D source) {
         sources.add(source);
         updateSourcesGain();
     }
 
-    // --- recalcular volúmenes ---
     public static void updateSourcesGain() {
         for (AudioSource3D source : sources) {
             if (Distance.Euclidean(source.getX(), source.getY(), x, y) > 2.1f * SPACE_UNITS) {
-                source.setGain(0f); // mutea
+                source.setGain(0f);
             } else {
-                source.setGain(1f); // volumen normal
+                source.setGain(1f);
             }
         }
     }

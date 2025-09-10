@@ -66,7 +66,6 @@ public class AudioSource3D {
         } catch (Exception e){
         }
 
-        // registrar fuente en el listener
         setPosition(x, y);
         AudioListener3D.registerSource(this);
     }

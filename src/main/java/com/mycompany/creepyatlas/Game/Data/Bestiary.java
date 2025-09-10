@@ -125,8 +125,6 @@ static {
     ));
 }
 
-
-    // Método auxiliar: dividir descripción en varias líneas
     private static List<String> wrapText(String text, int width) {
         List<String> lines = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
@@ -148,30 +146,25 @@ static {
         System.out.println("##                                                                            BESTIARY                                                                            ##");
         System.out.println(border);
 
-        // encabezados
         System.out.println("## id |     Name     |  Health  |  Damage  |Mental Weakness|                                                    Description                                            ##");
         System.out.println(border);
 
-        // imprimir cada enemigo
         for (Enemy e : enemies.values()) {
             List<String> descLines = wrapText(e.description, 90);
-            int rows = Math.max(3, descLines.size()); // al menos 3 filas
-
+            int rows = Math.max(3, descLines.size()); 
             for (int i = 0; i < rows; i++) {
                 if (i == 0) {
-                    // primera fila con todos los datos + primera parte de la descripción
                     System.out.printf("## %-2s | %-12s | %-8d | %-8d | %-14d | %-90s ##%n",
                             e.id, e.name, e.healthPoints, e.attack_damage, e.mentalWeakness,
                             i < descLines.size() ? descLines.get(i) : "");
                 } else {
-                    // filas siguientes solo muestran la descripción
                     System.out.printf("## %2s | %-12s | %-8s | %-8s | %-14s | %-90s ##%n",
                             "","", "", "", "",
                             i < descLines.size() ? descLines.get(i) : "");
                 }
             }
 
-            System.out.println(border); // separador entre enemigos
+            System.out.println(border);
         }
     }
 }

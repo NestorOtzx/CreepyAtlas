@@ -281,8 +281,6 @@ public class Screen {
     }
 
     public static void drawArrow(int top, int left, Direction dir) {
-
-        // Definimos las flechas en ASCII (6x10)
         String[] arrow;
 
         switch (dir) {
@@ -342,7 +340,6 @@ public class Screen {
                 break;
         }
 
-        // Dibuja la flecha en el buffer con top y left
         for (int y = 0; y < arrow.length; y++) {
             for (int x = 0; x < arrow[y].length(); x++) {
                 char c = arrow[y].charAt(x);
