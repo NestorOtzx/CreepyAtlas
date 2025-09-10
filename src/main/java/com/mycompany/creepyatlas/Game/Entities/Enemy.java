@@ -60,6 +60,6 @@ public class Enemy extends Entity {
     }
 
     public void OnPlayerRespawn(){
-        
+
     }
 }

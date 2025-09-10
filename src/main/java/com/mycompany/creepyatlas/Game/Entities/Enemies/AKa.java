@@ -8,7 +8,11 @@ public class AKa extends Enemy {
 
     @Override
     public char getSymbol() {
-        return 'K';
+        if (!is_dead)
+        {
+            return 'K';
+        }
+        return super.getSymbol();
     }
     @Override
     public String getBaseAudioPath(){

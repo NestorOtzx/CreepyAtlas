@@ -50,7 +50,7 @@ public class MapReader {
 
     private static Enemy createEnemy(char symbol, int x, int y) {
         switch (symbol) {
-            case 'A': return new Atlas(x, y, 1000, 1000, 1000);
+            case 'A': return new Atlas(x, y, 100000, 100000, 100000);
             case 'M': return new MaKinDa(x,y, 1,1,1);
             case 'B': return new BigBox(x,y, 1, 1, 1);
             case 'C': return new Chubby(x,y, 1,1, 1);

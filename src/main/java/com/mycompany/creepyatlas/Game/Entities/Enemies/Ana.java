@@ -8,8 +8,11 @@ public class Ana extends Enemy {
 
     @Override
     public char getSymbol() {
-        return 'N';
-
+        if (!is_dead)
+        {
+            return 'N';
+        }
+        return super.getSymbol();
     }
 
     @Override
@@ -21,7 +24,6 @@ public class Ana extends Enemy {
     @Override
     public String getDefeatMessage() {
         return "Oh, for Celestia's sake. You're so mean, you don't deserve to keep playing.";
-    //PIERDE
     }
     @Override
     public String getForgiveMessage() {

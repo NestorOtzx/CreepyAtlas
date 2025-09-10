@@ -81,11 +81,7 @@ public class Game {
             enemy.OnUpdateGame();
             int x = enemy.getX();
             int y = enemy.getY();
-            if (y >= 0 && y < enemyLayer.length &&
-                x >= 0 && x < enemyLayer[0].length) {
-                    
-                enemyLayer[y][x] = enemy.getSymbol();
-            }
+            enemyLayer[y][x] = enemy.getSymbol();
         }
         for (Savepoint savepoint : savePoints)
         {

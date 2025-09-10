@@ -8,7 +8,11 @@ public class Acerco extends Enemy {
 
     @Override
     public char getSymbol() {
-        return 'Z';
+        if (!is_dead)
+        {
+            return 'Z';
+        }
+        return super.getSymbol();
     }
 
     @Override
