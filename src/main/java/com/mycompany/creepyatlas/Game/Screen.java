@@ -1,9 +1,11 @@
 package com.mycompany.creepyatlas.Game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.mycompany.creepyatlas.Enums.Enums.Direction;
 import com.mycompany.creepyatlas.Enums.Enums.ScreenState;
+import com.mycompany.creepyatlas.Game.Entities.Enemy;
 
 public class Screen {
 
@@ -28,29 +30,46 @@ public class Screen {
             case BASE:
                 renderGame(1, 2);
                 drawBoxWithText(13, 2, "                          Commands                         ");
-                drawHorizontalButtons(16, 4, 2, "Move", "Noise", "Stats", "Eat", "Rest", "Bestiary","Quit");
+                drawBoxWithText(8, 65, Game.getPlayer().getHealth()+" <3");
                 drawArrow(1, 65, Game.getPlayer().getFaceDirection());
+                drawHorizontalButtons(16, 4, 2, "Move", "Noise", "Stats", "Eat", "Rest", "Bestiary","Quit");
                 break;
 
             case MOVE_COMMANDS:
                 renderGame(1, 2);
                 drawBoxWithText(13, 2, "                            Move + ...                       ");
                 drawHorizontalButtons(16, 2, 2, "Left", "Right", "Up", "Down");
+                drawBoxWithText(8, 65, Game.getPlayer().getHealth()+" <3");
+                drawArrow(1, 65, Game.getPlayer().getFaceDirection());
                 break;
             case NOISE_COMMANDS:
                 renderGame(1, 2);
                 drawBoxWithText(13, 2, "                            Noise + ...                       ");
                 drawHorizontalButtons(16, 2, 2, "Burp", "Scream");
+                drawBoxWithText(8, 65, Game.getPlayer().getHealth()+" <3");
+                drawArrow(1, 65, Game.getPlayer().getFaceDirection());
                 break;
             case COMBAT:
                 renderGame(1, 2);
                 int x = Game.getPlayer().getX();
                 int y = Game.getPlayer().getY();
 
-                List<Character> enemies = Game.getEnemySymbolsInCell(x, y);
-                
-                drawBoxWithText(13, 2, "  Combat Mode! with: "+enemies.toString() + "  ");
+                List<Enemy> enemies = Game.getEnemiesInCell(x, y);
+
+                StringBuilder enemyInfo = new StringBuilder();
+                for (Enemy enemy : enemies) {
+                    enemyInfo.append(enemy.getSymbol())
+                            .append(":|")
+                            .append(enemy.getHealth()).append("<3|")
+                            .append(enemy.getMentalHealth()).append("!!")
+                            .append("|"); 
+                }
+
+                drawBoxWithText(13, 2, "  Combat Mode! with: " + enemyInfo.toString() + "  ");
                 drawHorizontalButtons(16, 4, 2, "Forgive", "Attack", "Stats", "Eat", "Bestiary");
+                drawBoxWithText(8, 65, Game.getPlayer().getHealth() + " <3");
+                drawBoxWithText(8, 65, Game.getPlayer().getHealth() + " <3");
+                drawArrow(1, 65, Game.getPlayer().getFaceDirection());
                 break;
             case GAME_OVER:
                 drawBoxWithText(2, 2, "                            YOU ARE DEAD                       ");

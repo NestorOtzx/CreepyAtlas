@@ -14,7 +14,7 @@ public class Game {
     private static char[][] savePointsLayer;
     private static char[][] playerLayer;
     private static char[][] fogLayer;
-    private final List<char[][]> renderLayers;
+    private static List<char[][]> renderLayers;
 
     private static Player player;
     private static List<Entity> entities;
@@ -43,7 +43,7 @@ public class Game {
         }
         for (int i = 0; i<savePoints.size(); i++)
         {
-            savePointsLayer[savePoints.get(i).getY()][savePoints.get(i).getX()] = 'S';    
+            savePointsLayer[savePoints.get(i).getY()][savePoints.get(i).getX()] = savePoints.get(i).getSymbol();    
         }
 
         player = mapData.getPlayer();
@@ -77,6 +77,10 @@ public class Game {
         for (char[] row : playerLayer) {
             Arrays.fill(row, ' ');
         }
+        for (char[] row : savePointsLayer)
+        {
+            Arrays.fill(row, ' ');
+        }
         for (Enemy enemy : enemies) {
             enemy.OnUpdateGame();
             int x = enemy.getX();
@@ -86,12 +90,14 @@ public class Game {
         for (Savepoint savepoint : savePoints)
         {
             savepoint.OnUpdateGame();
+            savePointsLayer[savepoint.getY()][savepoint.getX()] = savepoint.getSymbol();    
         }
         
 
         int playerx = player.getX();
         int playery = player.getY();
         playerLayer[playery][playerx] = player.getSymbol();
+
         if (!player.getIsDead())
         {
             if (Game.getEnemyLayer()[playery][playerx] != ' ' && Game.getEnemiesInCell(playerx, playery).size()>0)
@@ -298,7 +304,7 @@ public class Game {
             reviveX = currentSave.getX();
             reviveY = currentSave.getY();
         }
-        player = new Player(reviveX, reviveY, 100, 100, 100, 100);
+        player = new Player(reviveX, reviveY, 100, 100, 50, 50);
         for (int i = 0; i<enemies.size(); i++){
             enemies.get(i).translate(enemies.get(i).getInitialX(), enemies.get(i).getInitialY());            
             enemies.get(i).OnPlayerRespawn();

@@ -135,8 +135,12 @@ public abstract class Entity{
         return "";
     }
 
-    public float getHealth(){
+    public int getHealth(){
         return health;
+    }
+
+    public int getMentalHealth(){
+        return mental_health;
     }
 
     public void Attack(int x, int y, char target)
@@ -186,6 +190,7 @@ public abstract class Entity{
     public boolean getIsDead(){
         return is_dead;
     }
+
 
     public boolean getIsForgiven()
     {

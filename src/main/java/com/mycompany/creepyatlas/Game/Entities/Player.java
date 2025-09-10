@@ -135,6 +135,10 @@ public class Player extends Entity {
     public int GetSavePoint(){
         return this.currentSavePoint;
     }
-    
-    
+
+    public void Rest()
+    {
+        health+=10;
+        System.out.println("I will take a break and recover my health!");
+    }
 }

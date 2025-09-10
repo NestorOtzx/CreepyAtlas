@@ -129,6 +129,7 @@ public class CommandReader {
                     try {
                     AudioSource3D restSound = new AudioSource3D("/audios/rest.wav", false, Game.getPlayer().getX(), Game.getPlayer().getY());
                     restSound.play();
+                    Game.getPlayer().Rest();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

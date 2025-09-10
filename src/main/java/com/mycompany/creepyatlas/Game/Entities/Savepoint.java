@@ -4,17 +4,22 @@ import com.mycompany.creepyatlas.Game.Game;
 
 public class Savepoint extends Entity {
     int savePointIndex;
+    boolean taken = false;
 
     public Savepoint(int x, int y, int baseHealth,int mentalHealth, int attack_damage, int index) {
         super(x, y, baseHealth, mentalHealth,attack_damage);
         savePointIndex = index;
+        taken = false;
     }
 
     @Override
     public char getSymbol() {
-        if (!is_dead)
+        if (!is_dead && !taken)
         {
             return 'S';
+        }else if (taken)
+        {
+            return ' ';
         }
         return super.getSymbol();
     }
@@ -33,6 +38,7 @@ public class Savepoint extends Entity {
         {
             Game.getPlayer().SetSavePoint(savePointIndex);
             audiosource.play();
+            taken = true;
         }
     }
 
