@@ -67,7 +67,7 @@ public class AudioSource3D {
         }
 
         setPosition(x, y);
-        AudioListener3D.registerSource(this);
+        AudioListener3D.RegisterSource(this);
     }
 
     public void setLoop(boolean loop) {

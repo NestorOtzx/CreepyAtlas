@@ -5,11 +5,11 @@ import com.mycompany.creepyatlas.Game.Game;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        AudioListener3D.initOpenAL();
+        AudioListener3D.InitOpenAL();
 
         Game game = new Game();
         game.start();
 
-        AudioListener3D.cleanupOpenAL();
+        AudioListener3D.CleanupOpenAL();
     }
 }

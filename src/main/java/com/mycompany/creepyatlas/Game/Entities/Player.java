@@ -16,7 +16,7 @@ public class Player extends Entity {
 
     public Player(int x, int y, int baseHealth,int mental_health, int attack_damage, int mental_damage) {
         super(x, y, baseHealth, mental_health, attack_damage);
-        AudioListener3D.setPosition(x, y);
+        AudioListener3D.SetPosition(x, y);
         faceDirection = Direction.DOWN;
         currentSavePoint = -1;
         timesPlayerMoved =0;
@@ -81,7 +81,7 @@ public class Player extends Entity {
         }
 
         move(dx, dy);
-        AudioListener3D.setPosition(x, y);
+        AudioListener3D.SetPosition(x, y);
 
         Game.ClearFog(x, y);
     }
@@ -125,7 +125,7 @@ public class Player extends Entity {
         if (is_dead) { return; }
         Screen.setState(ScreenState.GAME_OVER);
         super.OnDie();
-        AudioListener3D.DisabelAllAudios();
+        AudioListener3D.DisabelAllAudioSources();
     }
 
     public Direction getFaceDirection()

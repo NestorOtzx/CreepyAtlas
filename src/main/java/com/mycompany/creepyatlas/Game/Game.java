@@ -309,7 +309,7 @@ public class Game {
             enemies.get(i).translate(enemies.get(i).getInitialX(), enemies.get(i).getInitialY());            
             enemies.get(i).OnPlayerRespawn();
         }
-        AudioListener3D.EnableAllAudios(); 
+        AudioListener3D.EnableAllAudioSources(); 
         Screen.setState(ScreenState.BASE);
         
     }
