@@ -242,7 +242,7 @@ public class Game {
         boolean all_alive = true;
         for (int i = 0; i<enemies.size(); i++)
         {
-            if (!enemies.get(i).getIsDead()){
+            if (!enemies.get(i).getIsDead() && enemies.get(i).getSymbol() == 'A'){
                 all_dead = false;
             }
             if (enemies.get(i).getIsDead()){
