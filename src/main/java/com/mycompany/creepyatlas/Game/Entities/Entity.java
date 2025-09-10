@@ -58,12 +58,12 @@ public abstract class Entity{
         int newX = this.positionX + directionX;
         int newY = this.positionY + directionY;
 
-        if (newY < 0 || newY >= Game.getBaseMap().length || newX < 0 || newX >= Game.getBaseMap()[0].length) {
+        if (newY < 0 || newY >= Game.getBaseMapLayer().length || newX < 0 || newX >= Game.getBaseMapLayer()[0].length) {
             System.out.println(getSymbol()+": cannot move outside the map!");
             return;
         }
 
-        char target = Game.getBaseMap()[newY][newX];
+        char target = Game.getBaseMapLayer()[newY][newX];
         if (target == '|' || target == '-' || target == '#') {
             System.out.println(getSymbol()+": There is a wall in that direction!");
             return;
@@ -83,12 +83,12 @@ public abstract class Entity{
         int newX = positionX;
         int newY = positionY;
 
-        if (newY < 0 || newY >= Game.getBaseMap().length || newX < 0 || newX >= Game.getBaseMap()[0].length) {
+        if (newY < 0 || newY >= Game.getBaseMapLayer().length || newX < 0 || newX >= Game.getBaseMapLayer()[0].length) {
             System.out.println(getSymbol()+": cannot translate outside the map!");
             return;
         }
 
-        char target = Game.getBaseMap()[newY][newX];
+        char target = Game.getBaseMapLayer()[newY][newX];
         if (target == '|' || target == '-' || target == '#') {
             System.out.println(getSymbol()+": There is a wall in that place!");
             return;
@@ -140,7 +140,7 @@ public abstract class Entity{
         return mentalHealth;
     }
 
-    public void attack(int x, int y, char target)
+    public void attackTarget(int x, int y, char target)
     {
         if (isDead || isForgiven) { return; }
         System.out.println(getSymbol() + " Attack "+x + ", "+ y+ " to: "+ target);

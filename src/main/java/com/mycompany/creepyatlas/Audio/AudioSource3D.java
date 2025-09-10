@@ -26,9 +26,7 @@ public class AudioSource3D {
         URL resourceUrl = AudioSource3D.class.getResource(resourcePath);
         if (resourceUrl == null) throw new IOException("File " + resourcePath + " not found in resources");
 
-        try (InputStream stream = resourceUrl.openStream();
-             AudioInputStream originalStream = AudioSystem.getAudioInputStream(stream)) {
-
+        try (InputStream stream = resourceUrl.openStream(); AudioInputStream originalStream = AudioSystem.getAudioInputStream(stream)) {
             AudioFormat baseFormat = originalStream.getFormat();
             AudioFormat pcm16Format = new AudioFormat(
                     AudioFormat.Encoding.PCM_SIGNED,
@@ -39,6 +37,7 @@ public class AudioSource3D {
                     baseFormat.getSampleRate(),
                     false
             );
+
 
             try (AudioInputStream pcmStream = AudioSystem.getAudioInputStream(pcm16Format, originalStream)) {
                 byte[] audioBytes = pcmStream.readAllBytes();
@@ -59,7 +58,10 @@ public class AudioSource3D {
                 alSourcei(openAlSourceId, AL_BUFFER, openAlBufferId);
                 alSourcef(openAlSourceId, AL_GAIN, 1f);
                 alSourcei(openAlSourceId, AL_LOOPING, loop ? AL_TRUE : AL_FALSE);
+            }catch (Exception exception){
             }
+        }
+        catch (Exception exception){
         }
 
         setPosition(x, y);

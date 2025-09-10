@@ -2,7 +2,6 @@ package com.mycompany.creepyatlas.Game.Entities.Enemies;
 
 import com.mycompany.creepyatlas.Game.Game;
 import com.mycompany.creepyatlas.Game.Entities.Enemy;
-import com.mycompany.creepyatlas.Game.Entities.Savepoint;
 
 public class MaKinDa extends Enemy {
     final int PLAYER_REWARD_Y = 2;

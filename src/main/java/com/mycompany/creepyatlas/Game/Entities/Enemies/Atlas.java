@@ -15,11 +15,11 @@ public class Atlas extends Enemy {
     public void move(int dx, int dy)
     {
         super.move(dx, dy);
-        Game.ClearFog(this.positionX, this.positionY);
+        Game.clearFog(this.positionX, this.positionY);
         int playerx = Game.getPlayer().getPositionX();
         int playery = Game.getPlayer().getPositionY();
         if (playerx == this.positionX && playery == this.positionY){
-            Game.EnemyAttacksPosition(this, positionX, positionY, Game.getPlayer().getSymbol(), attackDamage);
+            Game.enemyAttacksPosition(this, positionX, positionY, Game.getPlayer().getSymbol(), attackDamage);
         }
     }
 
@@ -27,7 +27,7 @@ public class Atlas extends Enemy {
     public void translate(int x, int y)
     {
         super.translate(x, y);
-        Game.ClearFog(this.positionX, this.positionY);
+        Game.clearFog(this.positionX, this.positionY);
     }
 
     @Override
@@ -52,14 +52,14 @@ public class Atlas extends Enemy {
         int playerx = Game.getPlayer().getPositionX();
         int playery = Game.getPlayer().getPositionY();
         if (playerx == this.positionX && playery == this.positionY){
-            Game.EnemyAttacksPosition(this, positionX, positionY, Game.getPlayer().getSymbol(), attackDamage);
+            Game.enemyAttacksPosition(this, positionX, positionY, Game.getPlayer().getSymbol(), attackDamage);
         }
              
 
         int timesPlayerMoved = Game.getPlayer().getTimesPlayerMoved();
         if (timesPlayerMoved % 2 != 0)
         {
-            List<int[]> path = Dijkstra.findPath(Game.getBaseMap(), positionX, positionY, Game.getPlayer().getPositionX(), Game.getPlayer().getPositionY());
+            List<int[]> path = Dijkstra.findPath(Game.getBaseMapLayer(), positionX, positionY, Game.getPlayer().getPositionX(), Game.getPlayer().getPositionY());
             
             if (path != null && path.size() >= 2 && path.size() < 5)
             {
@@ -73,7 +73,7 @@ public class Atlas extends Enemy {
 
     private void tryTeleportToPlayer()
     {
-        List<int[]> path = Dijkstra.findPath(Game.getBaseMap(), positionX, positionY, Game.getPlayer().getPositionX(), Game.getPlayer().getPositionY());
+        List<int[]> path = Dijkstra.findPath(Game.getBaseMapLayer(), positionX, positionY, Game.getPlayer().getPositionX(), Game.getPlayer().getPositionY());
             
         if (path.size() >= 4)
         {

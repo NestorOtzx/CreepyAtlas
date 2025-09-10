@@ -25,15 +25,15 @@ public class Enemy extends Entity {
         super.recieveAttack(attacker, damage);
         if (!isDead)
         {
-            attack(attacker.getPositionX(), attackDamage, attacker.getSymbol());
+            attackTarget(attacker.getPositionX(), attackDamage, attacker.getSymbol());
         }
     }
 
     @Override
-    public void attack(int x, int y, char target){
+    public void attackTarget(int x, int y, char target){
         if (isDead) { return; }
-        super.attack(x, y, target);
-        Game.EnemyAttacksPosition(this, x, y, target, attackDamage);
+        super.attackTarget(x, y, target);
+        Game.enemyAttacksPosition(this, x, y, target, attackDamage);
     }
 
     @Override

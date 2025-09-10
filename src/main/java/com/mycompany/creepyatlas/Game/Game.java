@@ -10,7 +10,7 @@ import com.mycompany.creepyatlas.Utils.MapReader;
 import java.util.*;
 
 public class Game {
-    private static char[][] baseMap;
+    private static char[][] baseMapLayer;
     private static char[][] enemyLayer;
     private static char[][] savePointsLayer;
     private static char[][] playerLayer;
@@ -28,14 +28,14 @@ public class Game {
         inGame = true;
         MapData mapData = MapReader.loadLevel("levels/level1.txt");
 
-        baseMap = mapData.getBaseMap();
+        baseMapLayer = mapData.getBaseMap();
         savePoints = mapData.getSavePoints();
         
 
-        enemyLayer = new char[baseMap.length][baseMap[0].length];
-        playerLayer = new char[baseMap.length][baseMap[0].length];
-        savePointsLayer = new char[baseMap.length][baseMap[0].length];
-        fogLayer = new char[baseMap.length][baseMap[0].length];
+        enemyLayer = new char[baseMapLayer.length][baseMapLayer[0].length];
+        playerLayer = new char[baseMapLayer.length][baseMapLayer[0].length];
+        savePointsLayer = new char[baseMapLayer.length][baseMapLayer[0].length];
+        fogLayer = new char[baseMapLayer.length][baseMapLayer[0].length];
         for (char[] row : savePointsLayer) {
             Arrays.fill(row, ' ');
         }
@@ -48,7 +48,7 @@ public class Game {
         }
 
         player = mapData.getPlayer();
-        ClearFog(player.getPositionX(), player.getPositionY());
+        clearFog(player.getPositionX(), player.getPositionY());
         
         entities = new ArrayList<>();
         enemies = new ArrayList<>();
@@ -59,12 +59,12 @@ public class Game {
         {
             if (enemies.get(i).getSymbol() == 'A')
             {
-                ClearFog(enemies.get(i).getPositionX(), enemies.get(i).getPositionY());
+                clearFog(enemies.get(i).getPositionX(), enemies.get(i).getPositionY());
             }
         }
 
         renderLayers = new ArrayList<>();
-        renderLayers.add(baseMap);
+        renderLayers.add(baseMapLayer);
         renderLayers.add(enemyLayer);
         renderLayers.add(savePointsLayer);
         renderLayers.add(playerLayer);
@@ -147,7 +147,7 @@ public class Game {
     }
 
 
-    public static void EnemyAttacksPosition(Entity attacker, int x, int y, char target, int damage)
+    public static void enemyAttacksPosition(Entity attacker, int x, int y, char target, int damage)
     {
         List<Enemy> enemies = getEnemiesInCell(x, y);
         
@@ -164,7 +164,7 @@ public class Game {
         }
     }
 
-    public static void PlayerAttacksPosition(int x, int y, char target, int damage)
+    public static void playerAttacksPosition(int x, int y, char target, int damage)
     {
         List<Enemy> enemies = getEnemiesInCell(x, y);
         for (int i = 0; i<enemies.size(); i++)
@@ -176,7 +176,7 @@ public class Game {
         }
     }
 
-    public static void PlayerForgivesPosition(int x, int y, char target, int forgiveness)
+    public static void playerForgivesPosition(int x, int y, char target, int forgiveness)
     {
         List<Enemy> enemies = getEnemiesInCell(x, y);
         for (int i = 0; i<enemies.size(); i++)
@@ -217,27 +217,27 @@ public class Game {
             renderLayers
             );
             Screen.render();
-            ReadAction();
+            readAction();
         }
     }
 
-    private void ReadAction()
+    private void readAction()
     {
         CommandReader.execCommand();
     }
 
     
-    public static char[][] getBaseMap()
+    public static char[][] getBaseMapLayer()
     {
-        return baseMap;
+        return baseMapLayer;
     }
 
-    public static void SetInGame(boolean _ingame)
+    public static void setInGame(boolean _ingame)
     {
         inGame = _ingame;
     }
 
-    public static void EndGame()
+    public static void endGame()
     {
         boolean all_dead = true;
         boolean all_alive = true;
@@ -285,7 +285,7 @@ public class Game {
         inGame = false;
     }
 
-    public static Savepoint GetCurrentSavePoint()
+    public static Savepoint getCurrentSavePoint()
     {
         if (player.getSavePoint() < 0)
         {
@@ -297,7 +297,7 @@ public class Game {
     public static void RevivePlayer()
     {
         
-        Savepoint currentSave = GetCurrentSavePoint();
+        Savepoint currentSave = getCurrentSavePoint();
         int reviveX = player.getInitialX();
         int reviveY = player.getInitialY();
         
@@ -315,12 +315,12 @@ public class Game {
         
     }
 
-    public static void ClearFogSingle(int x, int y)
+    public static void clearFogSingle(int x, int y)
     {
         fogLayer[y][x] = ' ';
     }
 
-    public static void ClearFog(int x, int y)
+    public static void clearFog(int x, int y)
     {
         if (y >= 0 && y < fogLayer.length)
         {

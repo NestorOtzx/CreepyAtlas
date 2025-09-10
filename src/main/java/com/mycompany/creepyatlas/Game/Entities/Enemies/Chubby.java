@@ -22,7 +22,7 @@ public class Chubby extends Enemy {
     @Override
     public void onUpdateGame() {
         timesPlayerMoved++;
-        char[][] map = Game.getBaseMap();
+        char[][] map = Game.getBaseMapLayer();
 
         if (timesPlayerMoved % 2 == 0) {
             attemptMovePattern(map);

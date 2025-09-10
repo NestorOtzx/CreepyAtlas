@@ -1,4 +1,5 @@
 package com.mycompany.creepyatlas.Utils;
+
 import com.mycompany.creepyatlas.Audio.AudioSource3D;
 import com.mycompany.creepyatlas.Enums.Enums.*;
 import com.mycompany.creepyatlas.Game.Game;
@@ -11,10 +12,7 @@ public class CommandReader {
     public static void execCommand() {
         while (true) {
             System.out.print("> ");
-            String input = scanner.nextLine().trim().toLowerCase();
-
-            input = input.replaceAll("\\s+", " ");
-
+            String input = scanner.nextLine().trim().toLowerCase().replaceAll("\\s+", " ");
             String[] parts = input.split(" ");
             if (parts.length == 0) {
                 System.out.println("Command not understood. Try again.");
@@ -22,148 +20,153 @@ public class CommandReader {
             }
 
             String main = parts[0];
-            if (main.equals("quit")){
-                Game.SetInGame(false);
-                System.out.println("Good bye.");
+            if (main.equals("quit")) {
+                quitGame();
                 break;
             }
-            else if (Game.getPlayer().getIsDead()){
-                if (main.equals("ok") || main.equals("continue"))
-                {
-                    System.out.println("...");
-                    Game.RevivePlayer();
-                    break;
-                }else{
-                    System.out.println("You are dead, write 'continue' to continue.");
-                }
-            } else if (Screen.getState() == ScreenState.SCENE_PROLOG_1 || Screen.getState() == ScreenState.SCENE_PROLOG_2 || Screen.getState() == ScreenState.SCENE_PROLOG_3)
-            {
-                break;
+            if (Game.getPlayer().getIsDead()) {
+                if (handleDeath(main)) break;
+                continue;
             }
-            else if (Screen.getState() == ScreenState.END_SCREEN_GENOCIDE_1 || Screen.getState() == ScreenState.END_SCREEN_GENOCIDE_2 || Screen.getState() == ScreenState.END_SCREEN_GENOCIDE_3)
-            {
-                break;
-            }
-            else if (Screen.getState() == ScreenState.END_SCREEN_NEUTRAL_1 || Screen.getState() == ScreenState.END_SCREEN_NEUTRAL_2 || Screen.getState() == ScreenState.END_SCREEN_NEUTRAL_3)
-            {
-                break;
-            }
-            else if (Screen.getState() == ScreenState.END_SCREEN_PACIFIST_1 || Screen.getState() == ScreenState.END_SCREEN_PACIFIST_2 || Screen.getState() == ScreenState.END_SCREEN_PACIFIST_3)
-            {
-                break;
-            }
-            else {
-                
-                if (main.equals("move")) {
-                    if (Screen.getState() == ScreenState.COMBAT)
-                    {
-                        System.out.println("You can't escape from a combat");
-                        continue;
-                    }else{
-                        Direction dir = Direction.NONE;
-                        if (parts.length > 1) {
-                            dir = parseDirection(parts[1]);
-                        }
-                        
-                        if (dir == Direction.NONE)
-                        {
-                            Screen.setState(ScreenState.MOVE_COMMANDS);
-                        }else{
-                            Game.getPlayer().move(dir);
-                        }
-                    }
-                    
-                } else if (main.equals("noise")) {
-                    if (parts.length < 2) {
-                        System.out.println("Use: burp, scream.");
-                        continue;
-                    }
-                    NoiseType noise = parseNoise(parts[1]);
-                    if (noise == NoiseType.UNKNOWN)
-                    {
-                        Screen.setState(ScreenState.NOISE_COMMANDS);
-                    }else{
-                        Screen.setState(ScreenState.BASE);
-                    }
-                } else if (main.equals("attack")){
-                    try {
-                        int x = Game.getPlayer().getPositionX();
-                        int y = Game.getPlayer().getPositionY();
-                        AudioSource3D attackSound = new AudioSource3D("/audios/attack.wav", false, x, y);
-                        attackSound.play();
-                        if (parts.length < 2) {
-                            System.out.println("Who do you want to attack? ej: attack A.");
-                            continue;
-                        }
-                        Game.getPlayer().attack(x, y, parts[1].toUpperCase().toCharArray()[0]);
+            if (isStoryOrEndingState(Screen.getState())) break;
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                } else if (main.equals("forgive")){
-                    try {
-                        int x = Game.getPlayer().getPositionX();
-                        int y = Game.getPlayer().getPositionY();
-                        AudioSource3D forgiveSound = new AudioSource3D("/audios/forgive.wav", false, x, y);
-                        forgiveSound.play();
-                        if (parts.length < 2) {
-                            System.out.println("Who do you want to forgive? ej: forgive A.");
-                            continue;
-                        }
-                        Game.getPlayer().forgive(x, y, parts[1].toUpperCase().toCharArray()[0]);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                } else if (main.equals("eat")){
-                    try {
-                    AudioSource3D eatSound = new AudioSource3D("/audios/eat.wav", false, Game.getPlayer().getPositionX(), Game.getPlayer().getPositionY());
-                    eatSound.play();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-    
-                } else if (main.equals("rest")){
-                    try {
-                    AudioSource3D restSound = new AudioSource3D("/audios/rest.wav", false, Game.getPlayer().getPositionX(), Game.getPlayer().getPositionY());
-                    restSound.play();
-                    Game.getPlayer().rest();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else if (main.equals("bestiary")){
-                    try {
-                        AudioSource3D bestiarySound = new AudioSource3D("/audios/bestiary.wav", false, Game.getPlayer().getPositionX(), Game.getPlayer().getPositionY());
-                        bestiarySound.play();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    com.mycompany.creepyatlas.Game.Data.Bestiary.printBestiary();
-                }
-                else{
-                    System.out.println("Unknown command. Try again.");
-                }
-                break;
+            switch (main) {
+                case "move": handleMove(parts); break;
+                case "noise": handleNoise(parts); break;
+                case "attack": handleAttack(parts); break;
+                case "forgive": handleForgive(parts); break;
+                case "eat": playSound("/audios/eat.wav"); break;
+                case "rest": handleRest(); break;
+                case "bestiary": handleBestiary(); break;
+                default: System.out.println("Unknown command. Try again.");
             }
+            break;
+        }
+    }
+
+    private static void quitGame() {
+        Game.setInGame(false);
+        System.out.println("Good bye.");
+    }
+
+    private static boolean handleDeath(String main) {
+        if (main.equals("ok") || main.equals("continue")) {
+            System.out.println("...");
+            Game.RevivePlayer();
+            return true;
+        }
+        System.out.println("You are dead, write 'continue' to continue.");
+        return false;
+    }
+
+    private static boolean isStoryOrEndingState(ScreenState state) {
+        return state == ScreenState.SCENE_PROLOG_1 ||
+               state == ScreenState.SCENE_PROLOG_2 ||
+               state == ScreenState.SCENE_PROLOG_3 ||
+               state == ScreenState.END_SCREEN_GENOCIDE_1 ||
+               state == ScreenState.END_SCREEN_GENOCIDE_2 ||
+               state == ScreenState.END_SCREEN_GENOCIDE_3 ||
+               state == ScreenState.END_SCREEN_NEUTRAL_1 ||
+               state == ScreenState.END_SCREEN_NEUTRAL_2 ||
+               state == ScreenState.END_SCREEN_NEUTRAL_3 ||
+               state == ScreenState.END_SCREEN_PACIFIST_1 ||
+               state == ScreenState.END_SCREEN_PACIFIST_2 ||
+               state == ScreenState.END_SCREEN_PACIFIST_3;
+    }
+
+    private static void handleMove(String[] parts) {
+        if (Screen.getState() == ScreenState.COMBAT) {
+            System.out.println("You can't escape from a combat");
+            return;
+        }
+        Direction dir = parts.length > 1 ? parseDirection(parts[1]) : Direction.NONE;
+        if (dir == Direction.NONE) {
+            Screen.setState(ScreenState.MOVE_COMMANDS);
+        } else {
+            Game.getPlayer().move(dir);
+        }
+    }
+
+    private static void handleNoise(String[] parts) {
+        if (parts.length < 2) {
+            System.out.println("Use: burp, scream.");
+            return;
+        }
+        NoiseType noise = parseNoise(parts[1]);
+        Screen.setState(noise == NoiseType.UNKNOWN ? ScreenState.NOISE_COMMANDS : ScreenState.BASE);
+    }
+
+    private static void handleAttack(String[] parts) {
+        try {
+            playSound("/audios/attack.wav");
+            if (parts.length < 2) {
+                System.out.println("Who do you want to attack? ej: attack A.");
+                return;
+            }
+            Game.getPlayer().attackTarget(
+                Game.getPlayer().getPositionX(),
+                Game.getPlayer().getPositionY(),
+                parts[1].toUpperCase().charAt(0)
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void handleForgive(String[] parts) {
+        try {
+            playSound("/audios/forgive.wav");
+            if (parts.length < 2) {
+                System.out.println("Who do you want to forgive? ej: forgive A.");
+                return;
+            }
+            Game.getPlayer().forgive(
+                Game.getPlayer().getPositionX(),
+                Game.getPlayer().getPositionY(),
+                parts[1].toUpperCase().charAt(0)
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void handleRest() {
+        try {
+            playSound("/audios/rest.wav");
+            Game.getPlayer().rest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void handleBestiary() {
+        try {
+            playSound("/audios/bestiary.wav");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        com.mycompany.creepyatlas.Game.Data.Bestiary.printBestiary();
+    }
+
+    private static void playSound(String path) {
+        try {
+            AudioSource3D sound = new AudioSource3D(path, false, Game.getPlayer().getPositionX(), Game.getPlayer().getPositionY());
+            sound.play();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     private static Direction parseDirection(String word) {
-        if (word == null || word.isEmpty()) {
-            return Direction.NONE;
-        }
-
+        if (word == null || word.isEmpty()) return Direction.NONE;
         switch (Character.toLowerCase(word.charAt(0))) {
             case 'u': return Direction.UP;
             case 'd': return Direction.DOWN;
             case 'l': return Direction.LEFT;
             case 'r': return Direction.RIGHT;
-            default:  return Direction.NONE;
+            default: return Direction.NONE;
         }
     }
-
 
     private static NoiseType parseNoise(String word) {
         switch (word) {

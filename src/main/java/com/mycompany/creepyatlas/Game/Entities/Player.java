@@ -51,12 +51,12 @@ public class Player extends Entity {
         int newX = this.positionX + dx;
         int newY = this.positionY + dy;
 
-        if (newY < 0 || newY >= Game.getBaseMap().length || newX < 0 || newX >= Game.getBaseMap()[0].length) {
+        if (newY < 0 || newY >= Game.getBaseMapLayer().length || newX < 0 || newX >= Game.getBaseMapLayer()[0].length) {
             System.out.println("You cannot move outside the map!");
             return;
         }
 
-        char target = Game.getBaseMap()[newY][newX];
+        char target = Game.getBaseMapLayer()[newY][newX];
         
         if (target == '|' || target == '-' || target == '#') {
             System.out.println("There is a wall in that direction!");
@@ -69,7 +69,7 @@ public class Player extends Entity {
             return;
         } else if (target == '$')
         {
-            Game.EndGame();
+            Game.endGame();
         }
         else{
             try {
@@ -83,13 +83,13 @@ public class Player extends Entity {
         move(dx, dy);
         AudioListener3D.setPosition(positionX, positionY);
 
-        Game.ClearFog(positionX, positionY);
+        Game.clearFog(positionX, positionY);
     }
 
     @Override
     public void translate(int x, int y) {
         super.translate(x, y);
-        Game.ClearFog(x, y);
+        Game.clearFog(x, y);
     }
 
     @Override
@@ -99,17 +99,17 @@ public class Player extends Entity {
     }
 
     @Override
-    public void attack(int x, int y, char target)
+    public void attackTarget(int x, int y, char target)
     {
         if (isDead) { return; }
-        super.attack(x, y, target);
-        Game.PlayerAttacksPosition(x, y, target, this.attackDamage);
+        super.attackTarget(x, y, target);
+        Game.playerAttacksPosition(x, y, target, this.attackDamage);
     }
 
     public void forgive(int x, int y, char target)
     {
         if (isDead) { return; }
-        Game.PlayerForgivesPosition(x, y, target, this.mentalDamage);
+        Game.playerForgivesPosition(x, y, target, this.mentalDamage);
     }
 
     @Override

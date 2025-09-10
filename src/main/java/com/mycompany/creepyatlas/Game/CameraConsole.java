@@ -8,11 +8,7 @@ public class CameraConsole {
 
     private static char[][] lastFrame;
 
-    public static void draw(
-            int centerX,
-            int centerY,
-            List<char[][]> layers
-    ) {
+    public static void draw(int centerX, int centerY, List<char[][]> layers) {
         if (layers == null || layers.isEmpty()) {
             lastFrame = null;
             return;
@@ -21,38 +17,39 @@ public class CameraConsole {
         int totalRows = layers.get(0).length;
         int totalCols = layers.get(0)[0].length;
 
-        if (centerX < 0 || centerY < 0 || centerX >= totalCols || centerY >= totalRows) {
-            System.out.println("Error: center is out of the bounds of the map.");
+        if (!isValidCenter(centerX, centerY, totalCols, totalRows)) {
             lastFrame = null;
             return;
         }
 
         int xStart = centerX - CAMERA_HALF_WIDTH;
-        int xEnd   = centerX + CAMERA_HALF_WIDTH;
+        int xEnd = centerX + CAMERA_HALF_WIDTH;
         int yStart = centerY - CAMERA_HALF_HEIGHT;
-        int yEnd   = centerY + CAMERA_HALF_HEIGHT;
+        int yEnd = centerY + CAMERA_HALF_HEIGHT;
 
         int height = yEnd - yStart + 1;
         int width = xEnd - xStart + 1;
         lastFrame = new char[height][width];
 
-        for (int y = yStart, yy = 0; y <= yEnd; y++, yy++) {
-            for (int x = xStart, xx = 0; x <= xEnd; x++, xx++) {
-                char pixel = ' ';
-
+        for (int mapY = yStart, row = 0; mapY <= yEnd; mapY++, row++) {
+            for (int mapX = xStart, col = 0; mapX <= xEnd; mapX++, col++) {
+                char currentChar = ' ';
                 for (char[][] layer : layers) {
-                    boolean insideBounds =
-                            y >= 0 && y < layer.length &&
-                            x >= 0 && x < layer[0].length;
-
-                    if (insideBounds && layer[y][x] != ' ') {
-                        pixel = layer[y][x];
+                    if (isInsideBounds(layer, mapX, mapY) && layer[mapY][mapX] != ' ') {
+                        currentChar = layer[mapY][mapX];
                     }
                 }
-                lastFrame[yy][xx] = pixel;
+                lastFrame[row][col] = currentChar;
             }
         }
+    }
 
+    private static boolean isValidCenter(int centerX, int centerY, int totalCols, int totalRows) {
+        return centerX >= 0 && centerY >= 0 && centerX < totalCols && centerY < totalRows;
+    }
+
+    private static boolean isInsideBounds(char[][] layer, int x, int y) {
+        return y >= 0 && y < layer.length && x >= 0 && x < layer[0].length;
     }
 
     public static char[][] getLastFrame() {

@@ -8,17 +8,16 @@ import com.mycompany.creepyatlas.Enums.Enums.ScreenState;
 import com.mycompany.creepyatlas.Game.Entities.Enemy;
 
 public class Screen {
-
     private static final int WIDTH = 77;
     private static final int HEIGHT = 20;
     private static ScreenState currentState = ScreenState.SCENE_PROLOG_1; 
 
-    private static char[][] buffer = new char[HEIGHT][WIDTH];
+    private static char[][] screenBuffer = new char[HEIGHT][WIDTH];
 
     private static void fillBackground() {
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
-                buffer[y][x] = '#';
+                screenBuffer[y][x] = '#';
             }
         }
     }
@@ -179,7 +178,7 @@ public class Screen {
 
         for (int y = 0; y < cam.length && y + startY < HEIGHT; y++) {
             for (int x = 0; x < cam[y].length && x + startX < WIDTH; x++) {
-                buffer[startY + y][startX + x] = cam[y][x];
+                screenBuffer[startY + y][startX + x] = cam[y][x];
             }
         }
     }
@@ -190,25 +189,25 @@ public class Screen {
         if (top < 0 || left < 0 || top + boxHeight >= HEIGHT || left + boxWidth >= WIDTH) {
             return;
         }
-        buffer[top][left] = '+';
-        buffer[top][left + boxWidth+1] = '+';
-        buffer[top + boxHeight][left] = '+';
-        buffer[top + boxHeight][left + boxWidth+1] = '+';
+        screenBuffer[top][left] = '+';
+        screenBuffer[top][left + boxWidth+1] = '+';
+        screenBuffer[top + boxHeight][left] = '+';
+        screenBuffer[top + boxHeight][left + boxWidth+1] = '+';
 
         for (int x = left + 1; x <= left + boxWidth; x++) {
-            buffer[top][x] = '-';
-            buffer[top + boxHeight][x] = '-';
+            screenBuffer[top][x] = '-';
+            screenBuffer[top + boxHeight][x] = '-';
         }
 
         for (int y = top + 1; y < top + boxHeight; y++) {
-            buffer[y][left] = '|';
-            buffer[y][left + boxWidth+1] = '|';
+            screenBuffer[y][left] = '|';
+            screenBuffer[y][left + boxWidth+1] = '|';
         }
 
         int textRow = top + boxHeight / 2;
         int textStart = left + 1;
         for (int i = 0; i < text.length() && textStart + i <= left + boxWidth; i++) {
-            buffer[textRow][textStart + i] = text.charAt(i);
+            screenBuffer[textRow][textStart + i] = text.charAt(i);
         }
     }
 
@@ -226,7 +225,7 @@ public class Screen {
     public static void display() {
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
-                System.out.print(buffer[y][x]);
+                System.out.print(screenBuffer[y][x]);
             }
             System.out.println();
         }
@@ -359,7 +358,7 @@ public class Screen {
             for (int x = 0; x < arrow[y].length(); x++) {
                 char c = arrow[y].charAt(x);
                 if (top + y < HEIGHT && left + x < WIDTH) {
-                    buffer[top + y][left + x] = c;
+                    screenBuffer[top + y][left + x] = c;
                 }
             }
         }
