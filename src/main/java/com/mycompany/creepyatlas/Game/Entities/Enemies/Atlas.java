@@ -50,7 +50,7 @@ public class Atlas extends Enemy {
              
 
         int timesPlayerMoved = Game.getPlayer().GetTimesPlayerMoved();
-        if (timesPlayerMoved % 3 != 0)
+        if (timesPlayerMoved % 2 != 0)
         {
             List<int[]> path = Dijkstra.findPath(Game.getBaseMap(), x, y, Game.getPlayer().getX(), Game.getPlayer().getY());
             

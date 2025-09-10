@@ -293,18 +293,20 @@ public class Game {
 
     public static void RevivePlayer()
     {
-        for (int i = 0; i<enemies.size(); i++){
-            enemies.get(i).translate(enemies.get(i).getInitialX(), enemies.get(i).getInitialY());            
-            enemies.get(i).OnPlayerRespawn();
-        }
+        
         Savepoint currentSave = GetCurrentSavePoint();
         int reviveX = player.getInitialX();
         int reviveY = player.getInitialY();
+        
         if (currentSave != null){
             reviveX = currentSave.getX();
             reviveY = currentSave.getY();
         }
         player = new Player(reviveX, reviveY, 100, 100, 100, 100);
+        for (int i = 0; i<enemies.size(); i++){
+            enemies.get(i).translate(enemies.get(i).getInitialX(), enemies.get(i).getInitialY());            
+            enemies.get(i).OnPlayerRespawn();
+        }
         AudioListener3D.EnableAllAudios(); 
         Screen.setState(ScreenState.BASE);
         
