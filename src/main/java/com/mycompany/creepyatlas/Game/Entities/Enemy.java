@@ -62,7 +62,10 @@ public class Enemy extends Entity {
     public void onPlayerRespawn(){
         if (isDead)
         {
-            audioSource.disable();
+            if (audioSource != null)
+            {
+                audioSource.disable();   
+            }
         }
     }
 }

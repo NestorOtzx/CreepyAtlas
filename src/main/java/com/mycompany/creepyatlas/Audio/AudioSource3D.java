@@ -2,31 +2,41 @@ package com.mycompany.creepyatlas.Audio;
 
 import javax.sound.sampled.*;
 
+import com.mycompany.creepyatlas.Enums.Enums.AudioEffectType;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.ByteBuffer;
 
 import static org.lwjgl.openal.AL10.*;
+import static org.lwjgl.openal.EXTEfx.*;
 import static org.lwjgl.system.MemoryUtil.memAlloc;
 import static org.lwjgl.system.MemoryUtil.memFree;
 
 public class AudioSource3D {
+
+    
+
     private int openAlSourceId;
     private int openAlBufferId;
+    private int effectSlotId;
+    private int effectId;
+
     private boolean playAudioInLoop;
+    private boolean isEnabled = true;
 
     private float positionX;
     private float positionY;
 
-    private boolean isEnabled = true;
-
-    public AudioSource3D(String resourcePath, boolean loop, int x, int y) throws Exception {
+    public AudioSource3D(String resourcePath, boolean loop, int x, int y, AudioEffectType effectType) throws Exception {
         this.playAudioInLoop = loop;
         URL resourceUrl = AudioSource3D.class.getResource(resourcePath);
         if (resourceUrl == null) throw new IOException("File " + resourcePath + " not found in resources");
 
-        try (InputStream stream = resourceUrl.openStream(); AudioInputStream originalStream = AudioSystem.getAudioInputStream(stream)) {
+        try (InputStream stream = resourceUrl.openStream();
+             AudioInputStream originalStream = AudioSystem.getAudioInputStream(stream)) {
+
             AudioFormat baseFormat = originalStream.getFormat();
             AudioFormat pcm16Format = new AudioFormat(
                     AudioFormat.Encoding.PCM_SIGNED,
@@ -37,7 +47,6 @@ public class AudioSource3D {
                     baseFormat.getSampleRate(),
                     false
             );
-
 
             try (AudioInputStream pcmStream = AudioSystem.getAudioInputStream(pcm16Format, originalStream)) {
                 byte[] audioBytes = pcmStream.readAllBytes();
@@ -58,14 +67,54 @@ public class AudioSource3D {
                 alSourcei(openAlSourceId, AL_BUFFER, openAlBufferId);
                 alSourcef(openAlSourceId, AL_GAIN, 1f);
                 alSourcei(openAlSourceId, AL_LOOPING, loop ? AL_TRUE : AL_FALSE);
-            }catch (Exception exception){
             }
         }
-        catch (Exception exception){
+
+        if (effectType != AudioEffectType.NONE) {
+            initEffect(effectType);
         }
 
         setPosition(x, y);
         AudioListener3D.registerSource(this);
+    }
+
+    private void initEffect(AudioEffectType effectType) {
+        effectId = alGenEffects();
+
+        switch (effectType) {
+            case REVERB -> {
+                alEffecti(effectId, AL_EFFECT_TYPE, AL_EFFECT_REVERB);
+
+                // Parámetros del reverb (más intensos)
+                alEffectf(effectId, AL_REVERB_GAIN, 1.0f);
+                alEffectf(effectId, AL_REVERB_GAINHF, 1.0f);
+                alEffectf(effectId, AL_REVERB_DECAY_TIME, 7.0f);
+                alEffectf(effectId, AL_REVERB_REFLECTIONS_GAIN, 0.8f);
+                alEffectf(effectId, AL_REVERB_REFLECTIONS_DELAY, 0.05f);
+                alEffectf(effectId, AL_REVERB_LATE_REVERB_GAIN, 1.0f);
+                alEffectf(effectId, AL_REVERB_LATE_REVERB_DELAY, 0.1f);
+            }
+            case ECHO -> {
+                alEffecti(effectId, AL_EFFECT_TYPE, AL_EFFECT_ECHO);
+
+                // Parámetros del eco
+                alEffectf(effectId, AL_ECHO_DELAY, 0.5f);
+                alEffectf(effectId, AL_ECHO_LRDELAY, 0.2f);
+                alEffectf(effectId, AL_ECHO_DAMPING, 0.5f);
+                alEffectf(effectId, AL_ECHO_FEEDBACK, 0.7f);
+                alEffectf(effectId, AL_ECHO_SPREAD, -1.0f);
+            }
+            case NONE ->{
+                
+            }
+        }
+
+        // Crear slot para el efecto
+        effectSlotId = alGenAuxiliaryEffectSlots();
+        alAuxiliaryEffectSloti(effectSlotId, AL_EFFECTSLOT_EFFECT, effectId);
+
+        // Conectar el source al slot (simple, sin filtros extra)
+        alSourcei(openAlSourceId, AL_AUXILIARY_SEND_FILTER, effectSlotId);
     }
 
     public void setPlayAudioInLoop(boolean loop) {
@@ -84,18 +133,17 @@ public class AudioSource3D {
     }
 
     public void setGain(float gain) {
-        if (gain <= 0 || gain > 0 && isEnabled)
-        {
+        if (gain <= 0 || (gain > 0 && isEnabled)) {
             alSourcef(openAlSourceId, AL_GAIN, gain);
         }
     }
 
-    public void disable(){
+    public void disable() {
         setGain(0);
         isEnabled = false;
     }
 
-    public void enable(){
+    public void enable() {
         isEnabled = true;
     }
 
@@ -103,8 +151,7 @@ public class AudioSource3D {
     public float getPositionY() { return positionY; }
 
     public void play() {
-        if (isEnabled)
-        {
+        if (isEnabled) {
             alSourcePlay(openAlSourceId);
         }
     }
@@ -120,5 +167,12 @@ public class AudioSource3D {
     public void cleanup() {
         alDeleteSources(openAlSourceId);
         alDeleteBuffers(openAlBufferId);
+
+        if (effectSlotId != 0) {
+            alDeleteAuxiliaryEffectSlots(effectSlotId);
+        }
+        if (effectId != 0) {
+            alDeleteEffects(effectId);
+        }
     }
 }

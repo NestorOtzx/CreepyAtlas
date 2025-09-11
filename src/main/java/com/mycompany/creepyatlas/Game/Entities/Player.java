@@ -61,7 +61,7 @@ public class Player extends Entity {
         if (target == '|' || target == '-' || target == '#') {
             System.out.println("There is a wall in that direction!");
             try {
-                AudioSource3D wallSound = new AudioSource3D("/audios/footsteps_and_wall.wav", false, this.positionX, this.positionY);
+                AudioSource3D wallSound = new AudioSource3D("/audios/footsteps_and_wall.wav", false, this.positionX, this.positionY, AudioEffectType.REVERB);
                 wallSound.play();
                 } catch (Exception e) {
                     System.out.println("error");
@@ -73,7 +73,7 @@ public class Player extends Entity {
         }
         else{
             try {
-                AudioSource3D stepSound = new AudioSource3D("/audios/footsteps.wav", false, this.positionX, this.positionY);
+                AudioSource3D stepSound = new AudioSource3D("/audios/footsteps.wav", false, this.positionX, this.positionY, AudioEffectType.REVERB);
                 stepSound.play();
                 } catch (Exception e) {
                     System.out.println("error");
@@ -90,6 +90,7 @@ public class Player extends Entity {
     public void translate(int x, int y) {
         super.translate(x, y);
         Game.clearFog(x, y);
+        AudioListener3D.setPosition(positionX, positionY);
     }
 
     @Override

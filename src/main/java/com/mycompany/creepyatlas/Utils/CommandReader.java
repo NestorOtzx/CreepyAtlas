@@ -179,7 +179,7 @@ public class CommandReader {
 
     private static void playSound(String path) {
         try {
-            AudioSource3D sound = new AudioSource3D(path, false, Game.getPlayer().getPositionX(), Game.getPlayer().getPositionY());
+            AudioSource3D sound = new AudioSource3D(path, false, Game.getPlayer().getPositionX(), Game.getPlayer().getPositionY(), AudioEffectType.REVERB);
             sound.play();
         } catch (Exception e) {
             e.printStackTrace();

@@ -2,6 +2,7 @@ package com.mycompany.creepyatlas.Game.Entities;
 
 import com.mycompany.creepyatlas.Game.*;
 import com.mycompany.creepyatlas.Audio.AudioSource3D;
+import com.mycompany.creepyatlas.Enums.Enums.AudioEffectType;
 import com.mycompany.creepyatlas.Enums.Enums.Direction;
 
 public abstract class Entity{
@@ -31,7 +32,7 @@ public abstract class Entity{
     
     protected void initAudio(){
         try {
-            this.audioSource = new AudioSource3D(this.getBaseAudioPath(), true, positionX, positionY);
+            this.audioSource = new AudioSource3D(this.getBaseAudioPath(), true, positionX, positionY, AudioEffectType.REVERB);
             this.audioSource.play();
         } catch (Exception e) {
             e.printStackTrace();

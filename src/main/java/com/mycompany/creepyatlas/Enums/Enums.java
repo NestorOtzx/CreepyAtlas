@@ -1,6 +1,11 @@
 package com.mycompany.creepyatlas.Enums;
 
 public class Enums {
+    public enum AudioEffectType {
+        NONE,
+        REVERB,
+        ECHO
+    }
 
     public enum CommandType {
         MOVE,

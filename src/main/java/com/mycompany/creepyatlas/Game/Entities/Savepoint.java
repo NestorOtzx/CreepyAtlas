@@ -1,5 +1,6 @@
 package com.mycompany.creepyatlas.Game.Entities;
 import com.mycompany.creepyatlas.Audio.AudioSource3D;
+import com.mycompany.creepyatlas.Enums.Enums.AudioEffectType;
 import com.mycompany.creepyatlas.Game.Game;
 
 public class Savepoint extends Entity {
@@ -46,7 +47,7 @@ public class Savepoint extends Entity {
     protected void initAudio()
     {
         try {
-            this.audioSource = new AudioSource3D(this.getBaseAudioPath(), false, positionX, positionY);
+            this.audioSource = new AudioSource3D(this.getBaseAudioPath(), false, positionX, positionY,AudioEffectType.REVERB);
         } catch (Exception e) {
             e.printStackTrace();
         }
