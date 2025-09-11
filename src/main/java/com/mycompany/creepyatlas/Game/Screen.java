@@ -211,14 +211,11 @@ public class Screen {
         }
     }
 
-    /**
-     * Dibuja una fila de botones automáticamente con separación (gap).
-     */
     public static void drawHorizontalButtons(int top, int startLeft, int gap, String... texts) {
         int left = startLeft;
         for (String text : texts) {
             drawBoxWithText(top, left, text);
-            left += text.length() + 2 /*bordes*/ + gap;
+            left += text.length() + 2 + gap;
         }
     }
 
