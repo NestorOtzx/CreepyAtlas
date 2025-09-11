@@ -15,9 +15,6 @@ import static org.lwjgl.system.MemoryUtil.memAlloc;
 import static org.lwjgl.system.MemoryUtil.memFree;
 
 public class AudioSource3D {
-
-    
-
     private int openAlSourceId;
     private int openAlBufferId;
     private int effectSlotId;
@@ -84,8 +81,6 @@ public class AudioSource3D {
         switch (effectType) {
             case REVERB -> {
                 alEffecti(effectId, AL_EFFECT_TYPE, AL_EFFECT_REVERB);
-
-                // Parámetros del reverb (más intensos)
                 alEffectf(effectId, AL_REVERB_GAIN, 1.0f);
                 alEffectf(effectId, AL_REVERB_GAINHF, 1.0f);
                 alEffectf(effectId, AL_REVERB_DECAY_TIME, 7.0f);
@@ -109,11 +104,8 @@ public class AudioSource3D {
             }
         }
 
-        // Crear slot para el efecto
         effectSlotId = alGenAuxiliaryEffectSlots();
         alAuxiliaryEffectSloti(effectSlotId, AL_EFFECTSLOT_EFFECT, effectId);
-
-        // Conectar el source al slot (simple, sin filtros extra)
         alSourcei(openAlSourceId, AL_AUXILIARY_SEND_FILTER, effectSlotId);
     }
 
