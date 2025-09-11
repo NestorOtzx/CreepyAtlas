@@ -96,6 +96,16 @@ public class CommandReader {
         }
         NoiseType noise = parseNoise(parts[1]);
         Screen.setState(noise == NoiseType.UNKNOWN ? ScreenState.NOISE_COMMANDS : ScreenState.BASE);
+        switch (noise) {
+            case BURP:
+                playSound("/audios/burp.wav");
+                break;
+            case SCREAM:
+                playSound("/audios/scream.wav");
+                break;
+            default:
+                break;
+        }
     }
 
     private static void handleAttack(String[] parts) {
