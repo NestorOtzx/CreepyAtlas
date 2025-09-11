@@ -33,9 +33,10 @@ public class CommandReader {
             switch (main) {
                 case "move": handleMove(parts); break;
                 case "noise": handleNoise(parts); break;
+                case "stats": handleStats(parts); break;
                 case "attack": handleAttack(parts); break;
                 case "forgive": handleForgive(parts); break;
-                case "eat": playSound("/audios/eat.wav"); break;
+                case "eat": handleEat(); break;
                 case "rest": handleRest(); break;
                 case "bestiary": handleBestiary(); break;
                 default: System.out.println("Unknown command. Try again.");
@@ -43,6 +44,7 @@ public class CommandReader {
             break;
         }
     }
+    
 
     private static void quitGame() {
         Game.setInGame(false);
@@ -113,6 +115,14 @@ public class CommandReader {
         }
     }
 
+    private static void handleStats(String[] parts){
+        int killCount = Game.getPlayerKillCount();
+        int forgivenCount = Game.getPlayerForgivenCount();
+        int countableEnemies = Game.getEnemyCount()-1;
+        System.out.println("Enemies defeated: "+killCount+"/"+countableEnemies);
+        System.out.println("Enemies forgiven: "+forgivenCount+"/"+countableEnemies);
+    }
+
     private static void handleForgive(String[] parts) {
         try {
             playSound("/audios/forgive.wav");
@@ -134,6 +144,15 @@ public class CommandReader {
         try {
             playSound("/audios/rest.wav");
             Game.getPlayer().rest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+     private static void handleEat() {
+        try {
+            playSound("/audios/eat.wav");
+            Game.getPlayer().eat();
         } catch (Exception e) {
             e.printStackTrace();
         }

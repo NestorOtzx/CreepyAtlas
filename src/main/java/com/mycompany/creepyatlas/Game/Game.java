@@ -296,7 +296,6 @@ public class Game {
 
     public static void RevivePlayer()
     {
-        
         Savepoint currentSave = getCurrentSavePoint();
         int reviveX = player.getInitialX();
         int reviveY = player.getInitialY();
@@ -318,6 +317,37 @@ public class Game {
     public static void clearFogSingle(int x, int y)
     {
         fogLayer[y][x] = ' ';
+    }
+
+
+    public static int getPlayerKillCount()
+    {
+        int killCount = 0;
+        for (int i = 0; i<enemies.size(); i++)
+        {
+            if (enemies.get(i).getIsDead())
+            {
+                killCount++;
+            }
+        }
+        return killCount;
+    }
+
+    public static int getPlayerForgivenCount()
+    {
+        int forgivenCount = 0;
+        for (int i = 0; i<enemies.size(); i++)
+        {
+            if (enemies.get(i).getIsForgiven())
+            {
+                forgivenCount++;
+            }
+        }
+        return forgivenCount;
+    }
+
+    public static int getEnemyCount(){
+        return enemies.size();
     }
 
     public static void clearFog(int x, int y)

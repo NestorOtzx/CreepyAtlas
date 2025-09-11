@@ -1,6 +1,8 @@
 package com.mycompany.creepyatlas.Game.Entities.Enemies;
 import java.util.List;
 
+import javax.swing.DebugGraphics;
+
 import com.mycompany.creepyatlas.Game.Game;
 import com.mycompany.creepyatlas.Game.Entities.Enemy;
 import com.mycompany.creepyatlas.Utils.Dijkstra;
@@ -61,7 +63,7 @@ public class Atlas extends Enemy {
         {
             List<int[]> path = Dijkstra.findPath(Game.getBaseMapLayer(), positionX, positionY, Game.getPlayer().getPositionX(), Game.getPlayer().getPositionY());
             
-            if (path != null && path.size() >= 2 && path.size() < 5)
+            if (path != null && path.size() >= 2)
             {
                 int directionX = path.get(1)[1]-positionX;
                 int directionY = path.get(1)[0]-positionY;
@@ -75,9 +77,9 @@ public class Atlas extends Enemy {
     {
         List<int[]> path = Dijkstra.findPath(Game.getBaseMapLayer(), positionX, positionY, Game.getPlayer().getPositionX(), Game.getPlayer().getPositionY());
             
-        if (path.size() >= 4)
+        if (path.size() >= 5)
         {
-            translate(path.get(path.size()-4)[1], path.get(path.size()-4)[0]);
+            translate(path.get(path.size()-5)[1], path.get(path.size()-5)[0]);
         }
     }
 

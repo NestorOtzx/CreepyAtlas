@@ -144,7 +144,17 @@ public class Player extends Entity {
 
     public void rest()
     {
-        health+=10;
+        if (isDead) { return; }
+        health = Math.min(health+10, 100);
+        timesPlayerMoved++;
         System.out.println("I will take a break and recover my health!");
+    }
+
+    public void eat()
+    {
+        if (isDead) { return; }
+        health = Math.min(health+10, 200);
+        timesPlayerMoved++;
+        System.out.println("I will eat some magic beans!");
     }
 }
