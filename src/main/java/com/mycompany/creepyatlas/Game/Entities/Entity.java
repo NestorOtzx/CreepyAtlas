@@ -173,6 +173,7 @@ public abstract class Entity{
         if (audioSource != null)
         {
             audioSource.disable();
+            audioSource = null;
         }
     }
 
