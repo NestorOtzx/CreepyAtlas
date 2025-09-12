@@ -20,7 +20,7 @@ public class Chubby extends Enemy {
     }
 
     @Override
-    public void onUpdateGame() {
+    public void updateState() {
         timesPlayerMoved++;
         char[][] map = Game.getBaseMapLayer();
 

@@ -1,12 +1,11 @@
 package com.mycompany.creepyatlas.Game.Entities;
 
-import javax.swing.DebugGraphics;
-
 import com.mycompany.creepyatlas.Audio.AudioListener3D;
 import com.mycompany.creepyatlas.Audio.AudioSource3D;
 import com.mycompany.creepyatlas.Enums.Enums.*;
 import com.mycompany.creepyatlas.Game.Game;
 import com.mycompany.creepyatlas.Game.Screen;
+import com.mycompany.creepyatlas.Utils.DirectionUtils;
 
 public class Player extends Entity {
     Direction faceDirection;
@@ -37,19 +36,10 @@ public class Player extends Entity {
     {
         if (isDead) { return; }
         timesPlayerMoved++;
-        int dx = 0;
-        int dy = 0;
+        int [] dirs = DirectionUtils.getDelta(direction);
 
-        switch (direction) {
-            case LEFT:  dx = -1; break;
-            case RIGHT: dx =  1; break;
-            case UP:    dy = -1; break;
-            case DOWN:  dy =  1; break;
-            default:    break;
-        }
-
-        int newX = this.positionX + dx;
-        int newY = this.positionY + dy;
+        int newX = this.positionX + dirs[0];
+        int newY = this.positionY + dirs[1];
 
         if (newY < 0 || newY >= Game.getBaseMapLayer().length || newX < 0 || newX >= Game.getBaseMapLayer()[0].length) {
             System.out.println("You cannot move outside the map!");
@@ -63,9 +53,9 @@ public class Player extends Entity {
             try {
                 AudioSource3D wallSound = new AudioSource3D("/audios/footsteps_and_wall.wav", false, this.positionX, this.positionY, AudioEffectType.REVERB);
                 wallSound.play();
-                } catch (Exception e) {
-                    System.out.println("error");
-                }
+            } catch (Exception e) {
+                System.out.println("error");
+            }
             return;
         } else if (target == '$')
         {
@@ -75,12 +65,12 @@ public class Player extends Entity {
             try {
                 AudioSource3D stepSound = new AudioSource3D("/audios/footsteps.wav", false, this.positionX, this.positionY, AudioEffectType.REVERB);
                 stepSound.play();
-                } catch (Exception e) {
-                    System.out.println("error");
-                }      
+            } catch (Exception e) {
+                System.out.println("error");
+            }      
         }
 
-        move(dx, dy);
+        move(dirs[0], dirs[1]);
         AudioListener3D.setPosition(positionX, positionY);
 
         Game.clearFog(positionX, positionY);

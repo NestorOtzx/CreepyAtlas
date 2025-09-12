@@ -6,6 +6,8 @@ import com.mycompany.creepyatlas.Game.Game;
 public class Savepoint extends Entity {
     int savePointIndex;
     boolean isTakenByPlayer = false;
+    
+    protected final String BASE_AUDIO_PATH = "/audios/savepoint.wav";
 
     public Savepoint(int x, int y, int baseHealth,int mentalHealth, int attack_damage, int index) {
         super(x, y, baseHealth, mentalHealth,attack_damage);
@@ -26,12 +28,7 @@ public class Savepoint extends Entity {
     }
 
     @Override
-    public String getBaseAudioPath(){
-        return "/audios/savepoint.wav";
-    }
-
-    @Override
-    public void onUpdateGame()
+    public void updateState()
     {
         int playerx = Game.getPlayer().getPositionX();
         int playery = Game.getPlayer().getPositionY();
@@ -47,7 +44,7 @@ public class Savepoint extends Entity {
     protected void initAudio()
     {
         try {
-            this.audioSource = new AudioSource3D(this.getBaseAudioPath(), false, positionX, positionY,AudioEffectType.REVERB);
+            this.audioSource = new AudioSource3D(BASE_AUDIO_PATH, false, positionX, positionY,AudioEffectType.REVERB);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -83,14 +83,14 @@ public class Game {
             Arrays.fill(row, ' ');
         }
         for (Enemy enemy : enemies) {
-            enemy.onUpdateGame();
+            enemy.updateState();
             int x = enemy.getPositionX();
             int y = enemy.getPositionY();
             enemyLayer[y][x] = enemy.getSymbol();
         }
         for (Savepoint savepoint : savePoints)
         {
-            savepoint.onUpdateGame();
+            savepoint.updateState();
             savePointsLayer[savepoint.getPositionY()][savepoint.getPositionX()] = savepoint.getSymbol();    
         }
         

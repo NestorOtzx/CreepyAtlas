@@ -1,6 +1,5 @@
 package com.mycompany.creepyatlas.Game;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.mycompany.creepyatlas.Enums.Enums.Direction;

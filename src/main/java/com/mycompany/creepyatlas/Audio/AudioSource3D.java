@@ -26,14 +26,16 @@ public class AudioSource3D {
     private float positionX;
     private float positionY;
 
-    public AudioSource3D(String resourcePath, boolean loop, int x, int y, AudioEffectType effectType) throws Exception {
+    public AudioSource3D(String resourcePath, boolean loop, int x, int y, AudioEffectType effectType)
+            throws IOException, UnsupportedAudioFileException {
         this.playAudioInLoop = loop;
         URL resourceUrl = AudioSource3D.class.getResource(resourcePath);
-        if (resourceUrl == null) throw new IOException("File " + resourcePath + " not found in resources");
+        if (resourceUrl == null) {
+            throw new IOException("File " + resourcePath + " not found in resources");
+        }
 
         try (InputStream stream = resourceUrl.openStream();
              AudioInputStream originalStream = AudioSystem.getAudioInputStream(stream)) {
-
             AudioFormat baseFormat = originalStream.getFormat();
             AudioFormat pcm16Format = new AudioFormat(
                     AudioFormat.Encoding.PCM_SIGNED,
@@ -44,31 +46,41 @@ public class AudioSource3D {
                     baseFormat.getSampleRate(),
                     false
             );
-
             try (AudioInputStream pcmStream = AudioSystem.getAudioInputStream(pcm16Format, originalStream)) {
-                byte[] audioBytes = pcmStream.readAllBytes();
-                int channelCount = pcm16Format.getChannels();
-                int sampleRateHz = Math.round(pcm16Format.getSampleRate());
-
-                int audioFormat = (channelCount == 1) ? AL_FORMAT_MONO16 :
-                                  (channelCount == 2) ? AL_FORMAT_STEREO16 : 0;
-                if (audioFormat == 0) throw new IllegalStateException("Unsupported channel count: " + channelCount);
-
-                openAlBufferId = alGenBuffers();
-                ByteBuffer audioBuffer = memAlloc(audioBytes.length).put(audioBytes);
-                audioBuffer.flip();
-                alBufferData(openAlBufferId, audioFormat, audioBuffer, sampleRateHz);
-                memFree(audioBuffer);
-
-                openAlSourceId = alGenSources();
-                alSourcei(openAlSourceId, AL_BUFFER, openAlBufferId);
-                alSourcef(openAlSourceId, AL_GAIN, 1f);
-                alSourcei(openAlSourceId, AL_LOOPING, loop ? AL_TRUE : AL_FALSE);
+                try {
+                    byte[] audioBytes = pcmStream.readAllBytes();
+                    int channelCount = pcm16Format.getChannels();
+                    int sampleRateHz = Math.round(pcm16Format.getSampleRate());
+                    int audioFormat = (channelCount == 1) ? AL_FORMAT_MONO16 :
+                                      (channelCount == 2) ? AL_FORMAT_STEREO16 : 0;
+                    if (audioFormat == 0) {
+                        throw new IllegalStateException("Unsupported channel count: " + channelCount);
+                    }
+                    openAlBufferId = alGenBuffers();
+                    ByteBuffer audioBuffer = memAlloc(audioBytes.length).put(audioBytes);
+                    audioBuffer.flip();
+                    alBufferData(openAlBufferId, audioFormat, audioBuffer, sampleRateHz);
+                    memFree(audioBuffer);
+                    openAlSourceId = alGenSources();
+                    alSourcei(openAlSourceId, AL_BUFFER, openAlBufferId);
+                    alSourcef(openAlSourceId, AL_GAIN, 1f);
+                    alSourcei(openAlSourceId, AL_LOOPING, loop ? AL_TRUE : AL_FALSE);
+                } catch (Exception e) {
+                    throw new IOException("Error processing PCM stream", e);
+                }
+            } catch (Exception e) {
+                throw new IOException("Error converting to PCM16 format", e);
             }
+        } catch (Exception e) {
+            throw new IOException("Error loading audio resource: " + resourcePath, e);
         }
 
         if (effectType != AudioEffectType.NONE) {
-            initEffect(effectType);
+            try {
+                initEffect(effectType);
+            } catch (Exception e) {
+                throw new IllegalStateException("Error initializing effect: " + effectType, e);
+            }
         }
 
         setPosition(x, y);
@@ -77,9 +89,8 @@ public class AudioSource3D {
 
     private void initEffect(AudioEffectType effectType) {
         effectId = alGenEffects();
-
         switch (effectType) {
-            case REVERB -> {
+            case REVERB:
                 alEffecti(effectId, AL_EFFECT_TYPE, AL_EFFECT_REVERB);
                 alEffectf(effectId, AL_REVERB_GAIN, 1.0f);
                 alEffectf(effectId, AL_REVERB_GAINHF, 1.0f);
@@ -88,25 +99,21 @@ public class AudioSource3D {
                 alEffectf(effectId, AL_REVERB_REFLECTIONS_DELAY, 0.05f);
                 alEffectf(effectId, AL_REVERB_LATE_REVERB_GAIN, 1.0f);
                 alEffectf(effectId, AL_REVERB_LATE_REVERB_DELAY, 0.1f);
-            }
-            case ECHO -> {
+                break;
+            case ECHO:
                 alEffecti(effectId, AL_EFFECT_TYPE, AL_EFFECT_ECHO);
-
-                // Parámetros del eco
                 alEffectf(effectId, AL_ECHO_DELAY, 0.5f);
                 alEffectf(effectId, AL_ECHO_LRDELAY, 0.2f);
                 alEffectf(effectId, AL_ECHO_DAMPING, 0.5f);
                 alEffectf(effectId, AL_ECHO_FEEDBACK, 0.7f);
                 alEffectf(effectId, AL_ECHO_SPREAD, -1.0f);
-            }
-            case NONE ->{
-                
-            }
+                break;
+            default:
+                break;
         }
-
         effectSlotId = alGenAuxiliaryEffectSlots();
         alAuxiliaryEffectSloti(effectSlotId, AL_EFFECTSLOT_EFFECT, effectId);
-        alSourcei(openAlSourceId, AL_AUXILIARY_SEND_FILTER, effectSlotId);
+        alSource3f(openAlSourceId, AL_AUXILIARY_SEND_FILTER, effectSlotId, 0, AL_FILTER_NULL);
     }
 
     public void setPlayAudioInLoop(boolean loop) {
@@ -139,8 +146,13 @@ public class AudioSource3D {
         isEnabled = true;
     }
 
-    public float getPositionX() { return positionX; }
-    public float getPositionY() { return positionY; }
+    public float getPositionX() {
+        return positionX;
+    }
+
+    public float getPositionY() {
+        return positionY;
+    }
 
     public void play() {
         if (isEnabled) {
@@ -159,7 +171,6 @@ public class AudioSource3D {
     public void cleanup() {
         alDeleteSources(openAlSourceId);
         alDeleteBuffers(openAlBufferId);
-
         if (effectSlotId != 0) {
             alDeleteAuxiliaryEffectSlots(effectSlotId);
         }

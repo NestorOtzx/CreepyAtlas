@@ -1,8 +1,6 @@
 package com.mycompany.creepyatlas.Game.Entities.Enemies;
 import java.util.List;
 
-import javax.swing.DebugGraphics;
-
 import com.mycompany.creepyatlas.Game.Game;
 import com.mycompany.creepyatlas.Game.Entities.Enemy;
 import com.mycompany.creepyatlas.Utils.Dijkstra;
@@ -47,7 +45,7 @@ public class Atlas extends Enemy {
     }
 
     @Override
-    public void onUpdateGame()
+    public void updateState()
     {
         if (Game.getPlayer().getIsDead()) { return; }
         

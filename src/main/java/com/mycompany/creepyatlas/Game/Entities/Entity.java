@@ -1,6 +1,7 @@
 package com.mycompany.creepyatlas.Game.Entities;
 
 import com.mycompany.creepyatlas.Game.*;
+import com.mycompany.creepyatlas.Utils.DirectionUtils;
 import com.mycompany.creepyatlas.Audio.AudioSource3D;
 import com.mycompany.creepyatlas.Enums.Enums.AudioEffectType;
 import com.mycompany.creepyatlas.Enums.Enums.Direction;
@@ -32,7 +33,7 @@ public abstract class Entity{
     
     protected void initAudio(){
         try {
-            this.audioSource = new AudioSource3D(this.getBaseAudioPath(), true, positionX, positionY, AudioEffectType.REVERB);
+            this.audioSource = new AudioSource3D(this.getBaseAudioPath(), true, positionX, positionY, AudioEffectType.ECHO);
             this.audioSource.play();
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,17 +107,9 @@ public abstract class Entity{
     public void move(Direction direction)
     {
         if (isDead) { return; }
-        int dx = 0;
-        int dy = 0;
 
-        switch (direction) {
-            case LEFT:  dx = -1; break;
-            case RIGHT: dx =  1; break;
-            case UP:    dy = -1; break;
-            case DOWN:  dy =  1; break;
-            default:    break;
-        }
-        move(dx, dy);
+        int [] dir = DirectionUtils.getDelta(direction);
+        move(dir[0], dir[1]);
     }
 
     public char getSymbol()
@@ -194,7 +187,7 @@ public abstract class Entity{
         return isForgiven;
     }
 
-    public void onUpdateGame()
+    public void updateState()
     {
 
     }
